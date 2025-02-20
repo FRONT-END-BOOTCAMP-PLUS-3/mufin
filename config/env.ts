@@ -20,4 +20,4 @@ const envSchema = z.object({
   }
   
   // 3) 검증된 결과 export
-  export const serverConfig = parsed.data;
+  export const env = parsed.data;
