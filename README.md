@@ -23,7 +23,6 @@ Mufin
 ┃ ┃ ┃ ┗ dtos
 
 ┣ components  // 공통 컴포넌트
-┃ ┗ common  // 최소단위 UI 컴포넌트(header, footer 등)
 
 ┣ constants  // 공통 상수
 
@@ -36,6 +35,7 @@ Mufin
 
 ┣ public // 이미지 관리
 ┣ prisma
+┣ stores
 ┣ styles
 ┣ types // 공통 타입
 ┣ utils
