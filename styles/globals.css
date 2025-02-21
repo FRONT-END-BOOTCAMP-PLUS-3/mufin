@@ -29,45 +29,45 @@ body {
 :root {
   font-size: 16px;
   /* Font sizes */
-  --font-size-xs: 0.5rem;     /* 8px */
-  --font-size-sm: 0.625rem;   /* 10px */
-  --font-size-md: 0.75rem;    /* 12px */
+  --font-size-xs: 0.5rem; /* 8px */
+  --font-size-sm: 0.625rem; /* 10px */
+  --font-size-md: 0.75rem; /* 12px */
   --font-size-base: 0.875rem; /* 14px */
-  --font-size-lg: 1rem;       /* 16px */
-  --font-size-xl: 1.125rem;   /* 18px */
-  --font-size-2xl: 1.25rem;   /* 20px */
-  --font-size-3xl: 1.5rem;    /* 24px */
-  --font-size-4xl: 1.75rem;   /* 28px */
-  --font-size-5xl: 2rem;      /* 32px */
-  --font-size-6xl: 2.25rem;   /* 36px */
-  --font-size-7xl: 2.5rem;    /* 40px */
-  --font-size-8xl: 2.75rem;   /* 44px */
-  --font-size-9xl: 3rem;      /* 48px */
+  --font-size-lg: 1rem; /* 16px */
+  --font-size-xl: 1.125rem; /* 18px */
+  --font-size-2xl: 1.25rem; /* 20px */
+  --font-size-3xl: 1.5rem; /* 24px */
+  --font-size-4xl: 1.75rem; /* 28px */
+  --font-size-5xl: 2rem; /* 32px */
+  --font-size-6xl: 2.25rem; /* 36px */
+  --font-size-7xl: 2.5rem; /* 40px */
+  --font-size-8xl: 2.75rem; /* 44px */
+  --font-size-9xl: 3rem; /* 48px */
 
   --white-color: #f2f2f2;
   --black-color: #000000;
 
-  --primary-50: #EEF0FE;
-  --primary-100: #CBCFFB;
-  --primary-200: #B2B8F9;
-  --primary-300: #8F98F6;
-  --primary-400: #7984F5;
-  --primary-500: #5865F2;
-  --primary-600: #505CDC;
-  --primary-700: #3E48AC;
+  --primary-50: #eef0fe;
+  --primary-100: #cbcffb;
+  --primary-200: #b2b8f9;
+  --primary-300: #8f98f6;
+  --primary-400: #7984f5;
+  --primary-500: #5865f2;
+  --primary-600: #505cdc;
+  --primary-700: #3e48ac;
   --primary-800: #303885;
-  --primary-900: #252A66;
+  --primary-900: #252a66;
 
-  --second-50: #FFE6E6;
-  --second-100: #FFB0B0;
-  --second-200: #FF8A8A;
-  --second-300: #FF5454;
-  --second-400: #FF3333;
-  --second-500: #FF0000;
-  --second-600: #E80000;
-  --second-700: #B50000;
-  --second-800: #8C0000;
-  --second-900: #6B0000;
+  --second-50: #ffe6e6;
+  --second-100: #ffb0b0;
+  --second-200: #ff8a8a;
+  --second-300: #ff5454;
+  --second-400: #ff3333;
+  --second-500: #ff0000;
+  --second-600: #e80000;
+  --second-700: #b50000;
+  --second-800: #8c0000;
+  --second-900: #6b0000;
 
   --gray-50: #f5f5f5;
   --gray-100: #dfdfdf;
@@ -82,11 +82,10 @@ body {
 
   /*using colorName*/
   --primary-color: var(--primary-500);
+  --primary-light: var(--primary-50);
   --second-color: var(--second-500);
-
   --active-color: var(--primary-700);
   --disabled-color: var(--gray-200);
-
 }
 
 /*typography*/
@@ -97,8 +96,6 @@ body {
   line-height: 1.6;
   letter-spacing: 0.05em;
   color: var(--black-color);
-  background: var(--white-color);
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -159,7 +156,6 @@ select {
   font-family: inherit;
   font-size: 1rem;
   color: var(--black-color);
-  border: 1px solid var(--gray-600);
   padding: 0;
   text-align: center;
   outline: none;
