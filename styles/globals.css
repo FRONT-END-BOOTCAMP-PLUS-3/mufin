@@ -84,7 +84,6 @@ body {
   --primary-color: var(--primary-500);
   --primary-light: var(--primary-50);
   --second-color: var(--second-500);
-  --primary-light: var(--primary-50);
   --active-color: var(--primary-700);
   --disabled-color: var(--gray-200);
 }
