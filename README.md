@@ -6,6 +6,7 @@ Mufin
 ┃ ┗ settings.json
 ┣ app
 ┃ ┣ api
+┃ ┣ components  // 공통 컴포넌트
 ┃ ┣ (anon)
 ┃ ┃ ┗ login
 ┃ ┣ user
@@ -21,8 +22,6 @@ Mufin
 ┃ ┗ usecases
 ┃ ┃ ┗ <page명>
 ┃ ┃ ┃ ┗ dtos
-
-┣ components  // 공통 컴포넌트
 
 ┣ constants  // 공통 상수
 
