@@ -9,6 +9,7 @@ export const RootContainer = styled.div`
   height: 100vh;
   margin: 0 auto;
   display: flex;
+  background-color: var(--white-color);
 `;
 
 export const ContentContainer = styled.main`
