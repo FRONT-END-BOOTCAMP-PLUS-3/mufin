@@ -16,7 +16,7 @@ const Header: React.FC<HeaderProps> = ({ type, title }) => {
     <HeaderContainer>
       <HeaderWrapper>
         {type === "default" ? (
-          <HeaderLogo>
+          <HeaderLogo onClick={()=> {router.push("/")}}>
             <Image src="/Logo.svg" alt="Logo" width={30} height={30} />
           </HeaderLogo>
         ) : (
