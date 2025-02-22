@@ -1,3 +1,4 @@
+"use client"
 import { useSearchParams } from "next/navigation";
 
 import { ROUTE_HEADER_MAP } from "@/constants/routeMap";
