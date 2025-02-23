@@ -6,10 +6,13 @@ dotenv.config({ path: ".env.local" });
 const envSchema = z.object({
     KAKAO_CLIENT_KEY: z.string().nonempty(),
     KAKAO_CLIENT_SECRET:z.string().nonempty(),
-    KAKAO_REDIRECT_URI:z.string().nonempty(),
+    KAKAO_REDIRECT_URI:z.string().url(),
     NEXTAUTH_SECRET:z.string().nonempty(),
-    REDIS_URL: z.string().nonempty(),
+    REDIS_URL: z.string().url(),
     DATABASE_URL: z.string().nonempty(),
+    KIS_API_URL: z.string().url(),
+    KIS_APP_KEY: z.string().nonempty(),
+    KIS_APP_SECRET: z.string().nonempty(),
   });
 
   const parsed = envSchema.safeParse(process.env);
