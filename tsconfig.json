@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
-    "module": "esnext",
+    "target": "ESNext",
+    "module": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
@@ -18,16 +18,21 @@
         "name": "next"
       }
     ],
+    "baseUrl": ".", 
     "paths": {
       "@/*": ["./*"]
     }
   },
+  "ts-node": {
+         "esm": true,
+         "require": ["tsconfig-paths/register"] 
+     },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
     "jest.config.js"
-  ],
+, "infrastructure/socket/server.cjs"  ],
   "exclude": ["node_modules", "dist"]
 }
