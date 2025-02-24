@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Overlay, Content, CloseButton } from "./modal.styled"; // 스타일 파일
+import { Overlay, Content, CloseButton } from "@/app/components/modal.styled"; // 스타일 파일
 import { X } from "lucide-react";
 
 interface ModalProps {
