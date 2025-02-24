@@ -1,7 +1,6 @@
 import "@/styles/globals.css";
 import StyledComponentsRegistry from "@/lib/StyledComponentsRegistry";
-import LayoutClient from "./components/LayoutClient";
-
+import LayoutClient from "@/app/components/LayoutClient";
 export default function RootLayout({
   children,
 }: Readonly<{
