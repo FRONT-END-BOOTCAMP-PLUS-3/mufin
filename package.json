@@ -19,7 +19,6 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@types/next": "^8.0.7",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
