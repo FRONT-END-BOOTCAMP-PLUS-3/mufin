@@ -9,8 +9,6 @@ import {
 } from '@/app/user/stock/detail/[symbol]/stock_detail.styled';
 
 export default function StockDetailTitle({ symbol }: { symbol: string }) {
-  console.log("Symbol is:", symbol);
-
   return (
       <StockInfo>
         <StockName>{symbol}</StockName>

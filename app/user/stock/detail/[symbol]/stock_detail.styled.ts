@@ -33,7 +33,8 @@ export const StockDiff = styled.p`
 export const TabMenu = styled.nav`
   display: flex;
   justify-content: space-around;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--disabled-color);
+  margin-bottom: 15px;
 `;
 
 export const TabItem = styled.div<{ $active?: boolean }>`
