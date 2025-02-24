@@ -13,7 +13,7 @@ const Navbar = () => {
     {
       name: "stock",
       icon: <ChartCandlestick />,
-      path: "/stock",
+      path: "/",
       text: "모의투자",
     },
     {
