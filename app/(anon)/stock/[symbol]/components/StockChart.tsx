@@ -8,7 +8,7 @@ import {
   ChartLabelBottom,
   PeriodSelector,
   PeriodItem,
-} from '@/app/(anon)/stock/[symbol]/StockDetail.styled';
+} from '@/app/(anon)/stock/[symbol]/StockDetail.Styled';
 
 interface StockChartProps {
   symbol: string;

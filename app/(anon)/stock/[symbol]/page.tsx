@@ -6,7 +6,7 @@ interface Props {
   params: { symbol: string }; 
 }
 
-const StockDetailPage = async ({ params }: Props) => {
+const stockDetailPage = async ({ params }: Props) => {
   const { symbol } = await params; 
 
   if (!symbol) {
@@ -23,4 +23,4 @@ const StockDetailPage = async ({ params }: Props) => {
   );
 };
 
-export default StockDetailPage;
+export default stockDetailPage;

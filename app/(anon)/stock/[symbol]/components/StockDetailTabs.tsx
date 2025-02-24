@@ -6,7 +6,7 @@ import {
   TabMenu,
   TabItem,
   TradeButton,
-} from '@/app/(anon)/stock/[symbol]/StockDetail.styled';
+} from '@/app/(anon)/stock/[symbol]/StockDetail.Styled';
 
 import StockChart from '@/app/(anon)/stock/[symbol]/components/StockChart';
 import StockInfo from '@/app/(anon)/stock/[symbol]/components/StockInfo';
