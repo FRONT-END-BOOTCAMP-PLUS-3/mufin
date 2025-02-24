@@ -6,7 +6,7 @@ import {
   StockName,
   StockPrice,
   StockDiff
-} from '@/app/(anon)/stock/[symbol]/stock_detail.styled';
+} from '@/app/(anon)/stock/[symbol]/StockDetail.styled';
 
 export default function StockDetailTitle({ symbol }: { symbol: string }) {
   return (
