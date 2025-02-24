@@ -6,10 +6,10 @@ import {
   TabMenu,
   TabItem,
   TradeButton,
-} from '@/app/user/stock/detail/[symbol]/stock_detail.styled';
+} from '@/app/(anon)/stock/[symbol]/stock_detail.styled';
 
-import StockChart from '@/app/user/stock/detail/[symbol]/components/StockChart';
-import StockInfo from '@/app/user/stock/detail/[symbol]/components/StockInfo';
+import StockChart from '@/app/(anon)/stock/[symbol]/components/StockChart';
+import StockInfo from '@/app/(anon)/stock/[symbol]/components/StockInfo';
 
 type TabType = 'chart' | 'orderbook' | 'info';
 

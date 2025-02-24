@@ -1,6 +1,6 @@
 import React from "react";
-import StockDetailTabs from "@/app/user/stock/detail/[symbol]/components/StockDetailTabs";
-import StockDetailTitle from "@/app/user/stock/detail/[symbol]/components/StockDetailTitle";
+import StockDetailTabs from "@/app/(anon)/stock/[symbol]/components/StockDetailTabs";
+import StockDetailTitle from "@/app/(anon)/stock/[symbol]/components/StockDetailTitle";
 
 interface Props {
   params: { symbol: string }; 
@@ -14,8 +14,6 @@ const StockDetailPage = async ({ params }: Props) => {
   }
 
   const decodedSymbol = decodeURIComponent(symbol); 
-  console.log("decodedSymbol is:", decodedSymbol);
-
 
   return (
     <div>
