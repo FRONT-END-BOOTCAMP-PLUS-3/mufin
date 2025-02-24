@@ -1,6 +1,6 @@
-
-import "./globals.css";
-
+import "@/styles/globals.css";
+import StyledComponentsRegistry from "@/lib/StyledComponentsRegistry";
+import LayoutClient from "@/app/components/LayoutClient";
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -9,7 +9,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {children}
+        <StyledComponentsRegistry>
+          <LayoutClient> {children} </LayoutClient>
+        </StyledComponentsRegistry>
       </body>
     </html>
   );
