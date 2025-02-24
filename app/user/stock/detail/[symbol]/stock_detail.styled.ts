@@ -2,15 +2,6 @@
 
 import styled from "styled-components";
 
-export const Container = styled.div`
-  width: 100%;
-  max-width: 420px; /* 모바일 화면 폭 예시 */
-  margin: 0 auto;
-  position: relative;
-  background-color: #fff;
-  font-family: sans-serif;
-`;
-
 export const StockInfo = styled.section`
   padding: 0 16px;
   margin-bottom: 8px;
@@ -67,27 +58,12 @@ export const ChartImage = styled.div`
   overflow: hidden;
 `;
 
-export const RedLine = styled.div`
-  width: 200%;
-  height: 2px;
-  background: linear-gradient(
-    to right,
-    transparent 0%,
-    red 20%,
-    red 80%,
-    transparent 100%
-  );
-  position: absolute;
-  top: 50%;
-  left: -50%;
-`;
-
 export const ChartLabelTop = styled.span`
   position: absolute;
   top: 8px;
   left: 8px;
   font-size: 12px;
-  color: #999;
+  color: var(--gray-700);
 `;
 
 export const ChartLabelBottom = styled.span`
@@ -95,7 +71,7 @@ export const ChartLabelBottom = styled.span`
   bottom: 8px;
   left: 8px;
   font-size: 12px;
-  color: #999;
+  color: var(--gray-700);
 `;
 
 export const PeriodSelector = styled.div`
@@ -108,11 +84,10 @@ export const PeriodItem = styled.button<{ $active?: boolean }>`
   background: none;
   border: none;
   font-size: 14px;
-  padding: 8px;
+  padding: 8px 20px;
   margin: 0 4px;
   color: ${({ $active }) => ($active ? '#000' : '#666')};
   font-weight: ${({ $active }) => ($active ? 'bold' : 'normal')};
-  cursor: pointer;
 `;
 
 export const TradeButton = styled.button`
@@ -124,6 +99,5 @@ export const TradeButton = styled.button`
   font-size: 16px;
   border: none;
   border-radius: 8px;
-  cursor: pointer;
 `;
 

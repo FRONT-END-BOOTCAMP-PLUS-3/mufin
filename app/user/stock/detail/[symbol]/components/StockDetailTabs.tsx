@@ -6,7 +6,6 @@ import {
   TabMenu,
   TabItem,
   TradeButton,
-  Container
 } from '@/app/user/stock/detail/[symbol]/stock_detail.styled';
 
 import StockChart from '@/app/user/stock/detail/[symbol]/components/StockChart';
@@ -39,7 +38,7 @@ const StockDetailTabs = ({ symbol }: StockDetailTabsProps) => {
   };
 
   return (
-    <Container>
+    <>
       <TabMenu>
         <TabItem
           $active={activeTab === 'chart'}
@@ -62,7 +61,7 @@ const StockDetailTabs = ({ symbol }: StockDetailTabsProps) => {
       </TabMenu>
       {renderTabContent()}
       <TradeButton>거래하기</TradeButton>
-    </Container>
+      </>
   );
 };
 
