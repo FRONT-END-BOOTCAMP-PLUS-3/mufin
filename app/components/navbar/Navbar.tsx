@@ -1,26 +1,25 @@
 "use client";
 
-import { ChartCandlestick, House, Wallet, CircleUserRound } from "lucide-react";
-import { usePathname } from "next/navigation";
 import {
   NavbarContainer,
   NavbarItem,
 } from "@/app/components/navbar/Navbar.Styled";
+import { ChartCandlestick, CircleUserRound, Wallet } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
   const pathname = usePathname();
   const navItems = [
-    { name: "home", icon: <House />, path: "/", text: "홈" },
     {
-      name: "charts",
+      name: "stock",
       icon: <ChartCandlestick />,
-      path: "/user/charts",
+      path: "/stock",
       text: "모의투자",
     },
     {
-      name: "wallet",
+      name: "asset",
       icon: <Wallet />,
-      path: "/user/wallet",
+      path: "/user/asset",
       text: "보유자산",
     },
     {
