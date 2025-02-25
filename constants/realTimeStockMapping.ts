@@ -11,3 +11,12 @@ export const STOCK_TRADE_MAPPING: string[] = [
     "PRDY_SMNS_HOUR_ACML_VOL_RATE", "HOUR_CLS_CODE", "MRKT_TRTM_CLS_CODE",
     "VI_STND_PRC"
   ];
+
+  export const REQUIRED_STOCK_FILED: string[] = [
+    "STCK_PRPR",
+    "PRDY_VRSS_SIGN",
+    "PRDY_VRSS",
+    "PRDY_CTRT",
+    "STCK_HGPR",
+    "STCK_LWPR"
+  ]
