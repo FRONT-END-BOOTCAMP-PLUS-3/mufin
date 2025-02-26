@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
 import StyledComponentsRegistry from "@/lib/StyledComponentsRegistry";
 import LayoutClient from "@/app/components/LayoutClient";
+import Navbar from "@/app/components/Navbar";
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -12,6 +13,7 @@ export default function RootLayout({
         <StyledComponentsRegistry>
           <LayoutClient> {children} </LayoutClient>
         </StyledComponentsRegistry>
+        <Navbar />
       </body>
     </html>
   );

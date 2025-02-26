@@ -4,9 +4,9 @@ export const HeaderContainer = styled.header`
   display: flex;
   align-items: center;
   width: 100%;
-  max-width: 390px;
+  max-width: 480px;
   height: 70px;
-  padding: 20px 10px 20px 10px ;
+  padding: 20px 10px 20px 10px;
   position: fixed;
   top: 0;
   left: 50%;

@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  NavbarContainer,
-  NavbarItem,
-} from "@/app/components/navbar/Navbar.Styled";
+import { NavbarContainer, NavbarItem } from "@/app/components/Navbar.Styled";
 import { ChartCandlestick, CircleUserRound, Wallet } from "lucide-react";
 import { usePathname } from "next/navigation";
 
@@ -19,13 +16,13 @@ const Navbar = () => {
     {
       name: "asset",
       icon: <Wallet />,
-      path: "/user/asset",
+      path: "/asset",
       text: "보유자산",
     },
     {
       name: "myinfo",
       icon: <CircleUserRound />,
-      path: "/user/myinfo",
+      path: "/myinfo",
       text: "내 정보",
     },
   ];

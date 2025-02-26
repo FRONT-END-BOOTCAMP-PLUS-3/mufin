@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
 export const RootContainer = styled.div`
-  display:flex;
+  display: flex;
   flex-direction: column;
-  position:relative;
+  position: relative;
   width: 100%;
-  max-width: 390px;
+  max-width: 480px;
   height: 100vh;
   margin: 0 auto;
   display: flex;
@@ -18,5 +18,5 @@ export const ContentContainer = styled.main`
   flex: 1;
   overflow-y: auto;
   flex-direction: column;
-  margin-top:70px;
+  margin-top: 70px;
 `;
