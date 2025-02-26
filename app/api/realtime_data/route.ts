@@ -68,13 +68,6 @@ export async function GET(req: NextRequest) {
           }
         });
 
-        // const intervalId = setInterval(() => {
-        //   if (buffer.length > 0) {
-        //     // 버퍼에 쌓인 모든 데이터를 한 번에 출력하거나, 원하는 경우 마지막 데이터만 출력할 수 있음
-        //     const aggregatedData = buffer.splice(0, buffer.length);
-        //     controller.enqueue(`data: ${JSON.stringify(aggregatedData)}\n\n`);
-        //   }
-        // }, 3000);
 
         // 타임아웃 설정 예시
         setTimeout(() => {
