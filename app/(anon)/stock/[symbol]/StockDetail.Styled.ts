@@ -8,19 +8,19 @@ export const StockInfo = styled.section`
 `;
 
 export const StockName = styled.h1`
-  font-size: 20px;
+  font-size: 22px;
   margin: 4px 0;
 `;
 
 export const StockPrice = styled.h2`
-  font-size: 24px;
+  font-size: 20px;
   margin: 4px 0;
 `;
 
 export const StockDiff = styled.p`
-  font-size: 14px;
+  font-size: 12px;
   color: var(--gray-700);
-  margin: 4px 0;
+  margin: 4px 0 10px 0;
 
   span {
     color:rgb(13, 0, 255);
@@ -39,6 +39,7 @@ export const TabItem = styled.div<{ $active?: boolean }>`
   flex: 1;
   text-align: center;
   padding: 12px 0;
+  font-size: 14px;
   font-weight: ${({ $active }) => ($active ? 'bold' : 'normal')};
   color: ${({ $active }) => ($active ? 'var(--black-color)' : 'var(--gray-900)')};
   border-bottom: ${({ $active }) => ($active ? '2px solid var(--black-color)' : 'none')};
