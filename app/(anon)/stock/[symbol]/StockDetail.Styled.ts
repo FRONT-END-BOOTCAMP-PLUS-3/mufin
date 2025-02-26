@@ -7,25 +7,23 @@ export const StockInfo = styled.section`
   margin-bottom: 8px;
 `;
 
-export const StockName = styled.h2`
+export const StockName = styled.h1`
   font-size: 20px;
-  font-weight: bold;
   margin: 4px 0;
 `;
 
-export const StockPrice = styled.p`
+export const StockPrice = styled.h2`
   font-size: 24px;
-  font-weight: bold;
   margin: 4px 0;
 `;
 
 export const StockDiff = styled.p`
   font-size: 14px;
-  color: #999;
+  color: var(--gray-700);
   margin: 4px 0;
 
   span {
-    color: #e53935; /* 상승 시 빨간색 */
+    color:rgb(13, 0, 255);
     font-weight: bold;
   }
 `;
@@ -42,37 +40,12 @@ export const TabItem = styled.div<{ $active?: boolean }>`
   text-align: center;
   padding: 12px 0;
   font-weight: ${({ $active }) => ($active ? 'bold' : 'normal')};
-  color: ${({ $active }) => ($active ? '#000' : '#666')};
-  border-bottom: ${({ $active }) => ($active ? '2px solid #000' : 'none')};
-  cursor: pointer;
+  color: ${({ $active }) => ($active ? 'var(--black-color)' : 'var(--gray-900)')};
+  border-bottom: ${({ $active }) => ($active ? '2px solid var(--black-color)' : 'none')};
 `;
 
 export const ChartContainer = styled.section`
   padding: 16px;
-`;
-
-export const ChartImage = styled.div`
-  position: relative;
-  height: 200px;
-  border: 1px solid #eee;
-  border-radius: 8px;
-  overflow: hidden;
-`;
-
-export const ChartLabelTop = styled.span`
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  font-size: 12px;
-  color: var(--gray-700);
-`;
-
-export const ChartLabelBottom = styled.span`
-  position: absolute;
-  bottom: 8px;
-  left: 8px;
-  font-size: 12px;
-  color: var(--gray-700);
 `;
 
 export const PeriodSelector = styled.div`
@@ -85,19 +58,8 @@ export const PeriodItem = styled.button<{ $active?: boolean }>`
   background: none;
   border: none;
   font-size: 14px;
-  padding: 8px 20px;
+  padding: 8px 26px;
   margin: 0 4px;
-  color: ${({ $active }) => ($active ? '#000' : '#666')};
+  color: ${({ $active }) => ($active ? 'var(--black-color)' : 'var(--gray-900)')};
   font-weight: ${({ $active }) => ($active ? 'bold' : 'normal')};
-`;
-
-export const TradeButton = styled.button`
-  width: calc(100% - 32px);
-  margin: 16px;
-  padding: 16px;
-  background-color: #007aff;
-  color: #fff;
-  font-size: 16px;
-  border: none;
-  border-radius: 8px;
 `;

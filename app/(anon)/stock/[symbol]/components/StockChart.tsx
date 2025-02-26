@@ -24,7 +24,7 @@ interface StockChartProps {
 }
 
 const StockChart = ({ symbol }: StockChartProps) => {
-  const [activePeriod, setActivePeriod] = useState<string>('D'); 
+  const [activePeriod, setActivePeriod] = useState<string>('1m'); 
 
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
@@ -34,7 +34,6 @@ const StockChart = ({ symbol }: StockChartProps) => {
     }
   }, []);
 
-  // 탭 클릭 시 activePeriod 업데이트 및 URL 쿼리 파라미터 반영
   const handlePeriodClick = (period: string) => {
     setActivePeriod(period);
 

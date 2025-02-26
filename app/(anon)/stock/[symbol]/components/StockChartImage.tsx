@@ -4,6 +4,8 @@ import { Chart as ChartJS, CategoryScale, LinearScale, TimeScale, Tooltip, Legen
 import { CandlestickController, CandlestickElement } from 'chartjs-chart-financial';
 import 'chartjs-chart-financial';
 import 'chartjs-adapter-date-fns';
+import StockModalContainer from '@/app/(anon)/stock/[symbol]/components/StockModalContainer';
+import DraggableScrollContainer from '@/app/(anon)/stock/[symbol]/components/DraggableScrollContainer';
 
 // chart.js 등록
 ChartJS.register(CategoryScale, LinearScale, CandlestickController, TimeScale, CandlestickElement, Tooltip, Legend);
@@ -33,9 +35,6 @@ interface FinancialDataset {
     c: number;
   }[];
   barThickness?: number;
-  upColor: string;
-  downColor: string;
-  unchangedColor: string;
 }
 
 interface ChartData {
@@ -46,7 +45,6 @@ const StockChartImage = ({ symbol, activePeriod }: StockChartImageProps) => {
   const [chartData, setChartData] = useState<ChartData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  // 스크롤 가능한 컨테이너에 ref를 할당합니다.
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -56,7 +54,8 @@ const StockChartImage = ({ symbol, activePeriod }: StockChartImageProps) => {
 
       try {
         let response;
-        // 분봉 차트 API 호출
+
+        // 분기 처리: activePeriod 값에 따라 API 호출
         if (activePeriod === '1m') {
           response = await fetch(`/api/minChart?symbol=${symbol}`);  // 분봉 차트 API
         } else {
@@ -65,56 +64,77 @@ const StockChartImage = ({ symbol, activePeriod }: StockChartImageProps) => {
 
         const data = await response.json();
 
-        const candlestickData = data.output2.map((item: StockDataItem) => {
+        let candlestickData: { x: Date; o: number; h: number; l: number; c: number }[] = [];
+
+        // 분봉 차트일 경우 처리
+        if (activePeriod === '1m') {
+          // 분봉 차트의 경우 flatMap을 사용하여 output2를 합치기
+          const combinedOutput2 = data.flatMap((item: { output2: StockDataItem[] }) => item.output2 || []);
+
+          // 각 항목에서 필요한 데이터 포맷으로 변환
+          candlestickData = combinedOutput2.map((item: StockDataItem) => {
             const dateStr = item.stck_bsop_date; // "20250225"
             const timeStr = item.stck_cntg_hour; // "123000"
-          
-            if (dateStr) {
-              // 날짜만 있는 경우
+
+            let date: Date;
+
+            // 시간 정보가 있을 때 처리
+            if (dateStr && timeStr) {
               const year = parseInt(dateStr.substring(0, 4), 10);
               const month = parseInt(dateStr.substring(4, 6), 10) - 1;
               const day = parseInt(dateStr.substring(6, 8), 10);
-          
-              return {
-                x: new Date(year, month, day), // 00:00:00 고정
-                o: Number(item.stck_oprc),
-                h: Number(item.stck_hgpr),
-                l: Number(item.stck_lwpr),
-                c: Number(item.stck_clpr),
-              };
-            } else if (timeStr) {
-              // 시간만 있는 경우 (오늘 날짜 기준)
-              const now = new Date();
               const hours = parseInt(timeStr.substring(0, 2), 10);
               const minutes = parseInt(timeStr.substring(2, 4), 10);
-          
-              return {
-                x: new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes, 0),
-                o: Number(item.stck_oprc),
-                h: Number(item.stck_hgpr),
-                l: Number(item.stck_lwpr),
-                c: Number(item.stck_prpr),
-              };
+              const seconds = parseInt(timeStr.substring(4, 6), 10);
+              date = new Date(year, month, day, hours, minutes, seconds);
+            } else if (dateStr) {
+              const year = parseInt(dateStr.substring(0, 4), 10);
+              const month = parseInt(dateStr.substring(4, 6), 10) - 1;
+              const day = parseInt(dateStr.substring(6, 8), 10);
+              date = new Date(year, month, day);
+            } else {
+              console.warn("Neither dateStr nor timeStr is available:", item);
+              return null;
             }
-          
-            console.warn("Neither dateStr nor timeStr is available:", item);
-            return null;
-          }).filter(Boolean);
-          
 
-        console.log('Candlestick Data:', candlestickData);
+            return {
+              x: date,
+              o: Number(item.stck_oprc),
+              h: Number(item.stck_hgpr),
+              l: Number(item.stck_lwpr),
+              c: Number(item.stck_prpr),
+            };
+          }).filter(Boolean); // null 값을 걸러냄
+        } else {
+          // 분봉이 아닌 차트는 output2가 없거나 다른 형식일 수 있음
+          if (!data?.output2) {
+            console.error('output2가 존재하지 않습니다.');
+            return;
+          }
+
+          // 기존 봉 차트 처리 (date 값만으로 변환)
+          candlestickData = data.output2.map((item: StockDataItem) => {
+            const dateStr = item.stck_bsop_date;
+            const date = new Date(parseInt(dateStr.substring(0, 4), 10), parseInt(dateStr.substring(4, 6), 10) - 1, parseInt(dateStr.substring(6, 8), 10));
+
+            return {
+              x: date,
+              o: Number(item.stck_oprc),
+              h: Number(item.stck_hgpr),
+              l: Number(item.stck_lwpr),
+              c: Number(item.stck_clpr),
+            };
+          });
+        }
 
         setChartData({
           datasets: [
             {
               label: `${symbol} 봉 차트`,
               data: candlestickData,
-              barThickness: 7, // 캔들 너비를 고정 (원하는 값으로 조정)
-              upColor: 'rgba(0, 0, 255, 1)',
-              downColor: 'rgb(255, 0, 0)',
-              unchangedColor: '#999'
+              barThickness: 7,
             }
-          ]
+          ],
         });
       } catch (error) {
         console.error('차트 데이터 불러오기 오류:', error);
@@ -125,32 +145,60 @@ const StockChartImage = ({ symbol, activePeriod }: StockChartImageProps) => {
     };
 
     fetchChartData();
-  }, [symbol, activePeriod]);
 
-  useEffect(() => {
-    if (containerRef.current) {
-      containerRef.current.scrollLeft = containerRef.current.scrollWidth;
+    // 분봉 차트인 경우 1분마다 데이터 요청
+    let interval: NodeJS.Timeout;
+    if (activePeriod === '1m') {
+      interval = setInterval(() => {
+        fetchChartData();
+      }, 60000); // 60000ms = 1분
     }
-  }, [chartData]);
+
+    // 컴포넌트가 언마운트될 때 인터벌 클리어
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
+  }, [symbol, activePeriod]);
 
   if (loading) return <div>차트 로딩 중...</div>;
   if (error) return <div>{error}</div>;
-  if (!chartData) return <div>차트를 불러올 수 없습니다.</div>;
+  if (!chartData) return <div>오늘은 휴장일입니다.</div>;
 
   return (
     <div ref={containerRef} style={{ width: '100%', height: '400px', overflowX: 'auto' }}>
-      <div style={{ width: '1500px', height: '100%' }}>
+      {!chartData && <StockModalContainer />}
+      <DraggableScrollContainer style={{ width: '100%', height: '400px' }}>
+      <div style={{ width: '1200px', height: '100%' }}>
         <Chart
           type="candlestick"
           data={chartData}
           options={{
             responsive: true,
             maintainAspectRatio: false,
+            plugins: {
+              tooltip: {
+                enabled: true,
+                position: 'average',
+                yAlign: 'bottom',
+                displayColors: false,
+                callbacks: {
+                  label: function (context) {
+                    const { o, h, l, c } = context.raw as { o: number, h: number, l: number, c: number };
+                    return [`시가: ${o}`, `고가: ${h}`, `저가: ${l}`, `종가: ${c}`];
+                  },
+                },
+              },
+              legend: {
+                display: false,
+              },
+            },
             scales: {
               x: {
                 type: 'time',
                 time: {
-                  unit: activePeriod === 'Y' ? 'year' : activePeriod === 'M' ? 'month' : activePeriod === 'W' ? 'week'  : activePeriod === 'D' ? 'day' : 'minute',
+                  unit: false, // 시간 단위 설정 없애기
                 },
                 offset: false,
               },
@@ -158,32 +206,17 @@ const StockChartImage = ({ symbol, activePeriod }: StockChartImageProps) => {
                 position: 'right',
               },
             },
-            plugins: {
-                tooltip: {
-                  enabled: true,
-                  position: 'average',  // 툴팁을 데이터 중앙에 정렬
-                  yAlign: 'bottom',     // 툴팁을 위쪽으로 배치
-                  displayColors: false, // 색상 박스 제거 (더 깔끔하게)
-                  callbacks: {
-                    label: function (context) {
-                      const { o, h, l, c } = context.raw as { o: number, h: number, l: number, c: number }; // 원본 데이터에서 값 가져오기
-                      return [`시가: ${o}`, `고가: ${h}`, `저가: ${l}`, `종가: ${c}`];
-                    },
-                  },
-                },
-                legend: {
-                    display: false,
-                  },
-                },
-                interaction: {
-                  mode: 'point',
-                  intersect: false,
-                },           
-          }}
+            interaction: {
+              mode: 'point',
+              intersect: false,
+            },
+          }}          
         />
       </div>
+      </DraggableScrollContainer>
     </div>
   );
 };
 
 export default StockChartImage;
+

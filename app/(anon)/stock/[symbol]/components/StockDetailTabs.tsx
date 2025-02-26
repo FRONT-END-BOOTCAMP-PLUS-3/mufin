@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 import {
   TabMenu,
   TabItem,
-  TradeButton,
 } from '@/app/(anon)/stock/[symbol]/StockDetail.Styled';
 
 import StockChart from '@/app/(anon)/stock/[symbol]/components/StockChart';
@@ -19,6 +19,12 @@ interface StockDetailTabsProps {
 
 const StockDetailTabs = ({ symbol }: StockDetailTabsProps) => {
   const [activeTab, setActiveTab] = useState<TabType>('chart');
+  const router = useRouter();  // useRouter 훅 사용
+
+  const handleTabClick = (tab: TabType) => {
+    setActiveTab(tab);
+    router.push(`/stock/${symbol}?tab=${tab}`);  // tab을 쿼리 파라미터로 업데이트
+  };
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -27,7 +33,7 @@ const StockDetailTabs = ({ symbol }: StockDetailTabsProps) => {
       case 'orderbook':
         return (
           <div>
-            <p>여기에 호가창 내용 렌더링</p>
+            <p>개발중인 서비스 입니다</p>
           </div>
         );
       case 'info':
@@ -42,26 +48,26 @@ const StockDetailTabs = ({ symbol }: StockDetailTabsProps) => {
       <TabMenu>
         <TabItem
           $active={activeTab === 'chart'}
-          onClick={() => setActiveTab('chart')}
+          onClick={() => handleTabClick('chart')}
         >
           차트
         </TabItem>
         <TabItem
           $active={activeTab === 'orderbook'}
-          onClick={() => setActiveTab('orderbook')}
+          onClick={() => handleTabClick('orderbook')}
         >
           호가
         </TabItem>
         <TabItem
           $active={activeTab === 'info'}
-          onClick={() => setActiveTab('info')}
+          onClick={() => handleTabClick('info')}
         >
           종목정보
         </TabItem>
       </TabMenu>
       {renderTabContent()}
-      <TradeButton>거래하기</TradeButton>
-      </>
+      <button>거래하기</button>
+    </>
   );
 };
 
