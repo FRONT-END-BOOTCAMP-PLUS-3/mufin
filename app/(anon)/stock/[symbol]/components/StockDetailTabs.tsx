@@ -15,15 +15,20 @@ type TabType = 'chart' | 'orderbook' | 'info';
 
 interface StockDetailTabsProps {
   symbol: string;
+  initialPrice: number;
 }
 
-const StockDetailTabs = ({ symbol }: StockDetailTabsProps) => {
+const StockDetailTabs = ({ symbol, initialPrice }: StockDetailTabsProps) => {
   const [activeTab, setActiveTab] = useState<TabType>('chart');
   const router = useRouter();  // useRouter 훅 사용
 
   const handleTabClick = (tab: TabType) => {
     setActiveTab(tab);
     router.push(`/stock/${symbol}?tab=${tab}`);  // tab을 쿼리 파라미터로 업데이트
+  };
+
+  const handleTradeClick = () => {
+    router.push(`/user/tradeaction?s=${symbol}&type=sell&initialPrice=${initialPrice}`);
   };
 
   const renderTabContent = () => {
@@ -66,7 +71,7 @@ const StockDetailTabs = ({ symbol }: StockDetailTabsProps) => {
         </TabItem>
       </TabMenu>
       {renderTabContent()}
-      <button>거래하기</button>
+      <button onClick={handleTradeClick}>거래하기</button>
     </>
   );
 };

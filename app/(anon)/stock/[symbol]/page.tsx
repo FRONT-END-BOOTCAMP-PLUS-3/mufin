@@ -9,6 +9,9 @@ interface Props {
 const stockDetailPage = async ({ params }: Props) => {
   const { symbol } = await params; 
 
+  // TODO: 현재가 받아오기
+  const initialPrice = 77777;
+
   if (!symbol) {
     return <p>잘못된 요청입니다.</p>;
   }
@@ -17,8 +20,8 @@ const stockDetailPage = async ({ params }: Props) => {
 
   return (
     <div>
-      <StockDetailTitle symbol={decodedSymbol} />
-      <StockDetailTabs symbol={decodedSymbol} />
+      <StockDetailTitle symbol={decodedSymbol} initialPrice={initialPrice} />
+      <StockDetailTabs symbol={decodedSymbol} initialPrice={initialPrice}/>
     </div>
   );
 };
