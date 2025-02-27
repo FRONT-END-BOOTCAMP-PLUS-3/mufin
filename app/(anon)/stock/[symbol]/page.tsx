@@ -1,13 +1,12 @@
+import StockClient from "@/app/(anon)/stock/[symbol]/components/StockClient";
 import React from "react";
-import StockDetailTabs from "@/app/(anon)/stock/[symbol]/components/StockDetailTabs";
-import StockDetailTitle from "@/app/(anon)/stock/[symbol]/components/StockDetailTitle";
 
 interface Props {
   params: { symbol: string }; 
 }
 
-const stockDetailPage = async ({ params }: Props) => {
-  const { symbol } = await params; 
+const StockDetailPage = async ({ params }: Props) => {
+  const { symbol } = await params;
 
   if (!symbol) {
     return <p>잘못된 요청입니다.</p>;
@@ -17,10 +16,10 @@ const stockDetailPage = async ({ params }: Props) => {
 
   return (
     <div>
-      <StockDetailTitle symbol={decodedSymbol} />
-      <StockDetailTabs symbol={decodedSymbol} />
+      <StockClient symbol={decodedSymbol} />
     </div>
   );
 };
 
-export default stockDetailPage;
+export default StockDetailPage;
+
