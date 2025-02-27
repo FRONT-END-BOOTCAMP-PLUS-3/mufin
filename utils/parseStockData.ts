@@ -10,7 +10,7 @@ import {
  * 0|H0STCNT0|004|005930^093354^71900^5^-100^-0.14^72023.83^72100^72400^71700^71900^71800^1^3052507^219853241700^5105^6937^1832^84.90^1366314^1159996^1^0.39^20.28^090020^5^-200^090820^5^-500^092619^2^200^20230612^20^N^65945^216924^1118750^2199206^0.05^2424142^125.92^0^^72100
  * @returns 변환된 JSON 문자열 (여러 JSON 객체가 배열 형태로 포함됨)
  */
-export function parseStockData(rawData: string): string {
+export function parseStockData(rawData: string): string|void {
   // "|" 기호로 문자열을 분리하여 여러 부분(headers)으로 나눔
   const headers = rawData.split("|");
 
@@ -26,6 +26,10 @@ export function parseStockData(rawData: string): string {
 
   // parts[3]는 caret(^) 구분자로 연결된 실제 주식 데이터 문자열
   const rawStockDataArray = headers[3].split("^");
+
+  if(rawStockDataArray.length === 0) {
+    return ;
+  }
 
   // REQUIRED_STOCK_FILED에 정의된 각 필드가
   // 전체 매핑(STOCK_TRADE_MAPPING)에서 몇 번째 인덱스에 위치하는지 계산
