@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import {
   TabsContainer,
@@ -7,11 +7,15 @@ import {
   FormContainer,
   PriceText,
   QuantityControl,
-  SummaryContainer,
+  TrandeacionContainer,
+  MainButton,
+  QuantityControlTitle,
 } from "@/app/user/tradeaction/Trandeaction.Styled";
 
-import OrderDetailsModalContent from "@/app/user/tradeaction/components/OrderDetailsModalContent"; // OrderDetailsModalContent import
-import Modal from "@/app/components/Modal";
+import OrderDetailsModalContent from "@/app/user/tradeaction/components/OrderDetailsModalContent";
+import Modal from "@/app/components/modal/Modal";
+
+import { Delete } from 'lucide-react';
 
 const TradeActionClient = () => {
   const searchParams = useSearchParams();
@@ -20,40 +24,57 @@ const TradeActionClient = () => {
   const initialPriceValue = Number(searchParams.get("initialPrice")) || 0;
   const type = searchParams.get("type") || "buy";
 
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState<number | undefined>(undefined);
   const [activeTab, setActiveTab] = useState<string>(type);
-  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열기/닫기 상태 관리
+  const [isModalOpen, setIsModalOpen] = useState(false); 
 
-  // type이 바뀌면 activeTab을 업데이트
+  const inputRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     setActiveTab(type);
+
+    // 페이지가 로드되면 input 필드에 포커스 주기
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
   }, [type]);
 
   if (!symbol) {
     return <div>잘못된 요청입니다.</div>;
   }
 
-  const finalAmount = quantity * initialPriceValue;
+  const finalAmount = (quantity || 0) * initialPriceValue;
   const buttonLabel = activeTab === "buy" ? "구매하기" : "판매하기";
 
-  // 탭 클릭 시 URL을 변경하는 함수
   const handleTabClick = (tabType: string) => {
     setActiveTab(tabType);
     router.push(`?s=${symbol}&initialPrice=${initialPriceValue}&type=${tabType}`);
   };
 
-  // 모달 열기 함수
   const openModal = () => {
     setIsModalOpen(true);
   };
 
-  // 모달 닫기 함수
   const closeModal = () => {
     setIsModalOpen(false);
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/\D/g, ""); // 숫자만 입력 허용
+    setQuantity(value ? parseInt(value, 10) : undefined);
+  };
+
+  const handleKeypadClick = (num: number) => {
+    setQuantity((prev) => parseInt(`${prev || ""}${num}`, 10));
+  };  
+
+  const handleDelete = () => {
+    setQuantity((prev) => Math.floor((prev || 0) / 10));
+  };
+
   return (
     <div>
+      <TrandeacionContainer>
       {/* Buy/Sell Tabs */}
       <TabsContainer>
         <Tab $active={activeTab === "buy"} onClick={() => handleTabClick("buy")}>
@@ -66,21 +87,40 @@ const TradeActionClient = () => {
 
       {/* Order Form */}
       <FormContainer>
-        <label>구매할 가격</label>
-        <PriceText>{initialPriceValue.toLocaleString()} 원</PriceText>
-        <QuantityControl>
-          <button onClick={() => setQuantity(quantity - 1)} disabled={quantity <= 1}>-</button>
-          <span>{quantity} 주</span>
-          <button onClick={() => setQuantity(quantity + 1)}>+</button>
-        </QuantityControl>
+        <label>{activeTab === "buy" ? "구매할" : "판매할"} 가격</label>
+        <PriceText>주당 {initialPriceValue.toLocaleString()}원</PriceText>
       </FormContainer>
 
-      {/* Order Summary */}
-      <SummaryContainer>
-        <p>총 주문 금액</p>
-        <h2>{finalAmount.toLocaleString()} 원</h2>
-        <button onClick={openModal}>{buttonLabel}</button>
-      </SummaryContainer>
+      <QuantityControlTitle>
+      <div className="row-container">
+        <p className="label">수량</p>
+        <input
+          type="number"
+          value={quantity ?? ""}
+          onChange={handleInputChange}
+          placeholder="몇 주 구매할까요?"
+          ref={inputRef}
+        />
+      </div>
+      <p className="label2">총 {finalAmount.toLocaleString()}원</p>
+      </QuantityControlTitle>
+
+      <QuantityControl>
+        <div className="keypad">
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
+            <button key={num} onClick={() => handleKeypadClick(num)}>
+              {num}
+            </button>
+          ))}
+          <button onClick={() => handleKeypadClick(0)}>00</button>
+          <button onClick={() => handleKeypadClick(0)}>0</button>
+          <button className="delete" onClick={handleDelete}><Delete size={20} color="black"/></button>
+        </div>
+      </QuantityControl>
+
+      <MainButton as="button" onClick={openModal} $isBuy={activeTab === "buy"} disabled={quantity === undefined || quantity <= 0}>
+        {buttonLabel}
+      </MainButton>
 
       <Modal 
         isOpen={isModalOpen} 
@@ -89,11 +129,12 @@ const TradeActionClient = () => {
         <OrderDetailsModalContent 
           type={activeTab} 
           symbol={symbol} 
-          quantity={quantity} 
+          quantity={quantity ?? 1} 
           price={initialPriceValue} 
           totalAmount={finalAmount} 
         />
       </Modal>
+      </TrandeacionContainer>
     </div>
   );
 };
