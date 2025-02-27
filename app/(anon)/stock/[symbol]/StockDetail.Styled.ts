@@ -2,6 +2,10 @@
 
 import styled from "styled-components";
 
+export const StockContainer = styled.div`
+  padding: 50px 20px ;
+`;
+
 export const StockInfo = styled.section`
   padding: 0 16px;
   margin-bottom: 8px;
@@ -43,6 +47,7 @@ export const TabItem = styled.div<{ $active?: boolean }>`
   font-weight: ${({ $active }) => ($active ? 'bold' : 'normal')};
   color: ${({ $active }) => ($active ? 'var(--black-color)' : 'var(--gray-900)')};
   border-bottom: ${({ $active }) => ($active ? '2px solid var(--black-color)' : 'none')};
+  cursor: pointer;
 `;
 
 export const ChartContainer = styled.section`

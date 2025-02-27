@@ -7,7 +7,7 @@ import 'chartjs-adapter-date-fns';
 import StockModalContainer from '@/app/(anon)/stock/[symbol]/components/StockModalContainer';
 import DraggableScrollContainer from '@/app/(anon)/stock/[symbol]/components/DraggableScrollContainer';
 
-// chart.js 등록
+
 ChartJS.register(CategoryScale, LinearScale, CandlestickController, TimeScale, CandlestickElement, Tooltip, Legend);
 
 interface StockDataItem {
@@ -46,6 +46,21 @@ const StockChartImage = ({ symbol, activePeriod }: StockChartImageProps) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    
+    if (!chartData) {
+      timer = setTimeout(() => {
+        setIsModalOpen(true);
+      }, 3000);
+    } else {
+      setIsModalOpen(false);
+    }
+
+    return () => clearTimeout(timer);
+  }, [chartData]); 
 
   useEffect(() => {
     const fetchChartData = async () => {
@@ -66,19 +81,18 @@ const StockChartImage = ({ symbol, activePeriod }: StockChartImageProps) => {
 
         let candlestickData: { x: Date; o: number; h: number; l: number; c: number }[] = [];
 
-        // 분봉 차트일 경우 처리
         if (activePeriod === '1m') {
           // 분봉 차트의 경우 flatMap을 사용하여 output2를 합치기
           const combinedOutput2 = data.flatMap((item: { output2: StockDataItem[] }) => item.output2 || []);
 
           // 각 항목에서 필요한 데이터 포맷으로 변환
           candlestickData = combinedOutput2.map((item: StockDataItem) => {
-            const dateStr = item.stck_bsop_date; // "20250225"
-            const timeStr = item.stck_cntg_hour; // "123000"
+            const dateStr = item.stck_bsop_date; 
+            const timeStr = item.stck_cntg_hour; 
 
             let date: Date;
 
-            // 시간 정보가 있을 때 처리
+            // 분 봉 차트 처리
             if (dateStr && timeStr) {
               const year = parseInt(dateStr.substring(0, 4), 10);
               const month = parseInt(dateStr.substring(4, 6), 10) - 1;
@@ -104,9 +118,8 @@ const StockChartImage = ({ symbol, activePeriod }: StockChartImageProps) => {
               l: Number(item.stck_lwpr),
               c: Number(item.stck_prpr),
             };
-          }).filter(Boolean); // null 값을 걸러냄
+          }).filter(Boolean); 
         } else {
-          // 분봉이 아닌 차트는 output2가 없거나 다른 형식일 수 있음
           if (!data?.output2) {
             console.error('output2가 존재하지 않습니다.');
             return;
@@ -151,10 +164,9 @@ const StockChartImage = ({ symbol, activePeriod }: StockChartImageProps) => {
     if (activePeriod === '1m') {
       interval = setInterval(() => {
         fetchChartData();
-      }, 60000); // 60000ms = 1분
+      }, 60000); 
     }
 
-    // 컴포넌트가 언마운트될 때 인터벌 클리어
     return () => {
       if (interval) {
         clearInterval(interval);
@@ -168,7 +180,7 @@ const StockChartImage = ({ symbol, activePeriod }: StockChartImageProps) => {
 
   return (
     <div ref={containerRef} style={{ width: '100%', height: '400px', overflowX: 'auto' }}>
-      {!chartData && <StockModalContainer />}
+      <StockModalContainer isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
       <DraggableScrollContainer style={{ width: '100%', height: '400px' }}>
       <div style={{ width: '1200px', height: '100%' }}>
         <Chart
@@ -198,7 +210,7 @@ const StockChartImage = ({ symbol, activePeriod }: StockChartImageProps) => {
               x: {
                 type: 'time',
                 time: {
-                  unit: false, // 시간 단위 설정 없애기
+                  unit: false,
                 },
                 offset: false,
               },

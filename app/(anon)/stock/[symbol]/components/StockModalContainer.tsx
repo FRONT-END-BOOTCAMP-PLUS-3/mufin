@@ -1,19 +1,17 @@
 "use client";
 
-import Modal from "@/app/components/Modal";
-import { useState } from "react";
+import Modal from "@/app/components/modal/Modal";
 
-const StockModalContainer = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+interface StockModalContainerProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
 
-  const closeModal = () => setIsModalOpen(false);
-
+const StockModalContainer = ({ isOpen, onClose }: StockModalContainerProps) => {
   return (
-    <div>
-      <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <h2>오늘은 휴장일 입니다.</h2>
-      </Modal>
-    </div>
+    <Modal isOpen={isOpen} onClose={onClose}>
+      <h5>오늘은 휴장일입니다.</h5>
+    </Modal>
   );
 };
 
