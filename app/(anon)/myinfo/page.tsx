@@ -12,22 +12,23 @@ const MyInfo = () => {
   } | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("access_token");
-    if (token) {
-      fetch("/api/user", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+    fetch("/api/user", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Not authenticated");
+        }
+        return res.json();
       })
-        .then((res) => res.json())
-        .then((data) => {
-          setIsLoggedIn(true);
-          setUserData(data);
-        })
-        .catch(() => setIsLoggedIn(false));
-    }
+      .then((data) => {
+        setIsLoggedIn(true);
+        setUserData(data);
+      })
+      .catch(() => setIsLoggedIn(false));
   }, []);
+
   return isLoggedIn ? <LoggedIn userData={userData} /> : <LoggedOut />;
 };
 

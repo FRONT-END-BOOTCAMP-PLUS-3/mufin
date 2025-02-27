@@ -1,8 +1,12 @@
-"use client"
+"use client";
 import { useGetHeaderTitle } from "@/utils/getHeaderTitle";
 import { usePathname } from "next/navigation";
-import { ContentContainer, RootContainer } from "@/app/components/RootContainer.Styled";
-import Header from "@/app/components/Header";
+import {
+  ContentContainer,
+  RootContainer,
+} from "@/app/components/RootContainer.Styled";
+import Header from "@/app/components/header/Header";
+import Navbar from "@/app/components/Navbar";
 
 const LayoutClient = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
@@ -13,6 +17,7 @@ const LayoutClient = ({ children }: { children: React.ReactNode }) => {
     <RootContainer>
       <Header type={isBackType ? "back" : "default"} title={title} />
       <ContentContainer>{children}</ContentContainer>
+      <Navbar />
     </RootContainer>
   );
 };
