@@ -1,29 +1,32 @@
-import axios from 'axios';
-
 export async function GET(req: Request) {
   try {
     const url = 'https://openapi.koreainvestment.com:9443/uapi/domestic-stock/v1/quotations/inquire-daily-itemchartprice';
     
     const getCurrentDate = (): string => {
         const today = new Date();
-        const year = today.getFullYear(); // 연도
-        const month = (today.getMonth() + 1).toString().padStart(2, '0'); // 월 (0부터 시작하므로 +1 해줌)
-        const day = today.getDate().toString().padStart(2, '0'); // 일
+        const year = today.getFullYear();
+        const month = (today.getMonth() + 1).toString().padStart(2, '0');
+        const day = today.getDate().toString().padStart(2, '0');
       
-        return `${year}${month}${day}`; // YYYYMMDD 형식으로 반환
+        return `${year}${month}${day}`;
     };
 
-    // URLSearchParams로 쿼리 파라미터 생성
+    // 요청된 symbol과 activePeriod 추출
+    const queryParams = new URL(req.url).searchParams;
+    const symbol = queryParams.get('symbol') || '';
+    const activePeriod = queryParams.get('activePeriod') || '';
+
     const params = new URLSearchParams({
       FID_COND_MRKT_DIV_CODE: 'J',
-      FID_INPUT_ISCD: req.url.split('?')[1].split('&')[0].split('=')[1],  // 요청된 symbol 추출
+      FID_INPUT_ISCD: symbol,
       FID_INPUT_DATE_1: '19871231',
       FID_INPUT_DATE_2: getCurrentDate(),
-      FID_PERIOD_DIV_CODE: req.url.split('?')[1].split('&')[1].split('=')[1], // 요청된 activePeriod 추출
+      FID_PERIOD_DIV_CODE: activePeriod,
       FID_ORG_ADJ_PRC: '1',
     });
 
-    const response = await axios.get(`${url}?${params.toString()}`, {
+    const response = await fetch(`${url}?${params.toString()}`, {
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
         'authorization': `Bearer ${process.env.KIS_ACCESS_TOKEN}`,
@@ -34,7 +37,12 @@ export async function GET(req: Request) {
       },
     });
 
-    return new Response(JSON.stringify(response.data), { status: 200 });
+    if (!response.ok) {
+      throw new Error(`API 요청 실패: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return new Response(JSON.stringify(data), { status: 200 });
   } catch (error: unknown) {
     console.error('API 요청 실패:', error);
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
