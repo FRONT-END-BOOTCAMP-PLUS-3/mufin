@@ -8,7 +8,7 @@ const MyInfo = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState<{
     name: string;
-    email: string;
+    userId: string;
   } | null>(null);
 
   useEffect(() => {

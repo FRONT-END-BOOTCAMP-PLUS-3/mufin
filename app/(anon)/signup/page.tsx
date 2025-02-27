@@ -10,7 +10,7 @@ import {
 } from "@/app/(anon)/signup/components/signupPage.Styled";
 
 const SignupPage = () => {
-  const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const [form, setForm] = useState({ name: "", userId: "", password: "" });
   const [message, setMessage] = useState("");
   const router = useRouter();
 
@@ -30,6 +30,7 @@ const SignupPage = () => {
     const data = await res.json();
     setMessage(data.message || data.error);
     if (data.message) {
+      alert("회원가입 성공!");
       router.push("/login");
     }
   };
@@ -47,10 +48,10 @@ const SignupPage = () => {
           required
         />
         <Input
-          type="email"
-          name="email"
-          placeholder="이메일"
-          value={form.email}
+          type="userId"
+          name="userId"
+          placeholder="ID"
+          value={form.userId}
           onChange={handleChange}
           required
         />
