@@ -8,11 +8,19 @@ import {
   createMessage,
 } from "@/utils/websocketClient";
 import { fetchApprovalKey } from "@/utils/fetchApprovalKey";
+import { parseStockData } from "@/utils/parseStockData";
 
 const wsPath = "/tryitout/H0STCNT0";
 
 const StockDataComponent: React.FC = () => {
-  const [stockData, setStockData] = useState<string>("");
+  const [stockData, setStockData] = useState<Record<string, string>>({
+    stockPrice: "N/A",
+    highPrice: "N/A",
+    lowPrice: "N/A",
+    prdyVrssSign: "N/A",
+    prdyVrss: "N/A",
+    prdyCtrt: "N/A",
+  });
   const approvalKeyRef = useRef<string | null>(null);
   const wsRef = useRef<WebSocket | null>(null);
 
@@ -33,12 +41,20 @@ const StockDataComponent: React.FC = () => {
           approvalKey,
           "1",
           "H0STCNT0",
-          "005930"
+          "034730"
         );
         sendWsMessage(ws, subscribeMsg);
 
         onWsMessage(ws, (data: string) => {
-          setStockData(data);
+          try {
+            const parsedData = parseStockData(data);
+            if (parsedData) {
+              console.log("✅ 파싱된 데이터 객체:", parsedData);
+              setStockData(parsedData.stocks); // `.stocks` 배열만 저장
+            }
+          } catch (error) {
+            console.error("❌ 데이터 파싱 실패:", error);
+          }
         });
       } catch (error) {
         console.error("WebSocket 초기화 에러:", error);
@@ -64,7 +80,17 @@ const StockDataComponent: React.FC = () => {
   return (
     <div>
       <h1>실시간 주식 데이터</h1>
-      {stockData ? <pre>{stockData}</pre> : <p>데이터 수신 대기중...</p>}
+      {stockData ? (
+        <ul>
+          {Object.entries(stockData).map(([key, value]) => (
+            <li key={key}>
+              <strong>{key}:</strong> {value}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>데이터 수신 대기중...</p>
+      )}
     </div>
   );
 };
