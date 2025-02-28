@@ -39,6 +39,16 @@ const MyInfo = () => {
       });
   }, []);
 
+  const handleLogout = async () => {
+    fetch("/api/logout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    });
+    alert("로그아웃 하였습니다!");
+    router.push("/");
+  };
+
   return (
     <Container>
       <MyBox>
@@ -59,7 +69,7 @@ const MyInfo = () => {
       </MyBox>
       {isLoggedIn ? (
         <LoginBox>
-          <Button>로그아웃</Button>
+          <Button onClick={handleLogout}>로그아웃</Button>
           <Button>회원탈퇴</Button>
         </LoginBox>
       ) : (
