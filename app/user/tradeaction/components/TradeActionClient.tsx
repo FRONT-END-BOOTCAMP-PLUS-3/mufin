@@ -60,7 +60,7 @@ const TradeActionClient = () => {
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/\D/g, ""); // 숫자만 입력 허용
+    const value = e.target.value.replace(/\D/g, "");
     setQuantity(value ? parseInt(value, 10) : undefined);
   };
 
@@ -114,7 +114,7 @@ const TradeActionClient = () => {
           ))}
           <button onClick={() => handleKeypadClick(0)}>00</button>
           <button onClick={() => handleKeypadClick(0)}>0</button>
-          <button className="delete" onClick={handleDelete}><Delete size={20} color="black"/></button>
+          <button onClick={handleDelete}><Delete size={20} color="black"/></button>
         </div>
       </QuantityControl>
 
