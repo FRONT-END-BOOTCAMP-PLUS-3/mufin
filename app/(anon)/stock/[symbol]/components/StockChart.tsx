@@ -16,8 +16,9 @@ import {
   ChartContainer,
   PeriodSelector,
   PeriodItem,
-} from '@/app/(anon)/stock/[symbol]/StockDetail.Styled';
-import StockChartImage from './StockChartImage';
+} from '@/app/(anon)/stock/[symbol]/components/StockDetail.Styled';
+import StockChartImage from '@/app/(anon)/stock/[symbol]/components/StockChartImage';
+
 
 interface StockChartProps {
   symbol: string;

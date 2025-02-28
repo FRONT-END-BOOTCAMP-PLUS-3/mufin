@@ -39,3 +39,74 @@ Mufin
 ┣ types // 공통 타입
 ┣ utils
 ```
+
+```
+mufin
+├─ app
+│  ├─ (anon)
+│  │  └─ stock
+│  │     ├─ page.tsx
+│  │     └─ [symbol]
+│  │        ├─ components
+│  │        │  ├─ StockChart.tsx
+│  │        │  ├─ StockDetailTabs.tsx
+│  │        │  ├─ StockDetailTitle.tsx
+│  │        │  ├─ StockInfo.tsx
+│  │        │  └─ SymbolLink.tsx
+│  │        ├─ page.tsx
+│  │        └─ StockDetail.Styled.ts
+│  ├─ api
+│  ├─ components
+│  │  ├─ Button.tsx
+│  │  ├─ Header.Styled.ts
+│  │  ├─ Header.tsx
+│  │  ├─ LayoutClient.tsx
+│  │  ├─ Modal.Styled.ts
+│  │  ├─ Modal.tsx
+│  │  ├─ navbar
+│  │  │  ├─ Navbar.Styled.ts
+│  │  │  └─ Navbar.tsx
+│  │  └─ RootContainer.Styled.ts
+│  ├─ layout.tsx
+│  ├─ page.tsx
+│  └─ user
+│     └─ page.tsx
+├─ application
+│  └─ usecases
+│     ├─ stock
+│     │  └─ dtos
+│     └─ stock_detail
+│        └─ dtos
+├─ config
+│  └─ env.ts
+├─ constants
+│  └─ routeMap.ts
+├─ domain
+│  ├─ entities
+│  └─ repositories
+├─ eslint.config.mjs
+├─ infrastructure
+│  └─ repositories
+├─ lib
+│  └─ StyledComponentsRegistry.tsx
+├─ next.config.ts
+├─ package-lock.json
+├─ package.json
+├─ prisma
+├─ public
+│  ├─ file.svg
+│  ├─ globe.svg
+│  ├─ Logo.svg
+│  ├─ next.svg
+│  ├─ vercel.svg
+│  └─ window.svg
+├─ README.md
+├─ stores
+├─ styles
+│  └─ globals.css
+├─ tsconfig.json
+├─ types
+└─ utils
+   └─ getHeaderTitle.tsx
+
+```

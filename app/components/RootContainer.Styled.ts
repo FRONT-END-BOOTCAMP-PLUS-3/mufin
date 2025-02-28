@@ -1,16 +1,16 @@
 import styled from "styled-components";
 
 export const RootContainer = styled.div`
-  display:flex;
-  flex-direction: column;
-  position:relative;
-  width: 100%;
-  max-width: var(--background-width);
-  height: 100vh;
-  margin: 0 auto;
-  display: flex;
-  background-color: var(--white-color);
-  color: var(--black-color);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+    max-width: var(--background-width);
+    height: 100vh;
+    margin: 0 auto;
+    display: flex;
+    background-color: var(--white-color);
+    color: var(--black-color);
 `;
 
 export const ContentContainer = styled.main`
