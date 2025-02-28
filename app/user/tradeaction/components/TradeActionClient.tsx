@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, useEffect, useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import {
@@ -10,7 +11,7 @@ import {
   TrandeacionContainer,
   MainButton,
   QuantityControlTitle,
-} from "@/app/user/tradeaction/Trandeaction.Styled";
+} from "@/app/user/tradeaction/components/Trandeaction.Styled";
 
 import OrderDetailsModalContent from "@/app/user/tradeaction/components/OrderDetailsModalContent";
 import Modal from "@/app/components/modal/Modal";
@@ -33,7 +34,6 @@ const TradeActionClient = () => {
   useEffect(() => {
     setActiveTab(type);
 
-    // 페이지가 로드되면 input 필드에 포커스 주기
     if (inputRef.current) {
       inputRef.current.focus();
     }

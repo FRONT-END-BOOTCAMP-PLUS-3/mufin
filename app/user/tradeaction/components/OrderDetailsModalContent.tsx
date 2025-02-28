@@ -1,4 +1,4 @@
-import { InfoItem, InfoList, ModalButton, ModalContainer, SubTitle, Title, TotalPrice } from "@/app/user/tradeaction/Trandeaction.Styled";
+import { InfoItem, InfoList, ModalButton, ModalContainer, SubTitle, Title, TotalPrice } from "@/app/user/tradeaction/components/Trandeaction.Styled";
 import React from "react";
 
 interface OrderDetailsModalContentProps {

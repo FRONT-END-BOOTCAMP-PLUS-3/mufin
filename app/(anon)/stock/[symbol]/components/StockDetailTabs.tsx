@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import {
   TabMenu,
   TabItem,
-} from '@/app/(anon)/stock/[symbol]/StockDetail.Styled';
+} from '@/app/(anon)/stock/[symbol]/components/StockDetail.Styled';
 
 import StockChart from '@/app/(anon)/stock/[symbol]/components/StockChart';
 import StockInfo from '@/app/(anon)/stock/[symbol]/components/StockInfo';
