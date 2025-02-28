@@ -5,7 +5,7 @@ export const RootContainer = styled.div`
   flex-direction: column;
   position:relative;
   width: 100%;
-  max-width: 390px;
+  max-width: var(--background-width);
   height: 100vh;
   margin: 0 auto;
   display: flex;
