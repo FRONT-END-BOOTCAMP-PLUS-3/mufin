@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const NavbarContainer = styled.div`
+max-width: var(--background-width);
   display: flex;
   justify-content: space-around;
   align-items: flex-end;

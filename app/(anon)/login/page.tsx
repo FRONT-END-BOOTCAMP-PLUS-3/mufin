@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const Login = () => {
-  const [userId, setUserId] = useState("");
+  const [loginId, setloginId] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
 
@@ -19,7 +19,7 @@ const Login = () => {
     const res = await fetch("/api/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId, password }),
+      body: JSON.stringify({ loginId, password }),
     });
     const data = await res.json();
     if (res.ok) {
@@ -37,8 +37,8 @@ const Login = () => {
           <Input
             type="text"
             placeholder="아이디"
-            value={userId}
-            onChange={(e) => setUserId(e.target.value)}
+            value={loginId}
+            onChange={(e) => setloginId(e.target.value)}
           />
           <Input
             type="password"

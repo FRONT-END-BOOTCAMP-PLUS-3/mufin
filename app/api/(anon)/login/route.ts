@@ -8,10 +8,10 @@ const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
   try {
-    const { userId, password } = await req.json();
+    const { loginId, password } = await req.json();
 
     const existingUser = await prisma.user.findUnique({
-      where: { userId },
+      where: { loginId },
     });
 
     if (!existingUser) {
@@ -27,7 +27,7 @@ export async function POST(req: Request) {
       });
     }
 
-    const payload = { userId: existingUser.userId };
+    const payload = { loginId: existingUser.loginId };
     const token = jwt.sign(payload, process.env.JWT_SECRET as string, {
       expiresIn: "1h",
     });

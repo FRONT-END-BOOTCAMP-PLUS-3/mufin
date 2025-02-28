@@ -10,7 +10,7 @@ import {
 } from "@/app/(anon)/signup/components/signupPage.Styled";
 
 const SignupPage = () => {
-  const [form, setForm] = useState({ name: "", userId: "", password: "" });
+  const [form, setForm] = useState({ name: "", loginId: "", password: "" });
   const [message, setMessage] = useState("");
   const router = useRouter();
 
@@ -48,10 +48,10 @@ const SignupPage = () => {
           required
         />
         <Input
-          type="userId"
-          name="userId"
+          type="loginId"
+          name="loginId"
           placeholder="ID"
-          value={form.userId}
+          value={form.loginId}
           onChange={handleChange}
           required
         />

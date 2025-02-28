@@ -6,10 +6,10 @@ const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
   try {
-    const { name, userId, password } = await req.json();
+    const { name, loginId, password } = await req.json();
 
     // 필수 필드 검증
-    if (!name || !userId || !password) {
+    if (!name || !loginId || !password) {
       return NextResponse.json(
         { error: "모든 필드를 입력하세요." },
         { status: 400 }
@@ -18,7 +18,7 @@ export async function POST(req: Request) {
 
     // 아이디 중복 체크
     const existingUser = await prisma.user.findUnique({
-      where: { userId },
+      where: { loginId },
     });
 
     if (existingUser) {
@@ -35,7 +35,7 @@ export async function POST(req: Request) {
     const user = await prisma.user.create({
       data: {
         name,
-        userId,
+        loginId,
         password: hashedPassword,
       },
     });
