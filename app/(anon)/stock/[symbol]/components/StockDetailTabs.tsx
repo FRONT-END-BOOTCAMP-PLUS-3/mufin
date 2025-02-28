@@ -6,10 +6,12 @@ import { useRouter } from 'next/navigation';
 import {
   TabMenu,
   TabItem,
+  ButtonComponenet,
 } from '@/app/(anon)/stock/[symbol]/components/StockDetail.Styled';
 
 import StockChart from '@/app/(anon)/stock/[symbol]/components/StockChart';
 import StockInfo from '@/app/(anon)/stock/[symbol]/components/StockInfo';
+import Button from '@/app/components/button/Button';
 
 type TabType = 'chart' | 'orderbook' | 'info';
 
@@ -71,7 +73,9 @@ const StockDetailTabs = ({ symbol, initialPrice }: StockDetailTabsProps) => {
         </TabItem>
       </TabMenu>
       {renderTabContent()}
-      <button onClick={handleTradeClick}>거래하기</button>
+      <ButtonComponenet>
+        <Button onClick={handleTradeClick}>거래하기</Button>
+      </ButtonComponenet>
     </>
   );
 };
