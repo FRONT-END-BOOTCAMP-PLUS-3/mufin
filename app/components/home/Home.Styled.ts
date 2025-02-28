@@ -63,17 +63,6 @@ export const InvestmentSection = styled.section`
     width: 100%;
     max-width: 410px;
     gap: 15px;
-
-    h2 {
-        font-size: 1.5rem;
-        font-weight: bold;
-    }
-
-    p {
-        color: var(--gray-800);
-        padding-top: 10px;
-        font-size: 0.8rem;
-    }
 `;
 
 export const InvestmentHeader = styled.div`
@@ -83,4 +72,13 @@ export const InvestmentHeader = styled.div`
     width: 100%;
     max-width: 410px;
     gap: 15px;
+    h2 {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+    p {
+        color: var(--gray-800);
+        padding-top: 10px;
+        font-size: 0.8rem;
+    }
 `;

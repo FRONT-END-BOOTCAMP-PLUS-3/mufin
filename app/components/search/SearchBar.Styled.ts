@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import Link from "next/link";
 
-export const SearchContainer = styled.div`
+export const SearchContainer = styled(Link)`
     width: 100%;
     max-width: 410px; /* 서치바 너비 조정 */
     display: flex;
