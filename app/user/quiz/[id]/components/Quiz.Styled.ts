@@ -1,8 +1,10 @@
 import styled from "styled-components";
 
 export const QuizContainer = styled.section`
+display: flex;
+flex-direction: column;
     width: 100%;
-    height: auto;
+    height: 100%;
     padding: 20px;
 `;
 
@@ -30,7 +32,8 @@ export const QuizText = styled.h6`
 
 export const QuizButtonWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
+  flex : 1;
+  justify-content: space-around;
   align-items: center;
   padding: 10px;
   width: 100%;
@@ -38,6 +41,12 @@ export const QuizButtonWrapper = styled.div`
 
 export const SelectButton = styled.button`
     padding: 10px;
+    height: 10rem;
+    width: 10rem;
+    border: none;
+    background-color: var(--background-color);
+    border-radius: 10px;
+
 `;
 
 export const ResultButtonWrapper = styled.div``;

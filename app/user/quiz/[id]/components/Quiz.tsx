@@ -1,5 +1,6 @@
 "use client";
 import * as S from "@/app/user/quiz/[id]/components/Quiz.Styled";
+import BaseButton from "@/app/user/quiz/[id]/components/BaseButton";
 
 const Quiz = () => {
   return (
@@ -14,15 +15,15 @@ const Quiz = () => {
         
         <S.QuizButtonWrapper>
           <S.SelectButton>
-
+          O
           </S.SelectButton>
           <S.SelectButton>
-
+          X
           </S.SelectButton>
         </S.QuizButtonWrapper>
 
         <S.ResultButtonWrapper>
-          결과 보기
+          <BaseButton $color="red">정답확인</BaseButton>
         </S.ResultButtonWrapper>
 
       </S.QuizContainer>
