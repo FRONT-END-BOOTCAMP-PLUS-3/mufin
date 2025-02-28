@@ -88,7 +88,7 @@ body {
     --active-color: var(--primary-700);
     --disabled-color: var(--gray-200);
 
-    /*레이아웃 가로 크기*/
+    /*background width*/
     --background-width: 480px;
 }
 

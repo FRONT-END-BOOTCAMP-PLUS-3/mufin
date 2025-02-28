@@ -1,49 +1,66 @@
 'use client';
 
-import React, { useState } from 'react';
+// 005930 (삼성전자)
+// 000660 (SK hynix)
+// 035420 (NAVER)
+// 051910 (LG화학)
+// 207940 (삼성바이오로직스)
+// 005380 (현대차)
+// 068270 (셀트리온)
+// 000270 (기아)
+// 003550 (LG전자)
+// 034730 (카카오)
+
+import React, { useState, useEffect } from 'react';
 import {
   ChartContainer,
-  ChartImage,
-  ChartLabelTop,
-  ChartLabelBottom,
   PeriodSelector,
   PeriodItem,
 } from '@/app/(anon)/stock/[symbol]/StockDetail.Styled';
+import StockChartImage from './StockChartImage';
 
 interface StockChartProps {
   symbol: string;
 }
 
 const StockChart = ({ symbol }: StockChartProps) => {
-  const [activePeriod, setActivePeriod] = useState<string>('분'); 
-  // 탭 클릭 시 활성화된 탭 상태 업데이트
+  const [activePeriod, setActivePeriod] = useState<string>('1m'); 
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const period = queryParams.get('p');
+    if (period) {
+      setActivePeriod(period);
+    }
+  }, []);
+
   const handlePeriodClick = (period: string) => {
     setActivePeriod(period);
+
+    const queryString = new URLSearchParams(window.location.search);
+    queryString.set('p', period);
+    window.history.replaceState(null, '', `?${queryString.toString()}`);
   };
 
   return (
     <>
-      <h3>{symbol} 차트</h3>
       <ChartContainer>
-        <ChartImage>
-          <ChartLabelTop>최고 16,280원</ChartLabelTop>
-          <ChartLabelBottom>최저 13,510원</ChartLabelBottom>
-        </ChartImage>
+        <StockChartImage symbol={symbol} activePeriod={activePeriod} />
       </ChartContainer>
       <PeriodSelector>
-        <PeriodItem $active={activePeriod === '분'} onClick={() => handlePeriodClick('분')}>
-          분
+        <PeriodItem $active={activePeriod === '1m'} onClick={() => handlePeriodClick('1m')}>
+          1분
         </PeriodItem>
-        <PeriodItem $active={activePeriod === '일'} onClick={() => handlePeriodClick('일')}>
+        <PeriodItem $active={activePeriod === 'D'} onClick={() => handlePeriodClick('D')}>
           일
         </PeriodItem>
-        <PeriodItem $active={activePeriod === '주'} onClick={() => handlePeriodClick('주')}>
+        <PeriodItem $active={activePeriod === 'W'} onClick={() => handlePeriodClick('W')}>
           주
         </PeriodItem>
-        <PeriodItem $active={activePeriod === '월'} onClick={() => handlePeriodClick('월')}>
+        <PeriodItem $active={activePeriod === 'M'} onClick={() => handlePeriodClick('M')}>
           월
         </PeriodItem>
-        <PeriodItem $active={activePeriod === '년'} onClick={() => handlePeriodClick('년')}>
+        <PeriodItem $active={activePeriod === 'Y'} onClick={() => handlePeriodClick('Y')}>
           년
         </PeriodItem>
       </PeriodSelector>

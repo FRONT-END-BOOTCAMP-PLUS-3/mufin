@@ -6,12 +6,12 @@ export const HeaderContainer = styled.header`
     width: 100%;
     max-width: var(--background-width);
     height: 70px;
-    padding: 20px 10px 20px 0px;
+    padding: 20px 10px 20px 10px;
     position: fixed;
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 100;
+    z-index: 1000;
 `;
 
 export const HeaderWrapper = styled.div`
@@ -33,6 +33,7 @@ export const HeaderLogo = styled.div`
     justify-content: center;
     align-items: center;
     height: auto;
+    cursor: pointer;
 `;
 
 export const BackButtonBox = styled.div`
@@ -40,4 +41,5 @@ export const BackButtonBox = styled.div`
     height: 100%;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 `;
