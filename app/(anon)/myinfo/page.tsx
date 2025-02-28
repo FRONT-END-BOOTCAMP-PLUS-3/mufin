@@ -49,6 +49,16 @@ const MyInfo = () => {
     router.push("/");
   };
 
+  const handleDeleteId = async () => {
+    fetch("api/delete-id", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    });
+    alert("회원탈퇴 하였습니다!");
+    router.push("/");
+  };
+
   return (
     <Container>
       <MyBox>
@@ -70,7 +80,7 @@ const MyInfo = () => {
       {isLoggedIn ? (
         <LoginBox>
           <Button onClick={handleLogout}>로그아웃</Button>
-          <Button>회원탈퇴</Button>
+          <Button onClick={handleDeleteId}>회원탈퇴</Button>
         </LoginBox>
       ) : (
         <LoginBox>

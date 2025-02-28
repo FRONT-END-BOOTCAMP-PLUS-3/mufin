@@ -1,4 +1,3 @@
-// app/api/(anon)/login/route.ts
 import jwt from "jsonwebtoken";
 import { serialize } from "cookie";
 import { PrismaClient } from "@prisma/client";
@@ -15,14 +14,14 @@ export async function POST(req: Request) {
     });
 
     if (!existingUser) {
-      return new Response(JSON.stringify({ message: "Invalid credentials" }), {
+      return new Response(JSON.stringify({ message: "회원정보가 없습니다!" }), {
         status: 401,
       });
     }
 
     const isMatch = await bcrypt.compare(password, existingUser.password);
     if (!isMatch) {
-      return new Response(JSON.stringify({ message: "Invalid credentials" }), {
+      return new Response(JSON.stringify({ message: "회원정보가 없습니다!" }), {
         status: 401,
       });
     }
