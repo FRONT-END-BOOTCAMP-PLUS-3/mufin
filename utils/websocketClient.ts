@@ -73,7 +73,7 @@ export const handleWsMessage = (
         return;
       }
     }
-    console.log("받은 데이터:", data);
+    
     if (customHandler) {
       customHandler(data);
     }
