@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
+    "build": "next build",
     "server": "node --loader ts-node/esm ./infrastructure/socket/server.ts",
     "start": "next start",
     "lint": "next lint"
