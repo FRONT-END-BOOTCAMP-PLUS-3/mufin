@@ -1,9 +1,7 @@
 import React from "react";
 import StockDetailTabs from "@/app/(anon)/stock/[symbol]/components/StockDetailTabs";
 import StockDetailTitle from "@/app/(anon)/stock/[symbol]/components/StockDetailTitle";
-import { StockContainer } from "@/app/(anon)/stock/[symbol]/StockDetail.Styled";
-
-
+import { StockContainer } from "@/app/(anon)/stock/[symbol]/components/StockDetail.Styled";
 interface StockClientProps {
     symbol: string;
   }
