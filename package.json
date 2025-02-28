@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
-    "server": "node --loader ts-node/esm ./infrastructure/socket/server.ts",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -13,7 +13,6 @@
     "chart.js": "^4.4.8",
     "chartjs-adapter-date-fns": "^3.0.0",
     "chartjs-chart-financial": "^0.2.1",
-    "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "lucide-react": "^0.475.0",
