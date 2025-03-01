@@ -13,6 +13,7 @@ export const STOCK_TRADE_MAPPING: string[] = [
   ];
 
   export const REQUIRED_STOCK_FILED: string[] = [
+    "MKSC_SHRN_ISCD",
     "STCK_PRPR",
     "PRDY_VRSS_SIGN",
     "PRDY_VRSS",
