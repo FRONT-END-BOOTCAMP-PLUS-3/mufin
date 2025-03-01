@@ -7,7 +7,7 @@ interface OXButtonsProps {
   selectedOption: number;
   setSelectedOption: (option: number) => void;
 }
-const OXButtons= ({ choices, selectedOption, setSelectedOption }: OXButtonsProps) => {
+const OXButtons: React.FC<OXButtonsProps> = ({ choices, selectedOption, setSelectedOption }: OXButtonsProps) => {
   console.log("curent",choices);
   
   return (

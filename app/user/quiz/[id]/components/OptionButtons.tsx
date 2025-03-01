@@ -7,7 +7,7 @@ interface OptionButtonsProps {
   selectedOption: number | null;
 }
 
-const OptionButtons = ({
+const OptionButtons: React.FC<OptionButtonsProps> = ({
   choices,
   selectedOption,
   setSelectedOption,

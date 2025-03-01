@@ -10,7 +10,7 @@ interface BaseModalProps {
   onNext: () => void; // ✅ onNext 함수 추가
 }
 
-const BaseModal = ({ isLast, isCorrect, score, onNext }: BaseModalProps) => {
+const BaseModal: React.FC<BaseModalProps> = ({ isLast, isCorrect, score, onNext }: BaseModalProps) => {
   const resultText = isLast
     ? "축하합니다! \n 모든 문제를 푸셨습니다 🎉"
     : isCorrect
