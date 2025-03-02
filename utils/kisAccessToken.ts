@@ -1,8 +1,9 @@
 import { env } from "@/config/env";
 
-export class KISAccessTokenAdapter {
-  public async fetchAccessToken(): Promise<string> {
+
+export async function getAccessToken(): Promise<string> {
     const url = `${env.KIS_API_URL}/oauth2/tokenP`;
+
     const body = {
       grant_type: "client_credentials",
       appkey: env.KIS_APP_KEY,
@@ -22,15 +23,17 @@ export class KISAccessTokenAdapter {
       }
 
       const data = await response.json();
-      if (!data.access_token)
+      const accessToken = data.access_token;
+
+      if (!accessToken)
         throw new Error(
           "[KIS API] Access Token 발급 실패: 응답에 access_token 없음"
         );
 
-      return data.access_token;
+      return accessToken;
     } catch (error) {
       console.error("[KIS API] Access Token 발급 오류: ", error);
       throw error;
     }
   }
-}
+
