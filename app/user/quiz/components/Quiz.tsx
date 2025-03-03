@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
-import { ProgressBar, OXButtons, OptionButtons, BaseModal, BaseButton } from "@/app/user/quiz/[id]/components";
-import { QuizButtonWrapper, QuizContainer, TextGroup } from "@/app/user/quiz/[id]/components/Quiz.Styled";
-import { mockQuizData, QuizData, } from "@/app/user/quiz/[id]/components/mockData";
+import { ProgressBar, OXButtons, OptionButtons, BaseModal, BaseButton } from "@/app/user/quiz/components";
+import { QuizButtonWrapper, QuizContainer, TextGroup } from "@/app/user/quiz/components/Quiz.Styled";
+import { mockQuizData, QuizData, } from "@/app/user/quiz/components/mockData";
 import { useRouter } from "next/navigation";
 
 // 문제 5개를 가져와서 한페이지 안에서 출력

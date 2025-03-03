@@ -1,5 +1,5 @@
 import { ButtonHTMLAttributes } from "react";
-import { StyledBaseButtonProps, StyledButton } from "@/app/user/quiz/[id]/components/BaseButton.Styled";
+import { StyledBaseButtonProps, StyledButton } from "@/app/user/quiz/components/BaseButton.Styled";
 
 export interface BaseButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement>,
