@@ -1,8 +1,8 @@
 import { Choice } from "@prisma/client";
 
 export interface IChoiceRepository {
-//   createChoices(choices: { questionId: number; choiceText: string; choiceNumber: number }[]): Promise<boolean>;
+  createChoice(choiceData: { questionId: number; choiceText: string; choiceNumber: number }): Promise<Choice>;
   findChoicesByQuestionId(questionId: number): Promise<Choice[]>;
-//   updateChoice(choiceId: number, updatedData: Partial<Pick<Choice, "choiceText" | "choiceNumber">>): Promise<Choice | null>;
-//   deleteChoice(choiceId: number): Promise<void>;
+  update(choiceId: number, updateData: Partial<{ choiceText: string; choiceNumber: number; }>): Promise<Choice>;
+  delete(choiceId: number): Promise<Choice>;
 }
