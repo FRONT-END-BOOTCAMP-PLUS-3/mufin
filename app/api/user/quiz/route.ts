@@ -52,9 +52,14 @@ export async function GET(req: NextRequest) {
 
 // 퀴즈 정답 record DB에 추가하기
 export async function POST(req: NextRequest) {
+  console.log("POST api/user/quiz")
   try {
-    const cookies = req.cookies;
-    const userId = cookies.get("user_id")?.value;
+
+
+    // const cookies = req.cookies;
+    // const userId = cookies.get("user_id")?.value;
+
+    const userId= "cbd36afb-9e3c-4434-8766-b91ec0f7eeb4"
 
     // userId 유효성 검사
     if (!userId) {
@@ -77,7 +82,7 @@ export async function POST(req: NextRequest) {
 
     // Submit question Answer UseCase 동작
     await submitQuizAnswerUseCase.execute(userId, questionId);
-    
+    return NextResponse.json({status:200});
     // 에러 시 동작 에러코드 반환
   } catch (error) {
     console.error("POST /api/quiz error:", error);

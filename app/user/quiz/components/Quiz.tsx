@@ -1,14 +1,37 @@
 "use client";
 import { useState } from "react";
-import { ProgressBar, OXButtons, OptionButtons, BaseModal, BaseButton } from "@/app/user/quiz/components";
-import { QuizButtonWrapper, QuizContainer, TextGroup } from "@/app/user/quiz/components/Quiz.Styled";
-import { mockQuizData, QuizData, } from "@/app/user/quiz/components/mockData";
+import {
+  ProgressBar,
+  OXButtons,
+  OptionButtons,
+  BaseModal,
+  BaseButton,
+} from "@/app/user/quiz/components";
+import {
+  QuizButtonWrapper,
+  QuizContainer,
+  TextGroup,
+} from "@/app/user/quiz/components/Quiz.Styled";
 import { useRouter } from "next/navigation";
 
+interface QuizProps {
+  quiz: {
+    totalQuestions: number;
+    questions: QuizData[];
+  };
+}
+export interface QuizData {
+  index: number;
+  questionId: number;
+  questionText: string;
+  answer: number;
+  choices: { choiceId: number; choiceText: string; choiceNumber: number }[];
+}
+
 // 문제 5개를 가져와서 한페이지 안에서 출력
-const Quiz = () => {
+const Quiz = ({ quiz }: QuizProps) => {
   // quiz mockData
-  const [quizData] = useState<QuizData[]>(mockQuizData);
+  const [quizData] = useState<QuizData[]>(quiz.questions);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [selectedOption, setSelectedOption] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -18,21 +41,34 @@ const Quiz = () => {
   const router = useRouter();
 
   const currentQuestion: QuizData = quizData[currentIndex];
-  const totalQuestions: number = quizData.length;
+  const totalQuestions: number = quiz.totalQuestions;
   const isDisabled: boolean = selectedOption === 0;
 
   // 정답 확인 함수
-  const handleResult = () => {
+  const handleResult = async () => {
     // 모달 open
     setIsModalOpen(true);
-    
+
     // 정답 확인해서 모달에 전달
     const correct = selectedOption === currentQuestion.answer;
     setIsCorrect(correct);
-    
+
     if (correct) {
       // 사용자가 푼 문제가 정답이면 server에 퀴즈 id를 전달
-      setScore((prev) => prev + 1);
+      try {
+        await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/quiz`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            questionId: currentQuestion.questionId,
+          }),
+        });
+        setScore((prev) => prev + 1);
+      } catch (error) {
+        console.error("데이터 전송 실패", error);
+      }
     }
   };
 
@@ -42,20 +78,19 @@ const Quiz = () => {
     if (currentIndex < totalQuestions - 1) {
       setCurrentIndex((prev) => prev + 1);
       setSelectedOption(0);
-    } else if (currentIndex === totalQuestions - 1) {
-      setIsLast(true);
     } else {
-      handleOut();
+      setIsLast(true);
     }
   };
 
   const handleOut = () => {
+    router.push("/");
     setIsModalOpen(false);
     setIsLast(false);
-    router.push("/");
+    console.log("lastButtonClicked");
   };
 
-  // 조건부 렌더링 
+  // 조건부 렌더링
   const renderChoices = () => {
     return currentQuestion.choices.length === 2 ? (
       <OXButtons
@@ -99,12 +134,20 @@ const Quiz = () => {
       </QuizContainer>
 
       {/* ✅ 개별 정답 모달 또는 최종 결과 모달 */}
-      {(isModalOpen || isLast) && (
+      {isModalOpen && (
         <BaseModal
           isLast={isLast}
           score={score}
           isCorrect={isCorrect}
           onNext={handleNext} // ✅ 최종 결과 모달이면 handleOut 실행
+        />
+      )}
+      {isLast && (
+        <BaseModal
+          isLast={isLast}
+          score={score}
+          isCorrect={isCorrect}
+          onNext={handleOut} // ✅ 최종 결과 모달이면 handleOut 실행
         />
       )}
     </>
