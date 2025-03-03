@@ -1,0 +1,111 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  userId     String      @id @default(uuid()) @map("user_id")
+  name       String
+  email      String      @unique
+  loginId    String      @unique @map("login_id")
+  password   String
+  createdAt  DateTime    @default(now()) @map("created_at")
+  updatedAt  DateTime    @default(now()) @map("updated_at")
+  
+  histories  History[]
+  portfolios Portfolio[]
+  records    Record[]
+  wallet     Wallet?
+}
+
+model Choice {
+  choiceId     Int      @id @default(autoincrement()) @map("choice_id")
+  questionId   Int      @map("question_id")
+  choiceText   String   @map("choice_text")
+  choiceNumber Int      @map("choice_number")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @default(now()) @map("updated_at")
+
+  question     Question @relation(fields: [questionId], references: [questionId])
+}
+
+model Question {
+  questionId   Int      @id @default(autoincrement()) @map("question_id")
+  questionText String   @map("question_text")
+  answer       Int
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @default(now()) @map("updated_at")
+
+  records      Record[]
+  choices      Choice[]
+}
+
+model Record {
+  recordId    Int      @id @default(autoincrement()) @map("record_id")
+  userId      String   @map("user_id")
+  questionId      Int      @map("question_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+  recordCount Int      @default(1) @map("record_count")
+  updatedAt   DateTime @default(now()) @map("updated_at")
+  
+  user        User     @relation(fields: [userId], references: [userId])
+  question    Question  @relation(fields: [questionId], references: [questionId])
+}
+
+model History {
+  historyId       Int             @id @default(autoincrement()) @map("history_id")
+  userId          String          @map("user_id")
+  stockId         Int             @map("stock_id")
+  price           Int?
+  transactionType TransactionType @map("transaction_type")
+  createdAt       DateTime        @default(now()) @map("created_at")
+  quantity        Int?            @map("quantity")
+
+  user            User            @relation(fields: [userId], references: [userId])
+  stocks          Stock           @relation(fields: [stockId], references: [stockId])   
+}
+
+model Stock {
+  stockId    Int         @id @default(autoincrement()) @map("stock_id")
+  stockCode  String      @map("stock_code")
+  stockName  String      @map("stock_name")
+  category   Int?        @default(7)
+  stockImage String?     @map("stock_image")
+  stockOpen  String?     @map("stock_open")
+  createdAt  DateTime    @default(now()) @map("created_at")
+  updatedAt  DateTime    @default(now()) @map("updated_at")
+  
+  Portfolio  Portfolio[]
+  history   History[]
+}
+
+model Wallet {
+  userId    String   @id @map("user_id")
+  cash      BigInt?  @default(0)
+  account   BigInt?  @default(1000000)
+  target    BigInt?  @default(2000000)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
+  user      User     @relation(fields: [userId], references: [userId])
+}
+
+model Portfolio {
+  portfolioId Int      @id @default(autoincrement()) @map("portfolio_id")
+  userId      String   @map("user_id")
+  stockId     Int      @map("stock_id")
+  stockCount  Int      @map("stock_count")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @default(now()) @map("updated_at")
+  
+  stock       Stock    @relation(fields: [stockId], references: [stockId])
+  user        User     @relation(fields: [userId], references: [userId])
+}
+
+enum TransactionType {
+  BUY
+  SELL
+}
