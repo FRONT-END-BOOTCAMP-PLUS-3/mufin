@@ -1,16 +1,5 @@
 'use client';
 
-// 005930 (삼성전자)
-// 000660 (SK hynix)
-// 035420 (NAVER)
-// 051910 (LG화학)
-// 207940 (삼성바이오로직스)
-// 005380 (현대차)
-// 068270 (셀트리온)
-// 000270 (기아)
-// 003550 (LG전자)
-// 034730 (카카오)
-
 import React, { useState, useEffect } from 'react';
 import {
   ChartContainer,
