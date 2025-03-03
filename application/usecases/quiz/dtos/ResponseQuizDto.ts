@@ -1,6 +1,7 @@
 import { ChoiceDto } from "@/application/usecases/quiz/dtos/ChoiceDto";
 
-export interface QuestionDto {
+export interface ResponseQuizDto {
+    index: number;
     questionId: number;
     questionText: string;
     answer: number;
