@@ -1,46 +1,6 @@
 <h1>Mufin</h1>
 
 ```
-Mufin
-┣ .vscode
-┃ ┗ settings.json
-┣ app
-┃ ┣ api
-┃ ┣ components  // 공통 컴포넌트
-┃ ┣ (anon)
-┃ ┃ ┗ login
-┃ ┣ user
-┃ ┃ ┣ <page명>
-┃ ┃ ┃ ┣ components // 페이지에서만 사용하는 컴포넌트
-┃ ┃ ┃ ┗ page.tsx
-┃ ┃ ┣ layout.tsx
-┃ ┃ ┗ page.tsx
-┃ ┣ layout.tsx
-┃ ┣ page.tsx
-
-┣ application
-┃ ┗ usecases
-┃ ┃ ┗ <page명>
-┃ ┃ ┃ ┗ dtos
-
-┣ constants  // 공통 상수
-
-┣ domain
-┃ ┣ entities   // database의 entity type 정의
-┃ ┗ repositories // repository에서 사용하는 type 정의
-
-┣ infrastructure
-┃ ┗ repositories
-
-┣ public // 이미지 관리
-┣ prisma
-┣ stores
-┣ styles
-┣ types // 공통 타입
-┣ utils
-```
-
-```
 mufin
 ├─ app
 │  ├─ (anon)
@@ -48,25 +8,47 @@ mufin
 │  │     ├─ page.tsx
 │  │     └─ [symbol]
 │  │        ├─ components
+│  │        │  ├─ DraggableScrollContainer.tsx
 │  │        │  ├─ StockChart.tsx
+│  │        │  ├─ StockChartImage.tsx
+│  │        │  ├─ StockClient.tsx
 │  │        │  ├─ StockDetailTabs.tsx
 │  │        │  ├─ StockDetailTitle.tsx
 │  │        │  ├─ StockInfo.tsx
+│  │        │  ├─ StockModalContainer.tsx
 │  │        │  └─ SymbolLink.tsx
 │  │        ├─ page.tsx
 │  │        └─ StockDetail.Styled.ts
 │  ├─ api
+│  │  ├─ approval_key
+│  │  │  └─ route.ts
+│  │  ├─ minChart
+│  │  │  └─ route.ts
+│  │  ├─ realtime_data
+│  │  │  └─ route.ts
+│  │  └─ stockChart
+│  │     └─ route.ts
 │  ├─ components
-│  │  ├─ Button.tsx
-│  │  ├─ Header.Styled.ts
-│  │  ├─ Header.tsx
+│  │  ├─ button
+│  │  │  └─ Button.tsx
+│  │  ├─ header
+│  │  │  ├─ Header.Styled.ts
+│  │  │  └─ Header.tsx
+│  │  ├─ home
+│  │  │  ├─ Home.Styled.ts
+│  │  │  ├─ StockList.Styled.ts
+│  │  │  └─ StockList.tsx
 │  │  ├─ LayoutClient.tsx
-│  │  ├─ Modal.Styled.ts
-│  │  ├─ Modal.tsx
+│  │  ├─ modal
+│  │  │  ├─ Modal.Styled.ts
+│  │  │  └─ Modal.tsx
 │  │  ├─ navbar
 │  │  │  ├─ Navbar.Styled.ts
 │  │  │  └─ Navbar.tsx
-│  │  └─ RootContainer.Styled.ts
+│  │  ├─ RootContainer.Styled.ts
+│  │  └─ search
+│  │     ├─ SearchBar.Styled.ts
+│  │     └─ SearchBar.tsx
 │  ├─ layout.tsx
 │  ├─ page.tsx
 │  └─ user
@@ -80,13 +62,19 @@ mufin
 ├─ config
 │  └─ env.ts
 ├─ constants
+│  ├─ realTimeStockMapping.ts
 │  └─ routeMap.ts
 ├─ domain
 │  ├─ entities
 │  └─ repositories
 ├─ eslint.config.mjs
 ├─ infrastructure
-│  └─ repositories
+│  ├─ kis
+│  │  ├─ index.ts
+│  │  └─ KISAccessTokenAdapter.ts
+│  ├─ repositories
+│  └─ websocket
+│     └─ WebSocketClient.ts
 ├─ lib
 │  └─ StyledComponentsRegistry.tsx
 ├─ next.config.ts
@@ -94,10 +82,22 @@ mufin
 ├─ package.json
 ├─ prisma
 ├─ public
+│  ├─ arrow_right.svg
+│  ├─ character.svg
 │  ├─ file.svg
 │  ├─ globe.svg
+│  ├─ icon
 │  ├─ Logo.svg
+│  ├─ Logo2.svg
+│  ├─ mufin1.svg
+│  ├─ mufin2.svg
 │  ├─ next.svg
+│  ├─ searchIcon.svg
+│  ├─ stock-logo
+│  │  ├─ kakao.png
+│  │  ├─ lg.png
+│  │  ├─ samsung.png
+│  │  └─ sk.png
 │  ├─ vercel.svg
 │  └─ window.svg
 ├─ README.md
@@ -107,6 +107,9 @@ mufin
 ├─ tsconfig.json
 ├─ types
 └─ utils
-   └─ getHeaderTitle.tsx
+   ├─ fetchApprovalKey.ts
+   ├─ getHeaderTitle.tsx
+   ├─ getMarketStatus.ts
+   └─ parseStockData.ts
 
 ```

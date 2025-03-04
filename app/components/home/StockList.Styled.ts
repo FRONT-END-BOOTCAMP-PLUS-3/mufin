@@ -5,6 +5,7 @@ import Link from "next/link";
 export const StockContainer = styled.div`
     width: 100%;
     max-width: 390px;
+    margin-bottom: 15px;
 `;
 
 export const TitleBox = styled.div`

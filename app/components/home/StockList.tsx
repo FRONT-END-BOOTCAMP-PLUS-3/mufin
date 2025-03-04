@@ -52,7 +52,7 @@ const stockData = [
         symbol: "카카오",
     },
 ];
-export const StockList = () => {
+const StockList = () => {
     return (
         <StockContainer>
             <TitleBox>인기 종목</TitleBox>

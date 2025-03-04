@@ -10,7 +10,8 @@ import {
     InvestmentSection,
     InvestmentHeader,
 } from "@/app/components/home/Home.Styled"; // ✅ 스타일 파일에서 가져오기
-import { StockList } from "@/app/components/home/StockList";
+import StockList from "@/app/components/home/StockList";
+import StockCategory from "./components/home/StockCategory";
 
 export default function Home() {
     return (
@@ -34,6 +35,7 @@ export default function Home() {
                 </InvestmentHeader>
                 <SearchBar />
                 <StockList /> {/*인기종목 리스트*/}
+                <StockCategory /> {/*인기종목 리스트*/}
             </InvestmentSection>
         </Container>
     );
