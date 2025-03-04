@@ -1,4 +1,4 @@
-import { OptionButton } from "@/app/user/quiz/[id]/components/Quiz.Styled";
+import { OptionButton } from "@/app/user/quiz/components/Quiz.Styled";
 import { Choice } from "./mockData";
 
 interface OptionButtonsProps {

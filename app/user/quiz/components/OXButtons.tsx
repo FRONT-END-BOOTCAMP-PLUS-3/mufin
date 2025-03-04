@@ -1,4 +1,4 @@
-import { OXSelectButton } from "@/app/user/quiz/[id]/components/Quiz.Styled";
+import { OXSelectButton } from "@/app/user/quiz/components/Quiz.Styled";
 import { Circle, X } from "lucide-react";
 import { Choice } from "./mockData";
 
