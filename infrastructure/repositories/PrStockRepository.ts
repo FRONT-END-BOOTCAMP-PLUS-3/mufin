@@ -1,4 +1,4 @@
-import { IStockRepository } from '@/domain/repositories/StockRepository';
+import { IStockRepository } from '@/domain/repositories/IStockRepository';
 import { Stock } from '@prisma/client';
 import { PrismaClient } from '@prisma/client';
 

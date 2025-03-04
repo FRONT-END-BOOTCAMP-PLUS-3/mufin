@@ -1,10 +1,11 @@
 import { StockInfoUseCase } from "@/application/usecases/stock/StockInfoUseCase";
+import { env } from "@/config/env";
 import { PrStockRepository } from "@/infrastructure/repositories/PrStockRepository";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
   try {
-    const url = 'https://openapi.koreainvestment.com:9443/uapi/domestic-stock/v1/quotations/inquire-daily-itemchartprice';
+    const url = `${env.KIS_API_URL}/uapi/domestic-stock/v1/quotations/inquire-daily-itemchartprice`;
     
     const getCurrentDate = (): string => {
         const today = new Date();

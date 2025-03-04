@@ -1,5 +1,5 @@
 import { StockInfoDto } from "@/application/usecases/stock/dtos/StockInfoDto";
-import { IStockRepository } from "@/domain/repositories/StockRepository";
+import { IStockRepository } from "@/domain/repositories/IStockRepository";
 
 
 export class StockInfoUseCase {
