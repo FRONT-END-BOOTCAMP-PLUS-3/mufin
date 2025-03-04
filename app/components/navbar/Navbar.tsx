@@ -25,7 +25,7 @@ const Navbar = () => {
     {
       name: "myinfo",
       icon: <CircleUserRound />,
-      path: "/user/myinfo",
+      path: "/myinfo",
       text: "내 정보",
     },
   ];
