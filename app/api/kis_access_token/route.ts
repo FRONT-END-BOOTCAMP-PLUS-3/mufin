@@ -10,11 +10,11 @@ export async function GET() {
       const apiKey = env.KIS_APP_KEY;
   
       // Step 1: Redis에서 approval_key 조회
-      let accessToken = await redisRepository.getKISAccessToken(apiKey);
+      let KISAccessToken = await redisRepository.getKISAccessToken(apiKey);
   
-      if (accessToken) {
-        console.log(`[CACHE HIT] Redis에서 Approval Key 가져옴: ${accessToken}`);
-        return NextResponse.json({ accessToken });
+      if (KISAccessToken) {
+        console.log(`[CACHE HIT] Redis에서 KISAccessToken 가져옴: ${KISAccessToken}`);
+        return NextResponse.json({ KISAccessToken });
       }
   
       console.log("[CACHE MISS] Redis에 없음, KIS API에서 요청");
@@ -36,7 +36,7 @@ export async function GET() {
   
       if (!response.ok) {
         console.error(
-          `[KIS API] Approval Key 요청 실패 (HTTP Status: ${response.status})`
+          `[KIS API] KISAccessToken 요청 실패 (HTTP Status: ${response.status})`
         );
         return NextResponse.json(
           { error: `[KIS API] Approval Key 요청 실패 (HTTP Status: ${response.status})` },
@@ -45,9 +45,9 @@ export async function GET() {
       }
   
       const data = await response.json();
-      accessToken = data.access_token;
+      KISAccessToken = data.access_token;
   
-      if (!accessToken) {
+      if (!KISAccessToken) {
         console.error("[KIS API] WebSocket 접속키 발급 실패: 응답에 approval_key 없음");
         return NextResponse.json(
           { error: "[KIS API] WebSocket 접속키 발급 실패: 응답에 approval_key 없음" },
@@ -56,10 +56,10 @@ export async function GET() {
       }
   
       // Step 3: Redis에 approval_key 저장 (24시간 TTL)
-      await redisRepository.setKISAccessToken(apiKey, accessToken);
+      await redisRepository.setKISAccessToken(apiKey, KISAccessToken);
       console.log("[CACHE UPDATE] Approval Key 저장 완료!");
   
-      return NextResponse.json({ accessToken });
+      return NextResponse.json({ KISAccessToken });
     } catch (error) {
       console.error("Approval Key 가져오기 실패:", error);
       return NextResponse.json(

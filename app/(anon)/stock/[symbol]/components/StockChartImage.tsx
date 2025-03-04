@@ -46,6 +46,7 @@ const StockChartImage = ({ symbol, activePeriod }: StockChartImageProps) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
@@ -60,7 +61,7 @@ const StockChartImage = ({ symbol, activePeriod }: StockChartImageProps) => {
     }
 
     return () => clearTimeout(timer);
-  }, [chartData]); 
+  }, [chartData]);
 
   useEffect(() => {
     const fetchChartData = async () => {

@@ -3,7 +3,7 @@
 import styled from "styled-components";
 
 export const StockContainer = styled.div`
-  padding: 1.25rem;
+  padding: 0 1.25rem 1.25rem 1.25rem;
 `;
 
 export const StockInfo = styled.section`
@@ -101,4 +101,8 @@ export const TableCell2 = styled.td`
   padding: 10px;
   text-align: left;
   border: 1px solid var(--disabled-color);
+`;
+
+export const OrderBookContaier = styled.div`
+  text-align: center;
 `;

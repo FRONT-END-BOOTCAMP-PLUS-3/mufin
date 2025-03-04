@@ -12,12 +12,13 @@ import {
 import StockChart from '@/app/(anon)/stock/[symbol]/components/StockChart';
 import StockInfo from '@/app/(anon)/stock/[symbol]/components/StockInfo';
 import Button from '@/app/components/button/Button';
+import StockOrderBook from '@/app/(anon)/stock/[symbol]/components/StockOrderBook';
 
 type TabType = 'chart' | 'orderbook' | 'info';
 
 interface StockDetailTabsProps {
   symbol: string;
-  initialPrice: number;
+  initialPrice: string;
 }
 
 const StockDetailTabs = ({ symbol, initialPrice }: StockDetailTabsProps) => {
@@ -38,11 +39,7 @@ const StockDetailTabs = ({ symbol, initialPrice }: StockDetailTabsProps) => {
       case 'chart':
         return <StockChart symbol={symbol} />;
       case 'orderbook':
-        return (
-          <div>
-            <p>개발중인 서비스 입니다</p>
-          </div>
-        );
+        return <StockOrderBook />;
       case 'info':
         return <StockInfo symbol={symbol} />;
       default:
