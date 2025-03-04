@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const NavbarContainer = styled.div`
-max-width: var(--background-width);
+  max-width: var(--background-width);
   display: flex;
   justify-content: space-around;
   align-items: flex-end;
@@ -9,7 +9,7 @@ max-width: var(--background-width);
   position: fixed;
   bottom: 0;
   width: 100%;
-  height: 3.75rem;
+  height: 60px;
 `;
 
 export const NavbarItem = styled.div<{ $isActive?: boolean }>`
