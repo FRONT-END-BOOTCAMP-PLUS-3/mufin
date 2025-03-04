@@ -19,4 +19,6 @@ export const ContentContainer = styled.main`
   overflow-y: auto;
   flex-direction: column;
   margin-top: 70px;
+  margin-bottom: 60px;
+  height: calc(100vh - 70px - 60px);
 `;

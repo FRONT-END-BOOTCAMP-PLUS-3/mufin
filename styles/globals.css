@@ -87,6 +87,9 @@ body {
   --second-color: var(--second-500);
   --active-color: var(--primary-700);
   --disabled-color: var(--gray-200);
+
+  /*background width*/
+  --background-width: 480px;
 }
 
 /*typography*/
