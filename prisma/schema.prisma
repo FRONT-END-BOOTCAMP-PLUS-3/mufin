@@ -16,10 +16,10 @@ model User {
   createdAt  DateTime    @default(now()) @map("created_at")
   updatedAt  DateTime    @default(now()) @map("updated_at")
   
-  histories  History[]
-  portfolios Portfolio[]
-  records    Record[]
-  wallet     Wallet?
+  histories  History[]   
+  portfolios Portfolio[] 
+  records    Record[]    
+  wallet     Wallet?     
 }
 
 model Choice {
@@ -30,13 +30,13 @@ model Choice {
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @default(now()) @map("updated_at")
 
-  question     Question @relation(fields: [questionId], references: [questionId])
+  question     Question @relation(fields: [questionId], references: [questionId],onDelete: Cascade)
 }
 
 model Question {
   questionId   Int      @id @default(autoincrement()) @map("question_id")
-  questionText String   @map("question_text")
-  answer       Int
+  questionText String   @map("question_text") 
+  answer       Int      
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @default(now()) @map("updated_at")
 
@@ -47,13 +47,14 @@ model Question {
 model Record {
   recordId    Int      @id @default(autoincrement()) @map("record_id")
   userId      String   @map("user_id")
-  questionId      Int      @map("question_id")
+  questionId  Int      @map("question_id")
   createdAt   DateTime @default(now()) @map("created_at")
   recordCount Int      @default(1) @map("record_count")
   updatedAt   DateTime @default(now()) @map("updated_at")
   
-  user        User     @relation(fields: [userId], references: [userId])
-  question    Question  @relation(fields: [questionId], references: [questionId])
+  user        User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  question    Question  @relation(fields: [questionId], references: [questionId], onDelete: Cascade)
+  @@unique([userId, questionId])
 }
 
 model History {
@@ -65,19 +66,21 @@ model History {
   createdAt       DateTime        @default(now()) @map("created_at")
   quantity        Int?            @map("quantity")
 
-  user            User            @relation(fields: [userId], references: [userId])
+  user            User            @relation(fields: [userId], references: [userId], onDelete: Cascade)
   stocks          Stock           @relation(fields: [stockId], references: [stockId])   
 }
 
 model Stock {
   stockId    Int         @id @default(autoincrement()) @map("stock_id")
-  stockCode  String      @map("stock_code")
+  stockCode  String      @map("stock_code") @unique @db.Char(6)
   stockName  String      @map("stock_name")
   category   Int?        @default(7)
   stockImage String?     @map("stock_image")
   stockOpen  String?     @map("stock_open")
-  createdAt  DateTime    @default(now()) @map("created_at")
-  updatedAt  DateTime    @default(now()) @map("updated_at")
+  faceValue  Int         @map("face_value")
+  totalShare BigInt      @map("total_share")
+  createdAt  DateTime   @default(now()) @map("created_at")
+  updatedAt  DateTime   @default(now()) @map("updated_at")
   
   Portfolio  Portfolio[]
   history   History[]
@@ -90,7 +93,7 @@ model Wallet {
   target    BigInt?  @default(2000000)
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @map("updated_at")
-  user      User     @relation(fields: [userId], references: [userId])
+  user      User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
 }
 
 model Portfolio {
@@ -102,7 +105,7 @@ model Portfolio {
   updatedAt   DateTime @default(now()) @map("updated_at")
   
   stock       Stock    @relation(fields: [stockId], references: [stockId])
-  user        User     @relation(fields: [userId], references: [userId])
+  user        User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
 }
 
 enum TransactionType {
