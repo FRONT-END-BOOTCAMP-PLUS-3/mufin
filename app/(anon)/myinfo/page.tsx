@@ -26,7 +26,7 @@ const MyInfo = () => {
   const [modalType, setModalType] = useState<"logout" | "delete" | null>(null);
 
   useEffect(() => {
-    fetch("/api/user", {
+    fetch("/api/myinfo", {
       method: "GET",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -58,7 +58,7 @@ const MyInfo = () => {
 
   // 회원탈퇴 요청
   const handleDeleteId = async () => {
-    fetch("/api/delete-id", {
+    fetch("/api/delete-user", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
