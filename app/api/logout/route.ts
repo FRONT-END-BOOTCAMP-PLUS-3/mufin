@@ -1,19 +1,26 @@
 import { serialize } from "cookie";
 
 export async function POST() {
-  // "token" 쿠키를 빈 값으로 설정하고 즉시 만료
-  const cookieOptions = serialize("token", "", {
+  const removeAccessToken = serialize("token", "", {
     httpOnly: true,
-    maxAge: 0,
     sameSite: "strict",
     path: "/",
+    maxAge: 0,
   });
 
-  return new Response(JSON.stringify({ message: "Logged out" }), {
+  const removeRefreshToken = serialize("refreshToken", "", {
+    httpOnly: true,
+    sameSite: "strict",
+    path: "/",
+    maxAge: 0,
+  });
+
+  const headers = new Headers();
+  headers.append("Set-Cookie", `${removeAccessToken}, ${removeRefreshToken}`);
+  headers.set("Content-Type", "application/json");
+
+  return new Response(JSON.stringify({ message: "Logged out successfully" }), {
     status: 200,
-    headers: {
-      "Set-Cookie": cookieOptions,
-      "Content-Type": "application/json",
-    },
+    headers,
   });
 }

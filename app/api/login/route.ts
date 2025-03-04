@@ -1,9 +1,7 @@
 import jwt from "jsonwebtoken";
 import { serialize } from "cookie";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/config/prismaClient";
 import bcrypt from "bcrypt";
-
-const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
   try {
@@ -31,9 +29,20 @@ export async function POST(req: Request) {
       expiresIn: "1h",
     });
 
-    const cookieOptions = serialize("token", token, {
+    const refreshToken = jwt.sign(payload, process.env.JWT_SECRET!, {
+      expiresIn: "7d",
+    });
+
+    const accessTokenCookie = serialize("token", token, {
       httpOnly: true,
       maxAge: 60 * 60,
+      sameSite: "strict",
+      path: "/",
+    });
+
+    const refreshTokenCookie = serialize("refreshToken", refreshToken, {
+      httpOnly: true,
+      maxAge: 7 * 24 * 60 * 60,
       sameSite: "strict",
       path: "/",
     });
@@ -41,7 +50,7 @@ export async function POST(req: Request) {
     return new Response(JSON.stringify({ message: "Logged in" }), {
       status: 200,
       headers: {
-        "Set-Cookie": cookieOptions,
+        "Set-Cookie": `${accessTokenCookie}, ${refreshTokenCookie}`,
         "Content-Type": "application/json",
       },
     });
