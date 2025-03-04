@@ -9,7 +9,7 @@ export const NavbarContainer = styled.div`
   position: fixed;
   bottom: 0;
   width: 100%;
-  height: 3.75rem;
+  height: 60px;
 `;
 
 export const NavbarItem = styled.div<{ $isActive?: boolean }>`
