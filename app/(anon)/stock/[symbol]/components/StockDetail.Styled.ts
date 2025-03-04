@@ -79,3 +79,26 @@ export const ButtonComponenet = styled.div`
   border: none;
   background-color: var(--white-color);
 `;
+
+export const Table = styled.table`
+  width: 90%;
+  border-collapse: collapse;
+  border: 1px solid var(--disabled-color);
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: auto;
+  margin-right : auto;
+`;
+
+export const TableCell1 = styled.td`
+  padding: 10px;
+  text-align: left;
+  border: 1px solid var(--disabled-color);
+  background-color: var(--primary-light);
+`;
+
+export const TableCell2 = styled.td`
+  padding: 10px;
+  text-align: left;
+  border: 1px solid var(--disabled-color);
+`;

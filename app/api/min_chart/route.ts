@@ -1,6 +1,8 @@
+import { env } from "@/config/env";
+
 export async function GET(req: Request) {
   try {
-    const url = 'https://openapi.koreainvestment.com:9443/uapi/domestic-stock/v1/quotations/inquire-time-itemchartprice';
+    const url = `${env.KIS_API_URL}/uapi/domestic-stock/v1/quotations/inquire-time-itemchartprice`;
     
     const getCurrentTime = (offset: number): string => {
       const now = new Date();  
