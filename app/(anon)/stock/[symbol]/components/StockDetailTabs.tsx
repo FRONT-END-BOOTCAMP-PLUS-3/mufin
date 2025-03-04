@@ -17,7 +17,7 @@ type TabType = 'chart' | 'orderbook' | 'info';
 
 interface StockDetailTabsProps {
   symbol: string;
-  initialPrice: number;
+  initialPrice: string;
 }
 
 const StockDetailTabs = ({ symbol, initialPrice }: StockDetailTabsProps) => {

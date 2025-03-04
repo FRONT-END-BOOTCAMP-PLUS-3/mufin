@@ -1,10 +1,17 @@
 import { StockInfoUseCase } from "@/application/usecases/stock/StockInfoUseCase";
 import { env } from "@/config/env";
 import { PrStockRepository } from "@/infrastructure/repositories/PrStockRepository";
+import { getAccessToken } from "@/utils/kisAccessToken";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
   try {
+    const kisaccesstoken = await getAccessToken();
+
+    if (!kisaccesstoken) {
+      return NextResponse.json({ error: "kisaccesstoken not found in cookies" }, { status: 400 });
+    }
+
     const url = `${env.KIS_API_URL}/uapi/domestic-stock/v1/quotations/inquire-daily-itemchartprice`;
     
     const getCurrentDate = (): string => {
@@ -44,7 +51,7 @@ export async function GET(req: Request) {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
-        'authorization': `Bearer ${process.env.KIS_ACCESS_TOKEN}`,
+        'authorization': `Bearer ${kisaccesstoken}`,
         'appkey': process.env.KIS_APP_KEY!,
         'appsecret': process.env.KIS_APP_SECRET!,
         'tr_id': 'FHKST03010100',

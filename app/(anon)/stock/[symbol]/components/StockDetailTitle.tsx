@@ -1,24 +1,33 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-
 import {
   StockInfo,
   StockName,
   StockPrice,
-  StockDiff
-} from '@/app/(anon)/stock/[symbol]/components/StockDetail.Styled';
+  StockDiff,
+} from "@/app/(anon)/stock/[symbol]/components/StockDetail.Styled";
 
-interface StockDetailTitleProps {
+export interface StockDetailTitleProps {
   symbol: string;
-  initialPrice: number;
+  initialPrice: string;
+  prdyVrss: string;  // 전일 대비 변화량
+  prdyCtrt: string;  // 전일 거래량
 }
+
 interface StockTitleData {
   stockName: string;
 }
 
-export default function StockDetailTitle({ symbol, initialPrice }: StockDetailTitleProps) {
+export default function StockDetailTitle({
+  symbol,
+  initialPrice,
+  prdyVrss,
+  prdyCtrt,
+}: StockDetailTitleProps) {
   const [stockName, setStockName] = useState<string | null>(null);
+
+  const isPositive = (value: string) => parseFloat(value) > 0;
 
   useEffect(() => {
     // 주식 이름 가져오는 API 호출
@@ -40,13 +49,20 @@ export default function StockDetailTitle({ symbol, initialPrice }: StockDetailTi
   }, [symbol]);
 
   return (
-      <StockInfo>
-        <StockName>{stockName ?? symbol}</StockName>
-        <StockPrice>{initialPrice.toLocaleString()}원</StockPrice>
-        {/* TODO: 현재가, 전일대비 소켓으로 받아오기 */}
-        <StockDiff>
-          어제보다 <span>+315원 (1.9%)</span>
-        </StockDiff>
-      </StockInfo>
+    <StockInfo>
+      <StockName>{stockName ?? symbol}</StockName>
+      <StockPrice>{parseInt(initialPrice).toLocaleString()}원</StockPrice>
+      <StockDiff>
+        어제보다 <span
+        style={{
+          color: isPositive(prdyVrss) ? "red" : "blue", // 양수면 빨강, 음수면 파랑
+        }}
+      >
+        {isPositive(prdyVrss) && "+"}{prdyVrss}
+        ({isPositive(prdyCtrt) && "+"}
+        {prdyCtrt}%)
+      </span>
+      </StockDiff>
+    </StockInfo>
   );
 }
