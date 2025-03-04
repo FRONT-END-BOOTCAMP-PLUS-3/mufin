@@ -22,4 +22,19 @@ export class RedisRepository implements IRedisRepository {
     const key = `approval_key:${apiKey}`;
     await redisClient.del(key);
   }
+
+  async setKISAccessToken(apiKey: string, kISAccessToken:string): Promise<void> {
+    const key = `kis_access_token:${apiKey}`;
+    await redisClient.setex(key, TTL, kISAccessToken);
+  }
+
+  async getKISAccessToken(apiKey: string): Promise<string | null> {
+    const key = `kis_access_token:${apiKey}`;
+    return await redisClient.get(key);
+  }
+
+  async deleteKISAccessToken(apiKey: string): Promise<void> {
+    const key = `kis_access_token:${apiKey}`;
+    await redisClient.del(key);
+  }
 }
