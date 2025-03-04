@@ -111,4 +111,5 @@ model Portfolio {
 enum TransactionType {
   BUY
   SELL
+
 }
