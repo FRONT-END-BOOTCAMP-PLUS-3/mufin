@@ -58,7 +58,7 @@ const MyInfo = () => {
 
   // 회원탈퇴 요청
   const handleDeleteId = async () => {
-    fetch("/api/myinfo/delete-id", {
+    fetch("/api/delete-user", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
