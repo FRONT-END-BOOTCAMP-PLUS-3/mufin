@@ -6,10 +6,10 @@ const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
   try {
-    const { name, loginId, password } = await req.json();
+    const { name, loginId, password, email } = await req.json();
 
     // 필수 필드 검증
-    if (!name || !loginId || !password) {
+    if (!name || !loginId || !password || !email) {
       return NextResponse.json(
         { error: "모든 필드를 입력하세요." },
         { status: 400 }
@@ -36,6 +36,7 @@ export async function POST(req: Request) {
       data: {
         name,
         loginId,
+        email,
         password: hashedPassword,
       },
     });

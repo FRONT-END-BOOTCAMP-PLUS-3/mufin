@@ -6,7 +6,7 @@ import {
   RootContainer,
 } from "@/app/components/RootContainer.Styled";
 import Header from "@/app/components/header/Header";
-import Navbar from "@/app/components/Navbar";
+import Navbar from "@/app/components/navbar/Navbar";
 
 const LayoutClient = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();

@@ -28,17 +28,15 @@ export async function DELETE() {
 
     const loginId = (decoded as { loginId: string }).loginId;
 
-    // 3. 사용자 삭제
-    const deletedUser = await prisma.user.delete({
-      where: { loginId },
-    });
-
-    // 4. 쿠키 삭제 (로그아웃)
     const cookieOptions = serialize("token", "", {
       httpOnly: true,
       maxAge: 0,
       sameSite: "strict",
       path: "/",
+    });
+
+    const deletedUser = await prisma.user.delete({
+      where: { loginId },
     });
 
     return new Response(

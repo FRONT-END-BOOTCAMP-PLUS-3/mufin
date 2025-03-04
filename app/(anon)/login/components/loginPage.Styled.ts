@@ -10,8 +10,7 @@ export const LoginBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 70%;
-  padding: 2rem;
+  width: 80%;
   background: white;
   border-radius: 10px;
 
@@ -35,7 +34,8 @@ export const Input = styled.input`
   border: 1px solid #ccc;
   border-radius: 10px;
   font-size: 1rem;
-  height: 4rem;
+  height: 3rem;
+  text-align: left;
 `;
 
 export const Button = styled.button`

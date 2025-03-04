@@ -16,8 +16,7 @@ export const Form = styled.form`
   background-color: white;
   padding: 2rem;
   border-radius: 10px;
-  text-align: center;
-  width: 70%;
+  width: 80%;
   gap: 1rem;
   align-items: center;
 `;
@@ -27,7 +26,8 @@ export const Input = styled.input`
   padding: 0.75rem;
   border: 1px solid var(--disabled-color);
   border-radius: 10px;
-  height: 4rem;
+  height: 3rem;
+  text-align: left;
 `;
 
 export const Button = styled.button`

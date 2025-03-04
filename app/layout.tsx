@@ -1,7 +1,7 @@
 import "@/styles/globals.css";
 import StyledComponentsRegistry from "@/lib/StyledComponentsRegistry";
 import LayoutClient from "@/app/components/LayoutClient";
-import Navbar from "@/app/components/Navbar";
+import Navbar from "@/app/components/navbar/Navbar";
 export default function RootLayout({
   children,
 }: Readonly<{

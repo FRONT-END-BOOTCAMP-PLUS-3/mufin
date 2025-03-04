@@ -43,3 +43,16 @@ export const Button = styled.button`
   height: 4rem;
   width: 70%;
 `;
+
+export const ModalStyle = styled.div`
+  p {
+    font-size: var(--font-size-2xl);
+  }
+`;
+
+export const ButtonStyle = styled.div`
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+`;
