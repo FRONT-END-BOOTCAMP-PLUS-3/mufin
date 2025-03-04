@@ -1,10 +1,10 @@
 import { env } from "@/config/env";
-import { getAccessToken } from "@/utils/kisAccessToken";
+import { fetchKISAccessToken } from "@/utils/fetchKISAccessToken";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
   try {
-    const kisaccesstoken = await getAccessToken();
+    const kisaccesstoken = await fetchKISAccessToken();
 
     if (!kisaccesstoken) {
       return NextResponse.json({ error: "kisaccesstoken not found in cookies" }, { status: 400 });

@@ -11,8 +11,8 @@ import {
 export interface StockDetailTitleProps {
   symbol: string;
   initialPrice: string;
-  prdyVrss: string;  // 전일 대비 변화량
-  prdyCtrt: string;  // 전일 거래량
+  prdyVrss: string; 
+  prdyCtrt: string;
 }
 
 interface StockTitleData {
@@ -55,7 +55,7 @@ export default function StockDetailTitle({
       <StockDiff>
         어제보다 <span
         style={{
-          color: isPositive(prdyVrss) ? "red" : "blue", // 양수면 빨강, 음수면 파랑
+          color: isPositive(prdyVrss) ? "red" : "blue",
         }}
       >
         {isPositive(prdyVrss) && "+"}{prdyVrss}

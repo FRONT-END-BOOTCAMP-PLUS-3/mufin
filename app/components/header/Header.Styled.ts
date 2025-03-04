@@ -11,7 +11,7 @@ export const HeaderContainer = styled.header`
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 1000;
+    z-index: 100;
 `;
 
 export const HeaderWrapper = styled.div`

@@ -3,7 +3,7 @@
 import styled from "styled-components";
 
 export const TrandeacionContainer = styled.div`
-  padding: 1.25rem;
+  padding: 0 1.25rem 1.25rem 1.25rem;
 `;
 
 export const TabsContainer = styled.div`

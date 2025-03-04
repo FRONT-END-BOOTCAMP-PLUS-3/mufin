@@ -1,12 +1,12 @@
 import { StockInfoUseCase } from "@/application/usecases/stock/StockInfoUseCase";
 import { env } from "@/config/env";
 import { PrStockRepository } from "@/infrastructure/repositories/PrStockRepository";
-import { getAccessToken } from "@/utils/kisAccessToken";
+import { fetchKISAccessToken } from "@/utils/fetchKISAccessToken";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
   try {
-    const kisaccesstoken = await getAccessToken();
+    const kisaccesstoken = await fetchKISAccessToken();
 
     if (!kisaccesstoken) {
       return NextResponse.json({ error: "kisaccesstoken not found in cookies" }, { status: 400 });
