@@ -5,7 +5,7 @@ import { IRedisRepository } from "@/domain/repositories/IRedisRepository";
 
 const redisRepository:IRedisRepository = new RedisRepository(); // Approval Key 저장
 
-export async function POST() {
+export async function GET() {
   try {
       const apiKey = env.KIS_APP_KEY;
   
