@@ -24,7 +24,7 @@ export class PgPortfolioRepository implements IPortfolioRepository {
           where: {
             userId_stockId: { userId, stockId },
           },
-          update: { stockQty },
+          update: { stockQty, updatedAt: new Date() },
           create: { userId, stockId, stockQty },
         });
       }
