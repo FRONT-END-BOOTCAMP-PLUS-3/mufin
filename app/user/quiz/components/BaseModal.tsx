@@ -6,11 +6,11 @@ interface BaseModalProps {
   isLast: boolean;
   isCorrect: boolean;
 
-  score: number;
+  totalPrice: number;
   onNext: () => void; // ✅ onNext 함수 추가
 }
 
-const BaseModal: React.FC<BaseModalProps> = ({ isLast, isCorrect, score, onNext }: BaseModalProps) => {
+const BaseModal: React.FC<BaseModalProps> = ({ isLast, isCorrect, totalPrice, onNext }: BaseModalProps) => {
   const resultText = isLast
     ? "축하합니다! \n 모든 문제를 푸셨습니다 🎉"
     : isCorrect
@@ -20,7 +20,6 @@ const BaseModal: React.FC<BaseModalProps> = ({ isLast, isCorrect, score, onNext 
     const getResultColor = () => {
         return isLast || isCorrect ? "var(--primary-color)" : "var(--second-color)";
       };
-  const totalPrice = score * 10000;
   const formatNumber = totalPrice.toLocaleString("en-US");
 
   return (
