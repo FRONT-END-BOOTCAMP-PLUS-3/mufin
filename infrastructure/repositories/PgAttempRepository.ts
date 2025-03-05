@@ -8,11 +8,12 @@ export class PgAttemptRepository implements IAttemptRepository{
      * @returns 
      */
     async saveAttempt(userId: string): Promise<void> {
+        console.log("userID repo input", userId);
         try {
             await prisma.attempt.upsert({
               where: { userId },
               update: { quizDate: new Date() },
-              create: { userId, quizDate: new Date() },
+              create: { userId , quizDate: new Date()},
             });
           } catch (error) {
             console.error("Error in saveAttempt:", error);
