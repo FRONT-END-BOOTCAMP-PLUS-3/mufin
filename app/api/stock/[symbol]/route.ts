@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { PrStockRepository } from '@/infrastructure/repositories/PrStockRepository';
+import { PrStockRepository } from '@/infrastructure/repositories/PgStockRepository';
 import { StockInfoUseCase } from '@/application/usecases/stock/StockInfoUseCase';
 
 
