@@ -30,6 +30,18 @@ export const Input = styled.input`
   text-align: left;
 `;
 
+export const EmailContainer = styled.div`
+  display: flex;
+  gap: 1rem;
+  button {
+    font-size: var(--font-size-md);
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 10px;
+  }
+`;
+
 export const Button = styled.button`
   width: 70%;
   padding: 0.75rem;
