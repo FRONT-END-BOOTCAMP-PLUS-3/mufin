@@ -36,7 +36,7 @@ const Quiz = ({ quiz }: QuizProps) => {
   const [selectedOption, setSelectedOption] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isCorrect, setIsCorrect] = useState<boolean>(false);
-  const [score, setScore] = useState<number>(0);
+  const [totalPrice, setTotalPrice] = useState<number>(0);
   const [isLast, setIsLast] = useState<boolean>(false);
   const router = useRouter();
 
@@ -46,14 +46,16 @@ const Quiz = ({ quiz }: QuizProps) => {
 
   // 정답 확인 함수
   const handleResult = async () => {
-    // 모달 open
-    setIsModalOpen(true);
-
+ 
+    
     // 정답 확인해서 모달에 전달
     const correct = selectedOption === currentQuestion.answer;
     setIsCorrect(correct);
+   // 모달 open
+    setIsModalOpen(true);
 
     if (correct) {
+      setTotalPrice((prev) => prev + 50000);
       // 사용자가 푼 문제가 정답이면 server에 퀴즈 id를 전달
       try {
         await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/quiz`, {
@@ -63,9 +65,10 @@ const Quiz = ({ quiz }: QuizProps) => {
           },
           body: JSON.stringify({
             questionId: currentQuestion.questionId,
+            reword: 50000,
           }),
         });
-        setScore((prev) => prev + 1);
+     
       } catch (error) {
         console.error("데이터 전송 실패", error);
       }
@@ -80,14 +83,8 @@ const Quiz = ({ quiz }: QuizProps) => {
       setSelectedOption(0);
     } else {
       setIsLast(true);
-    }
-  };
-
-  const handleOut = () => {
-    router.push("/");
-    setIsModalOpen(false);
-    setIsLast(false);
-    console.log("lastButtonClicked");
+      router.push(`/user/quiz/result?t=${totalPrice}`)
+    } 
   };
 
   // 조건부 렌더링
@@ -137,17 +134,9 @@ const Quiz = ({ quiz }: QuizProps) => {
       {isModalOpen && (
         <BaseModal
           isLast={isLast}
-          score={score}
+          totalPrice={totalPrice}
           isCorrect={isCorrect}
           onNext={handleNext} // ✅ 최종 결과 모달이면 handleOut 실행
-        />
-      )}
-      {isLast && (
-        <BaseModal
-          isLast={isLast}
-          score={score}
-          isCorrect={isCorrect}
-          onNext={handleOut} // ✅ 최종 결과 모달이면 handleOut 실행
         />
       )}
     </>
