@@ -28,6 +28,23 @@ export class PgWalletRepository implements IWalletRepository {
           },
         });
     }
+    
+    /**
+     * 
+     * @param userId : UUID타입의 user고유의 PK
+     * @param depositAmount : 입금된 가격 
+     * @returns 입금된 가격 변경 후 Wallet객체 반환
+     */
+    async updateAccountByUserId(userId: string, depositAmount: number): Promise<Wallet> {
+        return await prisma.wallet.update({
+          where: { userId },
+          data: {
+            account: {
+              increment: depositAmount,
+            },
+          },
+        });
+    }
 
     async deleteWallet(userId: string): Promise<Wallet> {
         return await prisma.wallet.delete({
