@@ -1,6 +1,6 @@
 import { StockInfoUseCase } from "@/application/usecases/stock/StockInfoUseCase";
 import { env } from "@/config/env";
-import { PrStockRepository } from "@/infrastructure/repositories/PrStockRepository";
+import { PgStockRepository } from "@/infrastructure/repositories/PgStockRepository";
 import { fetchKISAccessToken } from "@/utils/fetchKISAccessToken";
 import { NextResponse } from "next/server";
 
@@ -28,7 +28,7 @@ export async function GET(req: Request) {
     const symbol = queryParams.get('symbol') || '';
     const activePeriod = queryParams.get('activePeriod') || '';
 
-    const stockRepository = new PrStockRepository();
+    const stockRepository = new PgStockRepository();
     const stockUsecase = new StockInfoUseCase(stockRepository);
 
     const stockData = await stockUsecase.getStockInfoByCode(symbol);
