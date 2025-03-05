@@ -1,14 +1,14 @@
-import { PrPortfolioRepository } from "@/infrastructure/repositories/PgPortfolioRepository";
-import { PrWalletRepository } from "@/infrastructure/repositories/PgWalletRepository";
-import { PrHistoryRepository } from "@/infrastructure/repositories/PgHistoryRepository";
+import { PgPortfolioRepository } from "@/infrastructure/repositories/PgPortfolioRepository";
+import { PgWalletRepository } from "@/infrastructure/repositories/PgWalletRepository";
+import { PgHistoryRepository } from "@/infrastructure/repositories/PgHistoryRepository";
 import { BuyDto } from "@/application/usecases/trade/dtos/BuyDto";
-import { PrStockRepository } from "@/infrastructure/repositories/PgStockRepository";
+import { PgStockRepository } from "@/infrastructure/repositories/PgStockRepository";
 
 export class HandleBuyUseCase {
-  private portfolioRepository = new PrPortfolioRepository();
-  private walletRepository = new PrWalletRepository();
-  private historyRepository = new PrHistoryRepository();
-  private stockRepository = new PrStockRepository();
+  private portfolioRepository = new PgPortfolioRepository();
+  private walletRepository = new PgWalletRepository();
+  private historyRepository = new PgHistoryRepository();
+  private stockRepository = new PgStockRepository();
 
   public async handleBuy(buyDto: BuyDto) {
     const { userId, stockId, quantity, price, totalAmount } = buyDto;

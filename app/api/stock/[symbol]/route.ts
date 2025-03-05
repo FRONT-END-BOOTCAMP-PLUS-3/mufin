@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
-import { PrStockRepository } from '@/infrastructure/repositories/PgStockRepository';
+import { PgStockRepository } from '@/infrastructure/repositories/PgStockRepository';
 import { StockInfoUseCase } from '@/application/usecases/stock/StockInfoUseCase';
 
 // StockRepository와 StockUsecase 인스턴스 생성
-const stockRepository = new PrStockRepository();
+const stockRepository = new PgStockRepository();
 const stockUsecase = new StockInfoUseCase(stockRepository);
 
 export async function GET(req: Request, { params }: { params: { symbol?: string } }) {

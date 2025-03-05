@@ -2,7 +2,7 @@ import { prisma } from "@/config/prismaClient";
 import { IPortfolioRepository } from "@/domain/repositories/IPortfolioRepository";
 import { Portfolio } from "@prisma/client";
 
-export class PrPortfolioRepository implements IPortfolioRepository {
+export class PgPortfolioRepository implements IPortfolioRepository {
 
     async findPortfoliosByUserId(userId: string): Promise<Portfolio[]> {
         return await prisma.portfolio.findMany({

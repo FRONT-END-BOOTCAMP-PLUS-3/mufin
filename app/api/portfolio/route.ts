@@ -1,8 +1,8 @@
-import { PrPortfolioRepository } from "@/infrastructure/repositories/PgPortfolioRepository";
+import { PgPortfolioRepository } from "@/infrastructure/repositories/PgPortfolioRepository";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
-  const portfolioRepository = new PrPortfolioRepository();
+  const portfolioRepository = new PgPortfolioRepository();
   const { searchParams } = new URL(req.url);
   const stockId = searchParams.get("stockId");
   const userId = searchParams.get("userId");

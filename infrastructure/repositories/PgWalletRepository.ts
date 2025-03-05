@@ -2,7 +2,7 @@ import { prisma } from "@/config/prismaClient";
 import { IWalletRepository } from "@/domain/repositories/IWalletRepository";
 import { Wallet } from "@prisma/client";
 
-export class PrWalletRepository implements IWalletRepository {
+export class PgWalletRepository implements IWalletRepository {
     async findWalletByUserId(userId: string): Promise<Wallet | null> {
         return await prisma.wallet.findUnique({
             where: { userId }
