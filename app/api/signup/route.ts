@@ -1,52 +1,32 @@
 import { NextResponse } from "next/server";
-import bcrypt from "bcrypt";
-import { prisma } from "@/config/prismaClient";
+import { UserRepository } from "@/infrastructure/repositories/PgUserRepository";
+import { SignUpUseCase } from "@/application/usecases/user/SignUpUseCase";
 
 export async function POST(req: Request) {
   try {
     const { name, loginId, password, email } = await req.json();
+    const userRepository = new UserRepository();
+    const signupUseCase = new SignUpUseCase(userRepository);
 
-    // 필수 필드 검증
-    if (!name || !loginId || !password || !email) {
-      return NextResponse.json(
-        { error: "모든 필드를 입력하세요." },
-        { status: 400 }
-      );
-    }
-
-    // 아이디 중복 체크
-    const existingUser = await prisma.user.findUnique({
-      where: { loginId },
+    const { message, user } = await signupUseCase.execute({
+      name,
+      loginId,
+      email,
+      password,
     });
 
-    if (existingUser) {
-      return NextResponse.json(
-        { error: "중복된 아이디입니다." },
-        { status: 400 }
-      );
-    }
-
-    // 비밀번호 해싱
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // 사용자 정보 저장
-    const user = await prisma.user.create({
-      data: {
-        name,
-        loginId,
-        email,
-        password: hashedPassword,
-      },
+    return new NextResponse(JSON.stringify({ message, user }), {
+      status: 201,
+      headers: { "Content-Type": "application/json" },
     });
-
-    return NextResponse.json(
-      { message: "회원가입 성공", user },
-      { status: 201 }
-    );
-  } catch (error) {
-    return NextResponse.json(
-      { error: "회원가입 중 오류 발생" },
-      { status: 500 }
+  } catch (error: any) {
+    console.error("Signup error:", error);
+    return new NextResponse(
+      JSON.stringify({ error: error.message || "회원가입 중 오류 발생" }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      }
     );
   }
 }

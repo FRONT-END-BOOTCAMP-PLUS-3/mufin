@@ -5,6 +5,7 @@ import {
   Button,
   Form,
   Input,
+  EmailContainer,
   Message,
   SignupContainer,
 } from "@/app/(anon)/signup/components/signupPage.Styled";
@@ -50,6 +51,30 @@ const SignupPage = () => {
     }
   };
 
+  const handleEmailAuth = async () => {
+    if (!form.email) {
+      alert("이메일을 입력해주세요.");
+      return;
+    }
+    try {
+      const res = await fetch("/api/signup/emailAuth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: form.email }),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        alert("인증번호가 이메일로 전송되었습니다!");
+      } else {
+        alert(`오류: ${data.error || "인증 요청 실패"}`);
+      }
+    } catch (error) {
+      console.error("이메일 인증 요청 실패:", error);
+      alert("이메일 인증 요청 중 오류가 발생했습니다.");
+    }
+  };
+
   return (
     <SignupContainer>
       <Form onSubmit={handleSubmit}>
@@ -70,11 +95,22 @@ const SignupPage = () => {
           onChange={handleChange}
           required
         />
+        <EmailContainer>
+          <Input
+            type="email"
+            name="email"
+            placeholder="email"
+            value={form.email}
+            onChange={handleChange}
+            required
+          />
+          <button onClick={handleEmailAuth}>인증번호 받기</button>
+        </EmailContainer>
         <Input
-          type="email"
-          name="email"
-          placeholder="email"
-          value={form.email}
+          type="emailAuth"
+          name="emailAuth"
+          placeholder="인증번호 입력"
+          //value={form.emailAuth}
           onChange={handleChange}
           required
         />

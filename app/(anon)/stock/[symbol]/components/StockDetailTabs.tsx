@@ -31,7 +31,7 @@ const StockDetailTabs = ({ symbol, initialPrice }: StockDetailTabsProps) => {
   };
 
   const handleTradeClick = () => {
-    router.push(`/user/tradeaction?s=${symbol}&initialPrice=${initialPrice}&type=buy`);
+    router.push(`/user/tradeaction?symbol=${symbol}&initialPrice=${initialPrice}&type=buy`);
   };
 
   const renderTabContent = () => {
