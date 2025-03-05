@@ -191,3 +191,10 @@ export const ModalButton = styled.div<{ $isBuy: boolean }>`
   background-color: ${({ $isBuy }) => ($isBuy ? "var(--second-color)" : "var(--primary-color)")};
   color: var(--white-color);
 `;
+
+export const WalletError = styled.p`
+  font-size: var(--font-size-base); 
+  color: var(--second-500);
+  align-self: flex-end; 
+  margin-right: 0.5rem;
+`;
