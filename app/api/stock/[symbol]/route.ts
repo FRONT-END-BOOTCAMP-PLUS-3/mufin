@@ -2,13 +2,19 @@ import { NextResponse } from 'next/server';
 import { PrStockRepository } from '@/infrastructure/repositories/PrStockRepository';
 import { StockInfoUseCase } from '@/application/usecases/stock/StockInfoUseCase';
 
-
 // StockRepository와 StockUsecase 인스턴스 생성
 const stockRepository = new PrStockRepository();
 const stockUsecase = new StockInfoUseCase(stockRepository);
 
-export async function GET(req: Request, { params }: { params: { symbol: string } }) {
-  const { symbol } = await params;
+export async function GET(req: Request, { params }: { params: { symbol?: string } }) {
+  // params를 비동기적으로 처리
+  await params;
+
+  if (!params || !params.symbol) {
+    return new Response(JSON.stringify({ error: "Stock symbol is required" }), { status: 400 });
+  }
+
+  const symbol = params.symbol;
 
   try {
     const stockData = await stockUsecase.getStockInfoByCode(symbol);

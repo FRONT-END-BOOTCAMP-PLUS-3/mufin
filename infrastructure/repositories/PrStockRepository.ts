@@ -7,8 +7,19 @@ export class PrStockRepository implements IStockRepository {
   async getStockByCode(stockCode: string): Promise<Stock | null>  {
     const stock = await prisma.stock.findFirst({
       where: { stockCode: stockCode },
+      select: {
+        stockId: true,  
+        stockCode: true,  
+        stockName: true,
+        category: true,
+        stockImage: true,
+        stockOpen: true,
+        faceValue: true,
+        totalShare: true,
+        createdAt: true,
+        updatedAt: true
+      },
     });
- 
     return stock;
   }
 }

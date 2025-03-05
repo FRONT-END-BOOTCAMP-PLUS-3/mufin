@@ -18,16 +18,25 @@ import Modal from "@/app/components/modal/Modal";
 
 import { Delete } from 'lucide-react';
 
+interface StockData {
+  stockId: number;
+  stockName: string;
+}
+
 const TradeActionClient = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const symbol = searchParams.get("s") || "";
+  const symbol = searchParams.get("symbol") || "";
   const initialPriceValue = Number(searchParams.get("initialPrice")) || 0;
   const type = searchParams.get("type") || "buy";
 
   const [quantity, setQuantity] = useState<number | undefined>(undefined);
   const [activeTab, setActiveTab] = useState<string>(type);
   const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [walletBalance, setWalletBalance] = useState<number | null>(null);
+  const [portfolioQuantity, setPortfolioQuantity] = useState<number | null>(null);
+
+  const userId = "505fd959-f473-4d94-9f09-479334d50b9a"; 
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -38,6 +47,60 @@ const TradeActionClient = () => {
       inputRef.current.focus();
     }
   }, [type]);
+  
+  const [stockId, setStockId] = useState<number | null>(null);
+  const [stockName, setStockName] = useState<string | null>(null);
+
+  useEffect(() => {
+    console.log("useEffect 실행됨, symbol 값:", symbol);
+  
+    if (!symbol) {
+      console.log("Symbol이 없어서 fetch하지 않음");
+      return;
+    }
+  
+    const fetchStockIdName = async () => {
+      try {
+        console.log("API 호출 전");
+        const response = await fetch(`/api/stock/${symbol}`);
+        if (!response.ok) {
+          throw new Error('주식 데이터를 불러오는 데 실패했습니다.');
+        }
+  
+        const data: StockData = await response.json();
+        console.log("Stock ID and Name:", data);
+        setStockId(data.stockId);
+        setStockName(data.stockName);
+      } catch (error) {
+        console.error('Error fetching stock name:', error);
+      }
+    };
+  
+    fetchStockIdName();
+  }, [symbol]);
+
+  useEffect(() => {
+    const fetchWalletAndPortfolio = async () => {
+      if (stockId === null) {
+        return; // stockId가 없으면 API 호출하지 않음
+      }
+      
+      try {
+        // 유저 ID를 포함해서 API 호출
+        const walletResponse = await fetch(`/api/wallet?userId=${userId}`);
+        const walletData = await walletResponse.json();
+        setWalletBalance(walletData.cash);
+  
+        const portfolioResponse = await fetch(`/api/portfolio?stockId=${stockId}&userId=${userId}`);
+        const portfolioData = await portfolioResponse.json();
+        setPortfolioQuantity(portfolioData.quantity);
+      } catch (error) {
+        console.error("데이터 로딩 실패:", error);
+      }
+    };
+  
+    fetchWalletAndPortfolio();
+  }, [stockId, userId]);
 
   if (!symbol) {
     return <div>잘못된 요청입니다.</div>;
@@ -48,7 +111,7 @@ const TradeActionClient = () => {
 
   const handleTabClick = (tabType: string) => {
     setActiveTab(tabType);
-    router.push(`?s=${symbol}&initialPrice=${initialPriceValue}&type=${tabType}`);
+    router.push(`?symbol=${symbol}&initialPrice=${initialPriceValue}&type=${tabType}`);
   };
 
   const openModal = () => {
@@ -71,6 +134,11 @@ const TradeActionClient = () => {
   const handleDelete = () => {
     setQuantity((prev) => Math.floor((prev || 0) / 10));
   };
+
+  const isBuyDisabled = activeTab === "buy" && (walletBalance === null || walletBalance < finalAmount);
+
+  const isSellDisabled = activeTab === "sell" && (portfolioQuantity === null || portfolioQuantity < (quantity ?? 0));
+
 
   return (
     <div>
@@ -118,7 +186,12 @@ const TradeActionClient = () => {
         </div>
       </QuantityControl>
 
-      <MainButton as="button" onClick={openModal} $isBuy={activeTab === "buy"} disabled={quantity === undefined || quantity <= 0}>
+      <MainButton 
+        as="button" 
+        onClick={openModal} 
+        $isBuy={activeTab === "buy"} 
+        disabled={quantity === undefined || quantity <= 0 || isBuyDisabled || isSellDisabled}
+      >
         {buttonLabel}
       </MainButton>
 
@@ -128,7 +201,9 @@ const TradeActionClient = () => {
       >
         <OrderDetailsModalContent 
           type={activeTab} 
-          symbol={symbol} 
+          userId={userId}
+          stockId={stockId || 0} 
+          stockName={stockName || ""}
           quantity={quantity ?? 1} 
           price={initialPriceValue} 
           totalAmount={finalAmount} 

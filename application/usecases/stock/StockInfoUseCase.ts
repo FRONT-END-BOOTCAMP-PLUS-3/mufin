@@ -17,6 +17,7 @@ export class StockInfoUseCase {
     }
 
     const stockInfoDto: StockInfoDto = {
+      stockId: stock.stockId, 
       stockCode: stock.stockCode,
       stockName: stock.stockName,
       stockOpen: stock.stockOpen || '', 

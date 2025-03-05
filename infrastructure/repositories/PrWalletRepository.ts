@@ -9,16 +9,26 @@ export class PrWalletRepository implements IWalletRepository {
         });
     }
 
+    // 지갑 생성
     async createWallet(userId: string): Promise<Wallet> {
         return await prisma.wallet.create({
-            data: { userId }
+        data: {
+            userId,
+            cash: 0,  // 기본값 설정
+            account: 1000000, // 기본값 설정
+            target: 2000000, // 기본값 설정
+        },
         });
     }
 
-    async updateWallet(userId: string, data: Partial<Wallet>): Promise<Wallet> {
+    async updateWallet(userId: string, amount: number): Promise<Wallet> {
         return await prisma.wallet.update({
-            where: { userId },
-            data
+          where: { userId },
+          data: {
+            cash: {
+              increment: amount, // 양수면 증가, 음수면 차감
+            },
+          },
         });
     }
 
