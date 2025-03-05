@@ -1,4 +1,4 @@
-import { PrPortfolioRepository } from "@/infrastructure/repositories/PrPortfolioRepository";
+import { PrPortfolioRepository } from "@/infrastructure/repositories/PgPortfolioRepository";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {

@@ -1,8 +1,8 @@
-import { PrPortfolioRepository } from "@/infrastructure/repositories/PrPortfolioRepository";
-import { PrWalletRepository } from "@/infrastructure/repositories/PrWalletRepository";
-import { PrHistoryRepository } from "@/infrastructure/repositories/PrHistoryRepository";
+import { PrPortfolioRepository } from "@/infrastructure/repositories/PgPortfolioRepository";
+import { PrWalletRepository } from "@/infrastructure/repositories/PgWalletRepository";
+import { PrHistoryRepository } from "@/infrastructure/repositories/PgHistoryRepository";
 import { SellDto } from "@/application/usecases/trade/dtos/SellDto";
-import { PrStockRepository } from "@/infrastructure/repositories/PrStockRepository";
+import { PrStockRepository } from "@/infrastructure/repositories/PgStockRepository";
 
 export class HandleSellUseCase {
   private portfolioRepository = new PrPortfolioRepository();

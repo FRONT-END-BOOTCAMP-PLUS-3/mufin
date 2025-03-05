@@ -1,6 +1,6 @@
 import { StockInfoUseCase } from "@/application/usecases/stock/StockInfoUseCase";
 import { env } from "@/config/env";
-import { PrStockRepository } from "@/infrastructure/repositories/PrStockRepository";
+import { PrStockRepository } from "@/infrastructure/repositories/PgStockRepository";
 import { fetchKISAccessToken } from "@/utils/fetchKISAccessToken";
 import { NextResponse } from "next/server";
 

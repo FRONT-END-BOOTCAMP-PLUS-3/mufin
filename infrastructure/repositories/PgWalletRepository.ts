@@ -9,7 +9,7 @@ export class PrWalletRepository implements IWalletRepository {
         });
     }
 
-    // 지갑 생성
+    // 회원가입 할때 지갑 생성하기
     async createWallet(userId: string): Promise<Wallet> {
         return await prisma.wallet.create({
         data: {
