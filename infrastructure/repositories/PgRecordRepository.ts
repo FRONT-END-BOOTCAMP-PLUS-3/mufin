@@ -1,7 +1,7 @@
 import { prisma } from "@/config/prismaClient";
 import { IRecordRepository } from "@/domain/repositories/IRecordRepository";
 
-export class PrRecordRepository implements IRecordRepository {
+export class PgRecordRepository implements IRecordRepository {
    
   /**
    * 주어진 사용자 ID에 대해, 각 질문의 풀이 횟수(recordCount)를 조회한다.

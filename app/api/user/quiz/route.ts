@@ -6,9 +6,9 @@ import { SubmitQuizAnswerUseCase } from "@/application/usecases/quiz/SubmitQuizA
 import { IChoiceRepository } from "@/domain/repositories/IChoiceRepository";
 import { IQuestionRepository } from "@/domain/repositories/IQuestionRepository";
 import { IRecordRepository } from "@/domain/repositories/IRecordRepository";
-import { PrChoiceRepository } from "@/infrastructure/repositories/PrChoiceRepository";
-import { PrQuestionRepository } from "@/infrastructure/repositories/PrQuestionRepositroy";
-import { PrRecordRepository } from "@/infrastructure/repositories/PrRecordRepository";
+import { PgChoiceRepository } from "@/infrastructure/repositories/PgChoiceRepository";
+import { PgQuestionRepository } from "@/infrastructure/repositories/PgQuestionRepositroy";
+import { PgRecordRepository } from "@/infrastructure/repositories/PgRecordRepository";
 import { NextRequest, NextResponse } from "next/server";
 
 // HTTP Method GET : 퀴즈 문제 받아오기
@@ -29,9 +29,9 @@ export async function GET(req: NextRequest) {
     
 
     // repository 인스턴스 생성
-    const questionRepository: IQuestionRepository = new PrQuestionRepository();
-    const recordRepository: IRecordRepository = new PrRecordRepository();
-    const choiceRepository: IChoiceRepository = new PrChoiceRepository();
+    const questionRepository: IQuestionRepository = new PgQuestionRepository();
+    const recordRepository: IRecordRepository = new PgRecordRepository();
+    const choiceRepository: IChoiceRepository = new PgChoiceRepository();
 
 
     const getRandomQuestionUseCase: IGetRandomQuestionUseCase =
@@ -75,7 +75,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Repository 인스턴스 생성
-    const recordRepository: IRecordRepository = new PrRecordRepository();
+    const recordRepository: IRecordRepository = new PgRecordRepository();
 
     // Repository 의존성주입
     const submitQuizAnswerUseCase: ISubmitQuizAnswerUseCase = new SubmitQuizAnswerUseCase(recordRepository);
