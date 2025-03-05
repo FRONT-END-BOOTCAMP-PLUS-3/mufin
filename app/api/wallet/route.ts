@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
     if (!wallet) {
       return NextResponse.json(
         { message: "해당 사용자의 지갑 정보를 찾을 수 없습니다." },
-        { status: 404 }
+        { status: 500 }
       );
     }
 

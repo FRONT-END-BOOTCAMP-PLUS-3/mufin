@@ -17,10 +17,10 @@ export async function POST(req: Request) {
 
     return NextResponse.json(result, { status: 200 });
   } catch (error) {
-    if (error instanceof Error) {
-      return NextResponse.json({ message: error.message }, { status: 400 });
-    } else {
-      return NextResponse.json({ message: "An unknown error occurred" }, { status: 400 });
-    }
+    console.error("Error during sell operation:", error);
+    return NextResponse.json(
+      { message: "서버 내부 오류가 발생했습니다." },
+      { status: 500 }
+    );
   }
 }
