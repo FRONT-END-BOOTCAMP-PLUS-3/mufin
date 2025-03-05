@@ -1,26 +1,20 @@
-import { serialize } from "cookie";
+// src/presentation/api/logout/route.ts
+import { NextResponse } from "next/server";
+import { LogoutUseCase } from "@/application/usecases/user/LogoutUseCase";
 
 export async function POST() {
-  const removeAccessToken = serialize("token", "", {
-    httpOnly: true,
-    sameSite: "strict",
-    path: "/",
-    maxAge: 0,
-  });
-
-  const removeRefreshToken = serialize("refreshToken", "", {
-    httpOnly: true,
-    sameSite: "strict",
-    path: "/",
-    maxAge: 0,
-  });
+  const logoutUseCase = new LogoutUseCase();
+  const { removeAccessToken, removeRefreshToken } = logoutUseCase.execute();
 
   const headers = new Headers();
   headers.append("Set-Cookie", `${removeAccessToken}, ${removeRefreshToken}`);
   headers.set("Content-Type", "application/json");
 
-  return new Response(JSON.stringify({ message: "Logged out successfully" }), {
-    status: 200,
-    headers,
-  });
+  return new NextResponse(
+    JSON.stringify({ message: "Logged out successfully" }),
+    {
+      status: 200,
+      headers,
+    }
+  );
 }

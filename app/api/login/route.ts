@@ -1,66 +1,49 @@
-import jwt from "jsonwebtoken";
+import { NextResponse } from "next/server";
 import { serialize } from "cookie";
-import { prisma } from "@/config/prismaClient";
-import bcrypt from "bcrypt";
+import { UserRepository } from "@/infrastructure/repositories/PgUserRepository";
+import { LoginUseCase } from "@/application/usecases/user/LoginUseCase";
 
 export async function POST(req: Request) {
   try {
     const { loginId, password } = await req.json();
+    const userRepository = new UserRepository();
+    const loginUseCase = new LoginUseCase(userRepository);
 
-    const existingUser = await prisma.user.findUnique({
-      where: { loginId },
+    // 로그인 Use Case 실행
+    const { token, refreshToken } = await loginUseCase.execute({
+      loginId,
+      password,
     });
 
-    if (!existingUser) {
-      return new Response(JSON.stringify({ message: "회원정보가 없습니다!" }), {
-        status: 401,
-      });
-    }
-
-    const isMatch = await bcrypt.compare(password, existingUser.password);
-    if (!isMatch) {
-      return new Response(JSON.stringify({ message: "회원정보가 없습니다!" }), {
-        status: 401,
-      });
-    }
-
-    const payload = {
-      userId: existingUser.userId,
-      loginId: existingUser.loginId,
-    };
-    const token = jwt.sign(payload, process.env.JWT_SECRET as string, {
-      expiresIn: "1h",
-    });
-
-    const refreshToken = jwt.sign(payload, process.env.JWT_SECRET!, {
-      expiresIn: "7d",
-    });
-
+    // 쿠키 생성 (access token, refresh token)
     const accessTokenCookie = serialize("token", token, {
       httpOnly: true,
-      maxAge: 60 * 60,
+      maxAge: 60 * 60, // 1시간
       sameSite: "strict",
       path: "/",
     });
 
     const refreshTokenCookie = serialize("refreshToken", refreshToken, {
       httpOnly: true,
-      maxAge: 7 * 24 * 60 * 60,
+      maxAge: 7 * 24 * 60 * 60, // 7일
       sameSite: "strict",
       path: "/",
     });
 
-    return new Response(JSON.stringify({ message: "Logged in" }), {
+    return new NextResponse(JSON.stringify({ message: "Logged in" }), {
       status: 200,
       headers: {
         "Set-Cookie": `${accessTokenCookie}, ${refreshTokenCookie}`,
         "Content-Type": "application/json",
       },
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Login error:", error);
-    return new Response(JSON.stringify({ message: "Server error" }), {
-      status: 500,
-    });
+    return new NextResponse(
+      JSON.stringify({ message: error.message || "Server error" }),
+      {
+        status: 500,
+      }
+    );
   }
 }
