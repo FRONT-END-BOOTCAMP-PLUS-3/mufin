@@ -24,7 +24,10 @@ export async function POST(req: Request) {
       });
     }
 
-    const payload = { loginId: existingUser.loginId };
+    const payload = {
+      userId: existingUser.userId,
+      loginId: existingUser.loginId,
+    };
     const token = jwt.sign(payload, process.env.JWT_SECRET as string, {
       expiresIn: "1h",
     });
