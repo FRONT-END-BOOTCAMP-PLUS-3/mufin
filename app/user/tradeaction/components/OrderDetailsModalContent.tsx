@@ -44,6 +44,7 @@ const OrderDetailsModalContent = ({
       if (!response.ok) throw new Error(data.message);
 
       alert(`${isBuy ? "구매" : "판매"} 성공!`);
+      window.history.back();
     } catch (error) {
       if (error instanceof Error) {
         alert(`${isBuy ? "구매" : "판매"} 실패: ${error.message}`);

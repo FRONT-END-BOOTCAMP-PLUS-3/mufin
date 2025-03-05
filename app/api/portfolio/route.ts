@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const portfolio = await portfolioRepository.getPortfolioByUserIdAndStockCode(
+    const portfolio = await portfolioRepository.findPortfolioByUserIdAndStockCode(
       userId,
       Number(stockId)
     );
@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ quantity: 0 }, { status: 200 });
     }
 
-    return NextResponse.json({ quantity: portfolio.stockCount }, { status: 200 });
+    return NextResponse.json({ quantity: portfolio.stockQty }, { status: 200 });
   } catch (error) {
     console.error("Error fetching portfolio:", error);
     return NextResponse.json({ message: "서버 오류가 발생했습니다." }, { status: 500 });

@@ -11,7 +11,7 @@ export class StockInfoUseCase {
 
   // 주식 코드로 주식 정보 조회
   async getStockInfoByCode(stockCode: string): Promise<StockInfoDto | null> {
-    const stock = await this.stockRepository.getStockByCode(stockCode);
+    const stock = await this.stockRepository.findStockByCode(stockCode);
     if (!stock) {
       return null;
     }

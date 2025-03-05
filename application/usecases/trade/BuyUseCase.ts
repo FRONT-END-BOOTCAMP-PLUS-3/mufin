@@ -14,7 +14,7 @@ export class HandleBuyUseCase {
     const { userId, stockId, quantity, price, totalAmount } = buyDto;
 
     // 1. 지갑 정보 조회
-    const wallet = await this.walletRepository.getWalletByUserId(userId);
+    const wallet = await this.walletRepository.findWalletByUserId(userId);
     if (!wallet) {
         throw new Error('지갑 정보를 찾을 수 없습니다.');
     }
@@ -26,17 +26,17 @@ export class HandleBuyUseCase {
     wallet.cash -= BigInt(totalAmount);
 
     // 3. 포트폴리오에 주식 추가
-    const portfolio = await this.portfolioRepository.getPortfoliosByUserId(userId);
+    const portfolio = await this.portfolioRepository.findPortfoliosByUserId(userId);
     const existingStock = portfolio.find(item => item.stockId === stockId);
 
     if (existingStock) {
         // 주식 수량 증가
-        existingStock.stockCount += quantity;
+        existingStock.stockQty += quantity;
         // 변경된 포트폴리오 업데이트
-        await this.portfolioRepository.upsertPortfolio(userId, stockId, existingStock.stockCount);
+        await this.portfolioRepository.savePortfolio(userId, stockId, existingStock.stockQty);
     } else {
         // 주식이 없으면 새로 추가
-        await this.portfolioRepository.upsertPortfolio(userId, stockId, quantity);
+        await this.portfolioRepository.savePortfolio(userId, stockId, quantity);
     }
 
     // 4. 거래 내역 기록

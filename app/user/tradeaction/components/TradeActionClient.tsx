@@ -36,7 +36,7 @@ const TradeActionClient = () => {
   const [walletBalance, setWalletBalance] = useState<number | null>(null);
   const [portfolioQuantity, setPortfolioQuantity] = useState<number | null>(null);
 
-  const userId = "505fd959-f473-4d94-9f09-479334d50b9a"; 
+  const userId = "b1bc9ef8-4582-47ea-b538-ab2b827f7663"; 
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -89,7 +89,8 @@ const TradeActionClient = () => {
         // 유저 ID를 포함해서 API 호출
         const walletResponse = await fetch(`/api/wallet?userId=${userId}`);
         const walletData = await walletResponse.json();
-        setWalletBalance(walletData.cash);
+        console.log("Fetched walletData:", walletData);
+        setWalletBalance(Number(walletData.cash));
   
         const portfolioResponse = await fetch(`/api/portfolio?stockId=${stockId}&userId=${userId}`);
         const portfolioData = await portfolioResponse.json();
@@ -171,6 +172,13 @@ const TradeActionClient = () => {
         />
       </div>
       <p className="label2">총 {finalAmount.toLocaleString()}원</p>
+        {(isBuyDisabled || isSellDisabled) && (
+        <div style={{ color: "red", marginTop: "8px" }}>
+          {activeTab === "buy"
+            ? "잔액이 부족합니다. 구매할 수 없습니다."
+            : "보유 수량이 부족합니다. 판매할 수 없습니다."}
+        </div>
+        )}
       </QuantityControlTitle>
 
       <QuantityControl>

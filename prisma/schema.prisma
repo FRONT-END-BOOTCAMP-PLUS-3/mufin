@@ -89,9 +89,9 @@ model Stock {
 
 model Wallet {
   userId    String   @id @map("user_id")
-  cash      BigInt?  @default(0)
-  account   BigInt?  @default(1000000)
-  target    BigInt?  @default(2000000)
+  cash      BigInt  @default(0)
+  account   BigInt  @default(1000000)
+  target    BigInt  @default(2000000)
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @map("updated_at")
   user      User     @relation(fields: [userId], references: [userId], onDelete: Cascade)

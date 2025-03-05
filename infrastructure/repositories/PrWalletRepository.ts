@@ -3,7 +3,7 @@ import { IWalletRepository } from "@/domain/repositories/IWalletRepository";
 import { Wallet } from "@prisma/client";
 
 export class PrWalletRepository implements IWalletRepository {
-    async getWalletByUserId(userId: string): Promise<Wallet | null> {
+    async findWalletByUserId(userId: string): Promise<Wallet | null> {
         return await prisma.wallet.findUnique({
             where: { userId }
         });
@@ -14,9 +14,6 @@ export class PrWalletRepository implements IWalletRepository {
         return await prisma.wallet.create({
         data: {
             userId,
-            cash: 0,  // 기본값 설정
-            account: 1000000, // 기본값 설정
-            target: 2000000, // 기본값 설정
         },
         });
     }
@@ -26,7 +23,7 @@ export class PrWalletRepository implements IWalletRepository {
           where: { userId },
           data: {
             cash: {
-              increment: amount, // 양수면 증가, 음수면 차감
+              increment: amount,
             },
           },
         });

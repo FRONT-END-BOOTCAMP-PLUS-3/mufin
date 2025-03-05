@@ -14,7 +14,7 @@ export class HandleSellUseCase {
     const { userId, stockId, quantity, price, totalAmount } = sellDto;
 
     // 1. 지갑 정보 조회
-    const wallet = await this.walletRepository.getWalletByUserId(userId);
+    const wallet = await this.walletRepository.findWalletByUserId(userId);
     if (!wallet) {
         throw new Error('지갑 정보를 찾을 수 없습니다.');
     }
@@ -26,14 +26,14 @@ export class HandleSellUseCase {
     wallet.cash += BigInt(totalAmount);
 
     // 3. 포트폴리오에서 주식 수량 감소
-    const portfolio = await this.portfolioRepository.getPortfoliosByUserId(userId);
+    const portfolio = await this.portfolioRepository.findPortfoliosByUserId(userId);
     const existingStock = portfolio.find(item => item.stockId === stockId);
     
-    if (existingStock && existingStock.stockCount >= quantity) {
-      existingStock.stockCount -= quantity;
+    if (existingStock && existingStock.stockQty >= quantity) {
+      existingStock.stockQty -= quantity;
       
       // 주식 수량이 0이면 포트폴리오에서 삭제
-      if (existingStock.stockCount === 0) {
+      if (existingStock.stockQty === 0) {
         await this.portfolioRepository.deletePortfolio(existingStock.portfolioId);
       }
     } else {
@@ -45,7 +45,7 @@ export class HandleSellUseCase {
 
     // 5. 지갑과 포트폴리오 업데이트
     await this.walletRepository.updateWallet(userId, Number(totalAmount));
-    await this.portfolioRepository.upsertPortfolio(userId, stockId, existingStock.stockCount);
+    await this.portfolioRepository.savePortfolio(userId, stockId, existingStock.stockQty);
 
     // 6. 성공 메시지 반환
     return { message: '판매가 성공적으로 처리되었습니다.' };

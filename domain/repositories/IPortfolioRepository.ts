@@ -1,8 +1,8 @@
 import { Portfolio } from "@prisma/client";
 
 export interface IPortfolioRepository {
-    getPortfoliosByUserId(userId: string): Promise<Portfolio[]>;
-    getPortfolioByUserIdAndStockCode(userId: string, stockId: number): Promise<Portfolio | null>;
-    upsertPortfolio(userId: string, stockId: number, stockCount: number): Promise<Portfolio>;
+    findPortfoliosByUserId(userId: string): Promise<Portfolio[]>;
+    findPortfolioByUserIdAndStockCode(userId: string, stockId: number): Promise<Portfolio | null>;
+    savePortfolio(userId: string, stockId: number, stockQty: number): Promise<Portfolio>;
     deletePortfolio(portfolioId: number): Promise<Portfolio>;
 }
