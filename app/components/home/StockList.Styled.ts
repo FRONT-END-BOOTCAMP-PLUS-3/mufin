@@ -4,21 +4,21 @@ import Link from "next/link";
 
 export const StockContainer = styled.div`
     width: 100%;
-    max-width: 390px;
-    margin-bottom: 15px;
+    max-width: 24.5rem; /* 392px */
+    margin-bottom: 1rem; /* 16px */
 `;
 
 export const TitleBox = styled.div`
     display: inline-block;
-    padding: 3px 13px;
+    padding: 0.25rem 0.875rem; /* 4px 14px */
     background-color: var(--gray-200);
-    border-radius: 5px;
+    border-radius: 0.375rem; /* 6px */
     font-size: 1rem;
     font-weight: bold;
 `;
 
 export const StockItems = styled.div`
-    margin-top: 5px;
+    margin-top: 0.375rem; /* 6px */
 `;
 
 export const StockLink = styled(Link)`
@@ -27,7 +27,7 @@ export const StockLink = styled(Link)`
 `;
 
 export const StockItem = styled.div`
-    padding: 5px;
+    padding: 0.5rem; /* 8px */
     border-bottom: 1px solid #ddd;
     cursor: pointer;
 
@@ -46,12 +46,12 @@ export const StockInfo = styled.div`
 export const StockLeft = styled.div`
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 0.75rem; /* 12px */
 `;
 
 export const LogoWrapper = styled.div`
-    width: 40px;
-    height: 40px;
+    width: 2.5rem; /* 40px */
+    height: 2.5rem; /* 40px */
     border-radius: 50%;
     overflow: hidden;
     align-items: center;
@@ -71,12 +71,12 @@ export const StockRight = styled.div`
 `;
 
 export const StockPrice = styled.div`
-    font-size: 1.1rem;
+    font-size: 1.125rem; /* 18px */
     font-weight: bold;
 `;
 
 export const StockChange = styled.div<{ $isPositive: boolean }>`
-    font-size: 0.9rem;
+    font-size: 0.875rem; /* 14px */
     color: ${(props) => (props.$isPositive ? "red" : "blue")};
 `;
 

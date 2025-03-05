@@ -7,7 +7,6 @@ import {
     TitleBox,
     Grid,
     CategoryCard,
-    ImageWrapper,
     CategoryName,
     CategoryWrapper,
 } from "@/app/components/home/StockCategory.Styled";
@@ -36,9 +35,13 @@ const StockCategory = () => {
                         <CategoryWrapper>
                             <CategoryName>{category.name}</CategoryName>
                             <CategoryCard color={category.color}>
-                                <ImageWrapper>
-                                    <Image src={category.image} alt={category.name} width={80} height={20} />
-                                </ImageWrapper>
+                                <Image
+                                    src={category.image}
+                                    alt={category.name}
+                                    width={80}
+                                    height={80}
+                                    style={{ width: "auto", height: "auto" }}
+                                />
                             </CategoryCard>
                         </CategoryWrapper>
                     </Link>
