@@ -73,9 +73,9 @@ const StockChartImage = ({ symbol, activePeriod }: StockChartImageProps) => {
 
         // 분기 처리: activePeriod 값에 따라 API 호출
         if (activePeriod === '1m') {
-          response = await fetch(`/api/min_chart?symbol=${symbol}`);  // 분봉 차트 API
+          response = await fetch(`/api/stock/min_chart?symbol=${symbol}`);  // 분봉 차트 API
         } else {
-          response = await fetch(`/api/stock_chart?symbol=${symbol}&activePeriod=${activePeriod}`);  // 기존 봉 차트 API
+          response = await fetch(`/api/stock/stock_chart?symbol=${symbol}&activePeriod=${activePeriod}`);  // 기존 봉 차트 API
         }
 
         const data = await response.json();

@@ -6,10 +6,10 @@ import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
   try {
-    const kisaccesstoken = await fetchKISAccessToken();
+    const KISAccessToken = await fetchKISAccessToken();
 
-    if (!kisaccesstoken) {
-      return NextResponse.json({ error: "kisaccesstoken not found in cookies" }, { status: 400 });
+    if (!KISAccessToken) {
+      return NextResponse.json({ error: "KISAccessToken not found in cookies" }, { status: 400 });
     }
 
     const url = `${env.KIS_API_URL}/uapi/domestic-stock/v1/quotations/inquire-daily-itemchartprice`;
@@ -51,9 +51,9 @@ export async function GET(req: Request) {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
-        'authorization': `Bearer ${kisaccesstoken}`,
-        'appkey': process.env.KIS_APP_KEY!,
-        'appsecret': process.env.KIS_APP_SECRET!,
+        'authorization': `Bearer ${KISAccessToken}`,
+        'appkey': env.KIS_APP_KEY!,
+        'appsecret': env.KIS_APP_SECRET!,
         'tr_id': 'FHKST03010100',
         'custtype': 'P',
       },

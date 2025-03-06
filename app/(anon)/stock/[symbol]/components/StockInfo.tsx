@@ -25,7 +25,7 @@ const StockInfo = ({ symbol }: StockInfoProps) => {
     // 데이터 가져오는 부분
     const fetchStockData = async () => {
       try {
-        const response = await fetch(`/api/stock/${symbol}`);
+        const response = await fetch(`/api/stock/stock_info?symbol=${symbol}`);
         if (!response.ok) {
           throw new Error('주식 데이터를 불러오는 데 실패했습니다.');
         }

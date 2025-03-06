@@ -7,12 +7,20 @@ import { StockContainer } from "@/app/(anon)/stock/[symbol]/components/StockDeta
 
 interface StockClientProps {
   symbol: string;
+  stockPrice: string;
+  prdyVrss: string;
+  prdyCtrt: string;  
 }
 
-const StockClientPage: React.FC<StockClientProps> = ({ symbol }) => {
-  const [stockPrice, setStockPrice] = useState<string>("N/A");
-  const [prdyVrss, setPrdyVrss] = useState<string>("N/A");
-  const [prdyCtrt, setPrdyCtrt] = useState<string>("N/A");
+const StockClientPage: React.FC<StockClientProps> = ({
+  symbol,
+  stockPrice: initialStockPrice,
+  prdyVrss: initialPrdyVrss,
+  prdyCtrt: initialPrdyCtrt,
+}) => {
+  const [stockPrice, setStockPrice] = useState<string>(initialStockPrice);
+  const [prdyVrss, setPrdyVrss] = useState<string>(initialPrdyVrss);
+  const [prdyCtrt, setPrdyCtrt] = useState<string>(initialPrdyCtrt);
 
   const handleDataUpdate = (data: { stockPrice: string, prdyVrss: string, prdyCtrt: string }) => {
     setStockPrice(data.stockPrice);

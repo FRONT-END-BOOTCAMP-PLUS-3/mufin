@@ -33,7 +33,7 @@ export default function StockDetailTitle({
     // 주식 이름 가져오는 API 호출
     const fetchStockName = async () => {
       try {
-        const response = await fetch(`/api/stock/${symbol}`);
+        const response = await fetch(`/api/stock/stock_info?symbol=${symbol}`);
         if (!response.ok) {
           throw new Error('주식 데이터를 불러오는 데 실패했습니다.');
         }

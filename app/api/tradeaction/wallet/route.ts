@@ -23,7 +23,10 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    return NextResponse.json({ cash: wallet.cash }, { status: 200 });
+    return NextResponse.json(
+      { cash: wallet.cash ? wallet.cash.toString() : "0" }, 
+      { status: 200 }
+    );
   } catch (error) {
     console.error("Error fetching wallet data:", error);
     return NextResponse.json(
