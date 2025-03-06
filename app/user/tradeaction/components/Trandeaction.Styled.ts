@@ -194,7 +194,7 @@ export const ModalButton = styled.div<{ $isBuy: boolean }>`
 
 export const WalletError = styled.p`
   font-size: var(--font-size-base); 
-  color: var(--second-500);
+  color: var(--second-color);
   align-self: flex-end; 
   margin-right: 0.5rem;
 `;
