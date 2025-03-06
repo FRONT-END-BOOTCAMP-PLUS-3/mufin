@@ -4,6 +4,8 @@ import { PgHistoryRepository } from "@/infrastructure/repositories/PgHistoryRepo
 import { BuyDto } from "@/application/usecases/trade/dtos/BuyDto";
 
 export class HandleBuyUseCase {
+  
+  // 수정 사항!!!
   private portfolioRepository = new PgPortfolioRepository();
   private walletRepository = new PgWalletRepository();
   private historyRepository = new PgHistoryRepository();
