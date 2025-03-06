@@ -8,18 +8,12 @@ import { PgAttemptRepository } from "@/infrastructure/repositories/PgAttempRepos
 import { NextResponse } from "next/server";
 
 // 일단 메인페이지랑 퀴즈 결과페이지에서 호출되어야할 로직들인데 페이지 pull 받고 업데이트해놓을게요.
-export async function POST(req: NextResponse) {
+export async function POST() {
   try {
-    const authHeader = req.headers.get("authorization");
-    if (!authHeader) {
-      return NextResponse.json({ error: "Authorization header not found" }, { status: 401 });
-    }
-    const userId = getDecodedUserId(authHeader);
-    
-    
-    // const userId = "b1bc9ef8-4582-47ea-b538-ab2b827f7663";
 
-    if (!userId) {
+    const userId = await getDecodedUserId();
+    
+        if (!userId) {
         return NextResponse.json({ error: "Invalid token" }, { status: 401 });
       }
 
@@ -39,15 +33,10 @@ export async function POST(req: NextResponse) {
   };
 };
 
-export async function GET (req:NextResponse) {
+export async function GET () {
   try{
-   const authHeader = req.headers.get("authorization");
-    if (!authHeader) {
-      return NextResponse.json({ error: "Authorization header not found" }, { status: 401 });
-    }
-    const userId = getDecodedUserId(authHeader);
+    const userId = await getDecodedUserId();
 
-    // const userId = "b1bc9ef8-4582-47ea-b538-ab2b827f7663";
     if (!userId) {
       return NextResponse.json({ error: "Invalid token" }, { status: 401 });
     }
