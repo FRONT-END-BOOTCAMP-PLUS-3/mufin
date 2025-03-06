@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState, useRef } from 'react';
 import { Chart } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, TimeScale, Tooltip, Legend } from 'chart.js';
@@ -6,7 +8,7 @@ import 'chartjs-chart-financial';
 import 'chartjs-adapter-date-fns';
 import StockModalContainer from '@/app/(anon)/stock/[symbol]/components/StockModalContainer';
 import DraggableScrollContainer from '@/app/(anon)/stock/[symbol]/components/DraggableScrollContainer';
-
+import { marketOpen } from '@/utils/getMarketOpen';
 
 ChartJS.register(CategoryScale, LinearScale, CandlestickController, TimeScale, CandlestickElement, Tooltip, Legend);
 
@@ -50,20 +52,6 @@ const StockChartImage = ({ symbol, activePeriod }: StockChartImageProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    let timer: NodeJS.Timeout;
-    
-    if (!chartData) {
-      timer = setTimeout(() => {
-        setIsModalOpen(true);
-      }, 3000);
-    } else {
-      setIsModalOpen(false);
-    }
-
-    return () => clearTimeout(timer);
-  }, [chartData]);
-
-  useEffect(() => {
     const fetchChartData = async () => {
       setLoading(true);
       setError(null);
@@ -71,7 +59,6 @@ const StockChartImage = ({ symbol, activePeriod }: StockChartImageProps) => {
       try {
         let response;
 
-        // 분기 처리: activePeriod 값에 따라 API 호출
         if (activePeriod === '1m') {
           response = await fetch(`/api/stock/min_chart?symbol=${symbol}`);  // 분봉 차트 API
         } else {
@@ -162,7 +149,7 @@ const StockChartImage = ({ symbol, activePeriod }: StockChartImageProps) => {
 
     // 분봉 차트인 경우 1분마다 데이터 요청
     let interval: NodeJS.Timeout;
-    if (activePeriod === '1m') {
+    if (activePeriod === '1m' && marketOpen() ) {
       interval = setInterval(() => {
         fetchChartData();
       }, 60000); 
@@ -183,7 +170,7 @@ const StockChartImage = ({ symbol, activePeriod }: StockChartImageProps) => {
     <div ref={containerRef} style={{ width: '100%', height: '400px', overflowX: 'auto' }}>
       <StockModalContainer isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
       <DraggableScrollContainer style={{ width: '100%', height: '400px' }}>
-      <div style={{ width: '1200px', height: '100%' }}>
+      <div style={{ width: '1200px', height: '100%'}} >
         <Chart
           type="candlestick"
           data={chartData}

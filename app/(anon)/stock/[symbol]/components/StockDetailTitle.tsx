@@ -2,10 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 import {
-  StockInfo,
   StockName,
   StockPrice,
   StockDiff,
+  StockTitleWrapper,
 } from "@/app/(anon)/stock/[symbol]/components/StockDetail.Styled";
 
 export interface StockDetailTitleProps {
@@ -49,7 +49,7 @@ export default function StockDetailTitle({
   }, [symbol]);
 
   return (
-    <StockInfo>
+    <StockTitleWrapper>
       <StockName>{stockName ?? symbol}</StockName>
       <StockPrice>{parseInt(initialPrice).toLocaleString()}원</StockPrice>
       <StockDiff>
@@ -63,6 +63,6 @@ export default function StockDetailTitle({
         {prdyCtrt}%)
       </span>
       </StockDiff>
-    </StockInfo>
+    </StockTitleWrapper>
   );
 }

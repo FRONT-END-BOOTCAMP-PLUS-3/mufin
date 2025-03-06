@@ -3,28 +3,32 @@
 import styled from "styled-components";
 
 export const StockContainer = styled.div`
-  padding: 0 1.25rem 1.25rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  padding: 0 1.25rem 1.25rem 1.25rem;  
+  min-height: 100%;
+  justify-content: space-between;
 `;
 
-export const StockInfo = styled.section`
+export const StockTitleWrapper = styled.section`
+  display: flex;
+  flex-direction: column;
   padding: 0 1rem;
   margin-bottom: 0.5rem; 
+  gap: 0.25rem;
 `;
 
 export const StockName = styled.h1`
   font-size: var(--font-size-2xl);
-  margin: 0.25rem 0;
 `;
 
 export const StockPrice = styled.h2`
   font-size: var(--font-size-2xl);
-  margin: 0.25rem 0;
 `;
 
 export const StockDiff = styled.p`
   font-size: var(--font-size-md);
   color: var(--gray-700);
-  margin: 0.25rem 0 0.625rem 0;
 
   span {
     color: rgb(13, 0, 255);
@@ -36,7 +40,6 @@ export const TabMenu = styled.nav`
   display: flex;
   justify-content: space-around;
   border-bottom: 0.063rem solid var(--disabled-color);
-  margin-bottom: 1.563rem;
 `;
 
 export const TabItem = styled.div<{ $active?: boolean }>`
@@ -53,7 +56,8 @@ export const TabItem = styled.div<{ $active?: boolean }>`
 `;
 
 export const ChartContainer = styled.section`
-  padding: 1rem;
+  padding: 1rem 0.25rem 1rem 0.25rem;
+  min-height: 432px;
 `;
 
 export const PeriodSelector = styled.div`
@@ -73,11 +77,18 @@ export const PeriodItem = styled.button<{ $active?: boolean }>`
   font-weight: ${({ $active }) => ($active ? 'bold' : 'normal')};
 `;
 
-export const ButtonComponenet = styled.div`
-  margin-top: 2rem;
+export const OrderBookWrapper = styled.section`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   text-align: center;
-  border: none;
-  background-color: var(--white-color);
+`;
+
+export const StockInfoWrapper = styled.section`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  text-align: center;
 `;
 
 export const Table = styled.table`
@@ -103,6 +114,13 @@ export const TableCell2 = styled.td`
   border: 1px solid var(--disabled-color);
 `;
 
-export const OrderBookContaier = styled.div`
+export const ButtonComponenet = styled.div`
+  margin-top: 1rem;
   text-align: center;
+  border: none;
+  background-color: var(--white-color);
+`;
+
+export const StockErrorModal = styled.button`
+  align-items: center;
 `;
