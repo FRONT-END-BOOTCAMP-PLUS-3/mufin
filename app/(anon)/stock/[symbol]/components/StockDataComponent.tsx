@@ -40,13 +40,15 @@ const StockDataComponent: React.FC<StockDataComponentProps> = ({
           "H0STCNT0",
           symbol // symbol을 동적으로 전송
         );
-        sendWsMessage(ws, subscribeMsg);
+        if (wsRef.current) {
+          sendWsMessage(wsRef.current, subscribeMsg);
+        }
 
-        onWsMessage(ws, (data: string) => {
+        if (wsRef.current) {
+          onWsMessage(wsRef.current, (data: string) => {
           try {
             const parsedData = parseStockData(data);
             if (parsedData) {
-              console.log("✅ 파싱된 데이터 객체:", parsedData);
               onDataUpdate({
                 stockPrice: parsedData.stocks.stckPrpr,
                 prdyVrss: parsedData.stocks.prdyVrss,
@@ -57,6 +59,7 @@ const StockDataComponent: React.FC<StockDataComponentProps> = ({
             console.error("❌ 데이터 파싱 실패:", error);
           }
         });
+      }
       } catch (error) {
         console.error("WebSocket 초기화 에러:", error);
       }

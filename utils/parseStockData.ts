@@ -41,8 +41,6 @@ export function parseStockData(
     STOCK_TRADE_MAPPING.indexOf(field)
   );
 
-  console.log("필요 인덱스:", requiredIndices);
-
   // 개별 데이터 매핑
 
   const requiredData: Record<string, string> = {};

@@ -15,14 +15,14 @@ export async function GET(req: Request) {
     const getCurrentTime = (offset: number): string => {
       const now = new Date();  
       const marketCloseTime = new Date();
-      marketCloseTime.setHours(15, 15, 0, 0);
+      marketCloseTime.setHours(15, 20, 0, 0);
       const marketOpenTime = new Date();
       marketOpenTime.setHours(9, 0, 0, 0); 
 
       let resultTime = now;
       if (now >= marketCloseTime || now < marketOpenTime) {
         resultTime = new Date();
-        resultTime.setHours(15, 15, 0, 0);
+        resultTime.setHours(15, 20, 0, 0);
         resultTime.setMinutes(resultTime.getMinutes() - offset * 31); 
       } else {
         resultTime.setMinutes(resultTime.getMinutes() - offset * 31);

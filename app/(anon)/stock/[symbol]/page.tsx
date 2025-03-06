@@ -15,14 +15,12 @@ const StockDetailPage = async ({params}:StockDetailProps) =>  {
   const stockData = await fetchCurrentStockData(symbol);
 
   return (
-    <div>
       <StockClient
         symbol={symbol}
         stockPrice={stockData.stck_prpr || ""}
         prdyVrss={stockData.prdy_vrss || ""}
         prdyCtrt={stockData.prdy_ctrt || ""}
       />
-    </div>
   );
 }
 
