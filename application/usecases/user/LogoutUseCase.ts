@@ -2,7 +2,7 @@ import { serialize } from "cookie";
 
 export class LogoutUseCase {
   execute() {
-    const removeAccessToken = serialize("token", "", {
+    const removeAccessToken = serialize("accessToken", "", {
       httpOnly: true,
       sameSite: "strict",
       path: "/",

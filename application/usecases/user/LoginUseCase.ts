@@ -8,7 +8,7 @@ interface LoginRequest {
 }
 
 interface LoginResponse {
-  token: string;
+  accessToken: string;
   refreshToken: string;
   user: {
     userId: string;
@@ -39,7 +39,7 @@ export class LoginUseCase {
     };
 
     // JWT 토큰 생성
-    const token = jwt.sign(payload, process.env.JWT_SECRET as string, {
+    const accessToken = jwt.sign(payload, process.env.JWT_SECRET as string, {
       expiresIn: "1h",
     });
 
@@ -48,7 +48,7 @@ export class LoginUseCase {
     });
 
     return {
-      token,
+      accessToken,
       refreshToken,
       user: {
         userId: user.userId,

@@ -6,13 +6,13 @@ import { UserRepository } from "@/infrastructure/repositories/PgUserRepository";
 export async function GET() {
   try {
     const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value;
+    const accessToken = cookieStore.get("accessToken")?.value;
     const refreshToken = cookieStore.get("refreshToken")?.value;
 
     const userRepository = new UserRepository();
     const getMyInfoUseCase = new GetUserInfoUseCase(userRepository);
 
-    const result = await getMyInfoUseCase.execute(token, refreshToken);
+    const result = await getMyInfoUseCase.execute(accessToken, refreshToken);
 
     const headers = new Headers({ "Content-Type": "application/json" });
     if (result.newTokenCookie) {
