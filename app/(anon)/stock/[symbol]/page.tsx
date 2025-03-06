@@ -12,10 +12,7 @@ const StockDetailPage = async ({params}:StockDetailProps) =>  {
     return <p>잘못된 요청입니다.</p>;
   }
   
-  // fetchStockData 유틸 함수를 사용하여 주식 데이터를 가져옵니다.
   const stockData = await fetchCurrentStockData(symbol);
-
-  console.log(stockData);
 
   return (
     <div>

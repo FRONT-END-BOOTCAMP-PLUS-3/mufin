@@ -53,8 +53,8 @@ export async function GET(req: Request) {
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
           'authorization': `Bearer ${KISAccessToken}`,
-          'appkey': process.env.KIS_APP_KEY!,
-          'appsecret': process.env.KIS_APP_SECRET!,
+          'appkey': env.KIS_APP_KEY!,
+          'appsecret': env.KIS_APP_SECRET!,
           'tr_id': 'FHKST03010200',
           'custtype': 'P',
         },
