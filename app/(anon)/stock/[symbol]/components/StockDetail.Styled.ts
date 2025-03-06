@@ -124,3 +124,22 @@ export const ButtonComponenet = styled.div`
 export const StockErrorModal = styled.button`
   align-items: center;
 `;
+
+export const DraggableScrollWepper = styled.div<{ $isDragging: boolean }>`
+  overflow-x: auto;
+  cursor: ${({ $isDragging }) => ($isDragging ? 'grabbing' : 'grab')};
+  width: 100%;
+  height: 30rem;
+`;
+
+export const ChartSection = styled.section`
+  width: 75rem;
+  height: 100%;
+`;
+
+
+export const ChartImageContainer = styled.div`
+  width: 100%;
+  height: 30rem;
+  overflow-x: auto;
+`;

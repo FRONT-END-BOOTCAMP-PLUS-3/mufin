@@ -21,7 +21,7 @@ const Header: React.FC<HeaderProps> = ({ type, title }) => {
                             router.push("/");
                         }}
                     >
-                        <Image src="/Logo.svg" alt="Logo" width={145} height={100} />
+                        <Image src="/Logo.svg" alt="Logo" width={127} height={33} priority />
                     </HeaderLogo>
                 ) : (
                     <>

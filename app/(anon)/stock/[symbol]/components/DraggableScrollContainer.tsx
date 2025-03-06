@@ -1,10 +1,10 @@
-// DraggableScrollContainer.tsx
+import { DraggableScrollWepper } from '@/app/(anon)/stock/[symbol]/components/StockDetail.Styled';
 import React, { useRef, useState, useLayoutEffect } from 'react';
 
 interface DraggableScrollContainerProps {
-    children: React.ReactNode;
-    style?: React.CSSProperties;
-  }
+  children: React.ReactNode;
+  style?: React.CSSProperties;
+}
 
 const DraggableScrollContainer: React.FC<DraggableScrollContainerProps> = ({ children, style }) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -26,7 +26,6 @@ const DraggableScrollContainer: React.FC<DraggableScrollContainerProps> = ({ chi
     }
   };
 
-
   const onMouseLeave = () => {
     setIsDragging(false);
   };
@@ -44,16 +43,19 @@ const DraggableScrollContainer: React.FC<DraggableScrollContainerProps> = ({ chi
   };
 
   return (
-    <div
+    <>
+    <DraggableScrollWepper
       ref={containerRef}
-      style={{ overflowX: 'auto', cursor: isDragging ? 'grabbing' : 'grab', ...style }}
+      $isDragging={isDragging}  // Pass isDragging to styled component
       onMouseDown={onMouseDown}
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
       onMouseUp={onMouseUp}
+      style={style}
     >
       {children}
-    </div>
+    </DraggableScrollWepper>
+    </>
   );
 };
 

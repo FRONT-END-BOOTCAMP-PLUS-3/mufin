@@ -9,6 +9,7 @@ import 'chartjs-adapter-date-fns';
 import StockModalContainer from '@/app/(anon)/stock/[symbol]/components/StockModalContainer';
 import DraggableScrollContainer from '@/app/(anon)/stock/[symbol]/components/DraggableScrollContainer';
 import { marketOpen } from '@/utils/getMarketOpen';
+import { ChartImageContainer, ChartSection } from '@/app/(anon)/stock/[symbol]/components/StockDetail.Styled';
 
 ChartJS.register(CategoryScale, LinearScale, CandlestickController, TimeScale, CandlestickElement, Tooltip, Legend);
 
@@ -167,10 +168,10 @@ const StockChartImage = ({ symbol, activePeriod }: StockChartImageProps) => {
   if (!chartData) return <div>오늘은 휴장일입니다.</div>;
 
   return (
-    <div ref={containerRef} style={{ width: '100%', height: '400px', overflowX: 'auto' }}>
+    <ChartImageContainer ref={containerRef}>
       <StockModalContainer isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-      <DraggableScrollContainer style={{ width: '100%', height: '400px' }}>
-      <div style={{ width: '1200px', height: '100%'}} >
+      <DraggableScrollContainer>
+      <ChartSection>
         <Chart
           type="candlestick"
           data={chartData}
@@ -212,9 +213,9 @@ const StockChartImage = ({ symbol, activePeriod }: StockChartImageProps) => {
             },
           }}          
         />
-      </div>
+      </ChartSection>
       </DraggableScrollContainer>
-    </div>
+    </ChartImageContainer>
   );
 };
 
