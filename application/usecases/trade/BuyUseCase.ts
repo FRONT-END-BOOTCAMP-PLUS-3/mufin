@@ -41,7 +41,7 @@ export class HandleBuyUseCase {
     await this.historyRepository.createHistory(userId, stockId, 'BUY', price, quantity);
 
     // 5. 지갑 업데이트
-    await this.walletRepository.updateWallet(userId, -Number(totalAmount));
+    await this.walletRepository.updateCashByUserId(userId, -Number(totalAmount));
 
     // 6. 성공 메시지 반환
     return { message: '구매가 성공적으로 처리되었습니다.' };

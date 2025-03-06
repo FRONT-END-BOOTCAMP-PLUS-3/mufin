@@ -1,3 +1,5 @@
+import { marketOpen } from "@/utils/getMarketOpen";
+
 export const createMessage = (
   approvalKey: string,
   trType: "1" | "2",
@@ -23,7 +25,12 @@ export const createMessage = (
  * @param path WebSocket 서버의 path (예: '/tryitout/H0STCNT0')
  * @returns 연결된 WebSocket 인스턴스를 Promise로 반환
  */
-export const connectWs = (path: string): Promise<WebSocket> => {
+export const connectWs = (path: string): Promise<WebSocket|null> => {
+  if (!marketOpen()) {  
+    console.log("❌ 마켓이 닫혀 있어서 WebSocket 연결을 시도하지 않습니다.");
+    return Promise.resolve(null);
+  }
+
   return new Promise((resolve, reject) => {
     const url = `ws://ops.koreainvestment.com:21000${path}`;
     const ws = new WebSocket(url);
@@ -32,7 +39,7 @@ export const connectWs = (path: string): Promise<WebSocket> => {
       console.log("✅ WebSocket 연결 성공:", url);
       resolve(ws);
     };
-    
+
     ws.onerror = (err) => {
       console.error("❌ WebSocket 연결 에러:", err);
       reject(err);
@@ -46,6 +53,11 @@ export const connectWs = (path: string): Promise<WebSocket> => {
  * @param message 전송할 메시지 객체
  */
 export const sendWsMessage = (ws: WebSocket, message: object): void => {
+  if (!ws) {
+    console.log("❌ WebSocket 인스턴스가 없습니다.");
+    return;
+  }
+  
   if (ws.readyState === WebSocket.OPEN) {
     const jsonStr = JSON.stringify(message);
     ws.send(jsonStr);
