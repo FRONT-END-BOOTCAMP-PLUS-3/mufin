@@ -1,4 +1,7 @@
+"use client"
+
 import { InfoItem, InfoList, ModalButton, ModalContainer, SubTitle, Title, TotalPrice } from "@/app/user/tradeaction/components/Trandeaction.Styled";
+import { useRouter } from "next/navigation";
 
 interface OrderDetailsModalContentProps {
   type: string; // 매매 타입 (buy 또는 sell)
@@ -8,6 +11,7 @@ interface OrderDetailsModalContentProps {
   userId : string; // 유저 ID
   stockName: string; // 주식 이름
   stockId: number; // 주식 ID
+  symbol : string; // 주식 코드
 }
 
 const OrderDetailsModalContent = ({
@@ -18,11 +22,14 @@ const OrderDetailsModalContent = ({
   quantity,
   price,
   totalAmount,
+  symbol,
 }: OrderDetailsModalContentProps) => {
   const isBuy = type === "buy";
 
+  const router = useRouter();
+
   const handleTrade = async () => {
-    const apiUrl = isBuy ? "/api/buy" : "/api/sell";
+    const apiUrl = isBuy ? "/api/tradeaction/buy" : "/api/tradeaction/sell";
 
     try {
       const response = await fetch(apiUrl, {
@@ -44,7 +51,7 @@ const OrderDetailsModalContent = ({
       if (!response.ok) throw new Error(data.message);
 
       alert(`${isBuy ? "구매" : "판매"} 성공!`);
-      window.history.back();
+      router.push(`/stock/${symbol}`);
     } catch (error) {
       if (error instanceof Error) {
         alert(`${isBuy ? "구매" : "판매"} 실패: ${error.message}`);

@@ -2,13 +2,11 @@ import { PgPortfolioRepository } from "@/infrastructure/repositories/PgPortfolio
 import { PgWalletRepository } from "@/infrastructure/repositories/PgWalletRepository";
 import { PgHistoryRepository } from "@/infrastructure/repositories/PgHistoryRepository";
 import { SellDto } from "@/application/usecases/trade/dtos/SellDto";
-import { PgStockRepository } from "@/infrastructure/repositories/PgStockRepository";
 
 export class HandleSellUseCase {
   private portfolioRepository = new PgPortfolioRepository();
   private walletRepository = new PgWalletRepository();
   private historyRepository = new PgHistoryRepository();
-  private stockRepository = new PgStockRepository();
 
   public async handleSell(sellDto: SellDto) {
     const { userId, stockId, quantity, price, totalAmount } = sellDto;
