@@ -42,7 +42,7 @@ export class HandleSellUseCase {
     await this.historyRepository.createHistory(userId, stockId, 'SELL', price, quantity);
 
     // 5. 지갑과 포트폴리오 업데이트
-    await this.walletRepository.updateWallet(userId, Number(totalAmount));
+    await this.walletRepository.updateCashByUserId(userId, Number(totalAmount));
     await this.portfolioRepository.savePortfolio(userId, stockId, existingStock.stockQty);
 
     // 6. 성공 메시지 반환

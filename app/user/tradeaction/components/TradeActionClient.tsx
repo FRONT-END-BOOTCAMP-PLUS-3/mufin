@@ -88,12 +88,12 @@ const TradeActionClient = () => {
       
       try {
         // 유저 ID를 포함해서 API 호출
-        const walletResponse = await fetch(`/api/tradeaction/wallet?userId=${userId}`);
+        const walletResponse = await fetch(`/api/tradeaction/buy?userId=${userId}`);
         const walletData = await walletResponse.json();
         console.log("Fetched walletData:", walletData);
         setWalletBalance(Number(walletData.cash));
   
-        const portfolioResponse = await fetch(`/api/tradeaction/portfolio?stockId=${stockId}&userId=${userId}`);
+        const portfolioResponse = await fetch(`/api/tradeaction/sell?stockId=${stockId}&userId=${userId}`);
         const portfolioData = await portfolioResponse.json();
         setPortfolioQuantity(portfolioData.quantity);
       } catch (error) {

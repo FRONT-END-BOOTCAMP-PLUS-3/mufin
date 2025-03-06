@@ -49,7 +49,6 @@ const StockDataComponent: React.FC = () => {
           try {
             const parsedData = parseStockData(data);
             if (parsedData) {
-              console.log("✅ 파싱된 데이터 객체:", parsedData);
               setStockData(parsedData.stocks); // `.stocks` 배열만 저장
             }
           } catch (error) {

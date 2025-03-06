@@ -1,6 +1,6 @@
 'use client';
 
-import { Table, TableCell1, TableCell2 } from '@/app/(anon)/stock/[symbol]/components/StockDetail.Styled';
+import { StockInfoWrapper, Table, TableCell1, TableCell2 } from '@/app/(anon)/stock/[symbol]/components/StockDetail.Styled';
 import React, { useState, useEffect } from 'react';
 
 interface StockInfoProps {
@@ -50,6 +50,7 @@ const StockInfo = ({ symbol }: StockInfoProps) => {
   }, [symbol]);
 
   return (
+    <StockInfoWrapper>
       <Table>
         <tbody>
           {stockData.map((row, index) => (
@@ -60,6 +61,7 @@ const StockInfo = ({ symbol }: StockInfoProps) => {
           ))}
         </tbody>
       </Table>
+    </StockInfoWrapper>
   );
 };
 
