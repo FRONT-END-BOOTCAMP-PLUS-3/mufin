@@ -4,6 +4,7 @@ export const SignupContainer = styled.div`
   display: flex;
   justify-content: center;
   height: 100vh;
+  word-break: keep-all;
   h1 {
     font-size: 1.5rem;
     margin-bottom: 1rem;
@@ -49,6 +50,17 @@ export const Button = styled.button`
   color: white;
   border: none;
   border-radius: 10px;
+`;
+
+export const Verified = styled.div`
+  display: flex;
+  background-color: #46ff5c;
+  color: white;
+  font-size: var(--font-size-md);
+  border-radius: 10px;
+  text-align: center;
+  align-items: center;
+  padding: 0.3rem;
 `;
 
 export const Message = styled.p`

@@ -7,6 +7,7 @@ import {
   Input,
   EmailContainer,
   Message,
+  Verified,
   SignupContainer,
 } from "@/app/(anon)/signup/components/signupPage.Styled";
 
@@ -17,8 +18,10 @@ const SignupPage = () => {
     password: "",
     confirmPassword: "",
     email: "",
+    emailAuthCode: "",
   });
   const [message, setMessage] = useState("");
+  const [isVerified, setIsVerified] = useState(false);
   const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,7 +37,6 @@ const SignupPage = () => {
       return;
     }
 
-    // confirmPassword 필드는 서버로 보내지 않음
     const { confirmPassword, ...dataToSend } = form;
 
     const res = await fetch("/api/signup", {
@@ -57,7 +59,7 @@ const SignupPage = () => {
       return;
     }
     try {
-      const res = await fetch("/api/signup/emailAuth", {
+      const res = await fetch("/api/signup/email_auth", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: form.email }),
@@ -75,6 +77,34 @@ const SignupPage = () => {
     }
   };
 
+  const handleEmailVerify = async () => {
+    if (!form.emailAuthCode) {
+      alert("인증코드를 입력해주세요.");
+      return;
+    }
+    try {
+      const res = await fetch("/api/signup/email_verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: form.email,
+          authCode: form.emailAuthCode,
+        }),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        setIsVerified(true);
+        alert("인증이 완료되었습니다!");
+      } else {
+        alert(`오류: ${data.error || "인증 실패"}`);
+      }
+    } catch (error) {
+      console.error("이메일 인증 실패:", error);
+      alert("이메일 인증 중 오류가 발생했습니다.");
+    }
+  };
+
   return (
     <SignupContainer>
       <Form onSubmit={handleSubmit}>
@@ -85,7 +115,6 @@ const SignupPage = () => {
           placeholder="이름"
           value={form.name}
           onChange={handleChange}
-          required
         />
         <Input
           type="loginId"
@@ -93,7 +122,6 @@ const SignupPage = () => {
           placeholder="ID"
           value={form.loginId}
           onChange={handleChange}
-          required
         />
         <EmailContainer>
           <Input
@@ -102,25 +130,33 @@ const SignupPage = () => {
             placeholder="email"
             value={form.email}
             onChange={handleChange}
-            required
           />
-          <button onClick={handleEmailAuth}>인증번호 받기</button>
+          <button type="button" onClick={handleEmailAuth}>
+            인증번호 받기
+          </button>
         </EmailContainer>
-        <Input
-          type="emailAuth"
-          name="emailAuth"
-          placeholder="인증번호 입력"
-          //value={form.emailAuth}
-          onChange={handleChange}
-          required
-        />
+        <EmailContainer>
+          <Input
+            type="emailAuthCode"
+            name="emailAuthCode"
+            placeholder="인증번호 입력"
+            value={form.emailAuthCode}
+            onChange={handleChange}
+          />
+          {isVerified ? (
+            <Verified>확인 완료!</Verified>
+          ) : (
+            <button type="button" onClick={handleEmailVerify}>
+              인증번호 확인
+            </button>
+          )}
+        </EmailContainer>
         <Input
           type="password"
           name="password"
           placeholder="비밀번호"
           value={form.password}
           onChange={handleChange}
-          required
         />
         <Input
           type="password"
@@ -128,9 +164,10 @@ const SignupPage = () => {
           placeholder="비밀번호 확인"
           value={form.confirmPassword}
           onChange={handleChange}
-          required
         />
-        <Button type="submit">가입하기</Button>
+        <Button type="submit" disabled={!isVerified}>
+          가입하기
+        </Button>
         {message && <Message>{message}</Message>}
       </Form>
     </SignupContainer>
