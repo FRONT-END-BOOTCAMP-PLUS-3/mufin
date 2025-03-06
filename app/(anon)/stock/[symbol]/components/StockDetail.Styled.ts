@@ -2,14 +2,19 @@
 
 import styled from "styled-components";
 
+
+// 주식 페이지
 export const StockContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0 1.25rem 1.25rem 1.25rem;  
   min-height: 100%;
   justify-content: space-between;
+  gap: 0.5rem;
 `;
 
+
+// 주식 페이지 헤더
 export const StockTitleWrapper = styled.section`
   display: flex;
   flex-direction: column;
@@ -36,6 +41,7 @@ export const StockDiff = styled.p`
   }
 `;
 
+// 주식 페이지 탭
 export const TabMenu = styled.nav`
   display: flex;
   justify-content: space-around;
@@ -55,48 +61,58 @@ export const TabItem = styled.div<{ $active?: boolean }>`
   cursor: pointer;
 `;
 
-export const ChartContainer = styled.section`
-  padding: 1rem 0.25rem 1rem 0.25rem;
-  min-height: 432px;
+// 주식 페이지 탭 컨텐츠
+export const StockRenderTabContent = styled.section`
+  display: flex;
+  flex-direction: column;
+  flex : 1;
+  gap: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 `;
 
+// 탭 중 그래프
 export const PeriodSelector = styled.div`
   display: flex;
   justify-content: center;
-  margin: 0.5rem 0;
 `;
 
 export const PeriodItem = styled.button<{ $active?: boolean }>`
   background: none;
   border: none;
   font-size: var(--font-size-base); 
-  padding: 0.5rem 1.4rem; 
-  margin: 0 0.3rem;
+  padding: 0.5rem 1.6rem; 
   color: ${({ $active }) =>
     $active ? 'var(--black-color)' : 'var(--gray-900)'};
   font-weight: ${({ $active }) => ($active ? 'bold' : 'normal')};
 `;
 
-export const OrderBookWrapper = styled.section`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
+export const DraggableScrollWepper = styled.div<{ $isDragging: boolean }>`
+  overflow-x: auto;
+  cursor: ${({ $isDragging }) => ($isDragging ? 'grabbing' : 'grab')};
+  width: 100%;
+  height: 30rem;
+  align-items: center;
+`;
+
+export const ChartSection = styled.div`
+  width: 75rem;
+  height: 30rem;
+  min-height: 30rem;
+`;
+
+export const ChartImageContainer = styled.div`
+  width: 100%;
+  height: 30rem;
+  min-height: 30rem;
   text-align: center;
 `;
 
-export const StockInfoWrapper = styled.section`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  text-align: center;
-`;
-
+// 탭 중 주식정보
 export const Table = styled.table`
   width: 90%;
   border-collapse: collapse;
   border: 1px solid var(--disabled-color);
-  margin-top: 20px;
-  margin-bottom: 20px;
   margin-left: auto;
   margin-right : auto;
 `;
@@ -114,32 +130,32 @@ export const TableCell2 = styled.td`
   border: 1px solid var(--disabled-color);
 `;
 
+// 거래하기 버튼
 export const ButtonComponenet = styled.div`
-  margin-top: 1rem;
   text-align: center;
   border: none;
   background-color: var(--white-color);
 `;
 
+// 장 마감 모달
 export const StockErrorModal = styled.button`
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  background-color: var(--white-color);
+  border: none;
+  height: 10rem;
+  margin-left: 1.8rem;
+  gap: 0.5rem;
 `;
 
-export const DraggableScrollWepper = styled.div<{ $isDragging: boolean }>`
-  overflow-x: auto;
-  cursor: ${({ $isDragging }) => ($isDragging ? 'grabbing' : 'grab')};
-  width: 100%;
-  height: 30rem;
-`;
-
-export const ChartSection = styled.section`
-  width: 75rem;
-  height: 100%;
-`;
-
-
-export const ChartImageContainer = styled.div`
-  width: 100%;
-  height: 30rem;
-  overflow-x: auto;
+// 에러, 로딩 페이지
+export const ScreenSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  flex : 1;
+  justify-content: center;
+  align-items: center;
+  max-height: 30rem;
 `;
