@@ -1,15 +1,13 @@
 import { OXSelectButton } from "@/app/user/quiz/components/Quiz.Styled";
 import { Circle, X } from "lucide-react";
-import { Choice } from "./mockData";
+import { Choice } from "@/app/user/quiz/components/Quiz";
 
 interface OXButtonsProps {
   choices: Choice[];
   selectedOption: number;
   setSelectedOption: (option: number) => void;
 }
-const OXButtons: React.FC<OXButtonsProps> = ({ choices, selectedOption, setSelectedOption }: OXButtonsProps) => {
-  console.log("curent",choices);
-  
+const OXButtons: React.FC<OXButtonsProps> = ({ choices, selectedOption, setSelectedOption }: OXButtonsProps) => { 
   return (
     
     <>
