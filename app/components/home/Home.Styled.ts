@@ -1,6 +1,5 @@
 "use client";
 import styled from "styled-components";
-import Link from "next/link";
 
 export const Container = styled.div`
     display: flex;
@@ -37,7 +36,7 @@ export const IntroBox = styled.div`
     }
 `;
 
-export const QuizButton = styled(Link)`
+export const QuizButton = styled.button`
     display: flex;
     align-items: center;
     gap: 15px;
@@ -48,10 +47,12 @@ export const QuizButton = styled(Link)`
     border-radius: 14px;
     font-size: 1rem;
     font-weight: bold;
-    transition: background 0.3s;
 
     &:hover {
         background-color: var(--primary-700);
+    }
+    &:disabled{
+        background-color: var(--disabled-color);
     }
 `;
 

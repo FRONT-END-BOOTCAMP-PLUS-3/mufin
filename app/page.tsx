@@ -12,8 +12,39 @@ import {
 } from "@/app/components/home/Home.Styled"; // ✅ 스타일 파일에서 가져오기
 import StockList from "@/app/components/home/StockList";
 import StockCategory from "./components/home/StockCategory";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+    const [isDisabled, setIsDisabled]= useState<boolean>(false);
+    const router =  useRouter();
+    useEffect(()=>{
+        const fetchButtonStatus = async() => {
+            try{
+                const response = await fetch('/api/user/quiz/result', {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json',},
+                  });
+            
+                  const result = await response.json();
+
+                  const isTodayAttempt: boolean = result.isTodayAttempt;
+                  
+                  setIsDisabled(!isTodayAttempt);
+
+                } catch (error) {
+                  console.error('에러 발생:', error);
+                }
+            }
+        
+        fetchButtonStatus();
+    },[])
+
+    const handleQuizButtonClick = () => {
+        router.push("user/quiz");
+    }
+
+    
     return (
         <Container>
             <TopSection>
@@ -22,7 +53,7 @@ export default function Home() {
                 </ImageWrapper>
                 <IntroBox>
                     <p>금융 퀴즈를 풀고 포인트를 쌓아 실전처럼 투자해보세요!</p>
-                    <QuizButton href="/quiz">
+                    <QuizButton onClick={ handleQuizButtonClick } disabled={isDisabled} >
                         오늘의 퀴즈 풀기
                         <Image src="/arrow_right.svg" alt="arrow_right" width={12} height={20} />
                     </QuizButton>

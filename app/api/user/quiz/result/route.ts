@@ -35,7 +35,7 @@ export async function POST() {
 
 export async function GET () {
   try{
-    const userId = await getDecodedUserId();
+    const userId: string | null = await getDecodedUserId();
 
     if (!userId) {
       return NextResponse.json({ error: "Invalid token" }, { status: 401 });
