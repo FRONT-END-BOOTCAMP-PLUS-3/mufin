@@ -9,6 +9,7 @@ import { BaseButton } from "@/app/user/quiz/components";
 import { useCountUp } from "./useCountUp";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
+import Fireworks from "@/app/user/quiz/result/components/Firwork";
 const QuizResult = () => {
   const searchParams = useSearchParams();
   const totalPrice = searchParams.get("t") || 0;
@@ -33,11 +34,11 @@ const QuizResult = () => {
   }, []);
   return (
     <>
+    <Fireworks />
       <ResultContainer>
         <ResultTopWrapper>
           <Image
-            className="next"
-            src="/Logo2.svg"
+            src="/mufin1.svg"
             alt="Logo"
             width={70}
             height={60}
