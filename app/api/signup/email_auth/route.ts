@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import crypto from "crypto";
 import { promisify } from "util";
+import { prisma } from "config/prismaClient";
 import redisClient from "@/infrastructure/redis/redisClient";
 
 const setAsync = promisify(redisClient.set).bind(redisClient);
@@ -11,11 +12,18 @@ export async function POST(req: Request) {
   try {
     const { email } = await req.json();
 
+    const existingUser = await prisma.user.findUnique({
+      where: { email: email },
+    });
+    if (existingUser) {
+      throw new Error("중복된 이메일입니다!");
+    }
+
     // 인증번호 생성 (6자리 랜덤 숫자)
     const authCode = crypto.randomInt(100000, 999999).toString();
     const dataToStore = JSON.stringify({ email, authCode });
 
-    // Redis에 저장
+    // Redis에 저장 (5분간 유효)
     await setAsync(`emailAuth:${email}`, dataToStore);
     await expireAsync(`emailAuth:${email}`, 300);
 
@@ -23,8 +31,8 @@ export async function POST(req: Request) {
     const transporter = nodemailer.createTransport({
       service: "Gmail",
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASSWORD,
+        user: process.env.SMTP_EMAIL_USER,
+        pass: process.env.SMTP_EMAIL_PASSWORD,
       },
     });
 
@@ -48,11 +56,10 @@ export async function POST(req: Request) {
       { message: "인증번호가 이메일로 전송되었습니다." },
       { status: 200 }
     );
-  } catch (error) {
+  } catch (error: any) {
     console.error("이메일 인증번호 전송 오류:", error);
-    return NextResponse.json(
-      { error: "이메일 전송 중 오류 발생" },
-      { status: 500 }
-    );
+    const errorMessage =
+      error instanceof Error ? error.message : "이메일 전송 중 오류 발생";
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }

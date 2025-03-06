@@ -69,11 +69,10 @@ const SignupPage = () => {
       if (res.ok) {
         alert("인증번호가 이메일로 전송되었습니다!");
       } else {
-        alert(`오류: ${data.error || "인증 요청 실패"}`);
+        alert(`${data.error || "인증 요청 실패"}`);
       }
     } catch (error) {
-      console.error("이메일 인증 요청 실패:", error);
-      alert("이메일 인증 요청 중 오류가 발생했습니다.");
+      alert(error);
     }
   };
 
@@ -97,7 +96,7 @@ const SignupPage = () => {
         setIsVerified(true);
         alert("인증이 완료되었습니다!");
       } else {
-        alert(`오류: ${data.error || "인증 실패"}`);
+        alert(`${data.error || "인증 실패"}`);
       }
     } catch (error) {
       console.error("이메일 인증 실패:", error);
