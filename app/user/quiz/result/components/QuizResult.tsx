@@ -8,12 +8,29 @@ import Image from "next/image";
 import { BaseButton } from "@/app/user/quiz/components";
 import { useCountUp } from "./useCountUp";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 const QuizResult = () => {
   const searchParams = useSearchParams();
   const totalPrice = searchParams.get("t") || 0;
   const count = useCountUp(Number(totalPrice));
   const formatNumber = count.toLocaleString("en-US");
   const router = useRouter();
+
+  useEffect(() => {
+    const fetchSaveResult = async () => {
+      try {
+        await fetch("/api/user/quiz/result", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+      } catch (error) {
+        console.error("하루 퀴즈 결과 저장 오류", error);
+      }
+    };
+    fetchSaveResult();
+  }, []);
   return (
     <>
       <ResultContainer>
@@ -33,8 +50,12 @@ const QuizResult = () => {
           <p className="result__totalPrice">{formatNumber}</p>
         </ResultTopWrapper>
         <ButtonWrapper>
-        <BaseButton onClick={()=>router.push("/")}>모의투자로 이동하기</BaseButton>
-        <BaseButton onClick={()=>router.push("/user/wallet")}>나의 자산 이동</BaseButton>
+          <BaseButton onClick={() => router.push("/")}>
+            모의투자로 이동하기
+          </BaseButton>
+          <BaseButton onClick={() => router.push("/user/wallet")}>
+            나의 자산 이동
+          </BaseButton>
         </ButtonWrapper>
       </ResultContainer>
     </>
