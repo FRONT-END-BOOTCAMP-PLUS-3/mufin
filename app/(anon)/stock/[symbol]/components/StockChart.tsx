@@ -1,14 +1,13 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+
 import {
-  ChartContainer,
   PeriodSelector,
   PeriodItem,
 } from '@/app/(anon)/stock/[symbol]/components/StockDetail.Styled';
+
 import StockChartImage from '@/app/(anon)/stock/[symbol]/components/StockChartImage';
-
-
 interface StockChartProps {
   symbol: string;
 }
@@ -34,9 +33,7 @@ const StockChart = ({ symbol }: StockChartProps) => {
 
   return (
     <>
-      <ChartContainer>
-        <StockChartImage symbol={symbol} activePeriod={activePeriod} />
-      </ChartContainer>
+      <StockChartImage symbol={symbol} activePeriod={activePeriod} />
       <PeriodSelector>
         <PeriodItem $active={activePeriod === '1m'} onClick={() => handlePeriodClick('1m')}>
           1분
