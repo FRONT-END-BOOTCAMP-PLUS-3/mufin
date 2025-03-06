@@ -1,7 +1,11 @@
 import StockClient from "@/app/(anon)/stock/[symbol]/components/StockClient";
 import { fetchCurrentStockData } from "@/utils/fetchCurrentStockData";
 
-export default async function StockDetailPage({ params }: { params: { symbol: string } }) {
+interface StockDetailProps {
+  params: { symbol: string };
+}
+
+const StockDetailPage = async ({params}:StockDetailProps) =>  {
   const { symbol } = await params;
 
   if (!symbol) {
@@ -24,3 +28,5 @@ export default async function StockDetailPage({ params }: { params: { symbol: st
     </div>
   );
 }
+
+export default StockDetailPage;
