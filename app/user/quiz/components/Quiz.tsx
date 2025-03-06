@@ -1,17 +1,7 @@
 "use client";
 import { useState } from "react";
-import {
-  ProgressBar,
-  OXButtons,
-  OptionButtons,
-  BaseModal,
-  BaseButton,
-} from "@/app/user/quiz/components";
-import {
-  QuizButtonWrapper,
-  QuizContainer,
-  TextGroup,
-} from "@/app/user/quiz/components/Quiz.Styled";
+import { ProgressBar, OXButtons, OptionButtons, BaseModal, BaseButton } from "@/app/user/quiz/components";
+import { QuizButtonWrapper, QuizContainer, TextWrapper } from "@/app/user/quiz/components/Quiz.Styled";
 import { useRouter } from "next/navigation";
 
 interface QuizProps {
@@ -25,7 +15,13 @@ export interface QuizData {
   questionId: number;
   questionText: string;
   answer: number;
-  choices: { choiceId: number; choiceText: string; choiceNumber: number }[];
+  choices:Choice[];
+}
+
+export interface Choice {
+   choiceId: number; 
+   choiceText: string; 
+   choiceNumber: number;
 }
 
 // 문제 5개를 가져와서 한페이지 안에서 출력
@@ -42,6 +38,7 @@ const Quiz = ({ quiz }: QuizProps) => {
 
   const currentQuestion: QuizData = quizData[currentIndex];
   const totalQuestions: number = quiz.totalQuestions;
+  const currentAnswerText: string = currentQuestion.choices[currentQuestion.answer-1].choiceText;
   const isDisabled: boolean = selectedOption === 0;
 
   // 정답 확인 함수
@@ -57,6 +54,7 @@ const Quiz = ({ quiz }: QuizProps) => {
     if (correct) {
       setTotalPrice((prev) => prev + 50000);
       // 사용자가 푼 문제가 정답이면 server에 퀴즈 id를 전달
+      // 문제를 풀때마다 리워드 지급
       try {
         await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/quiz`, {
           method: "POST",
@@ -107,13 +105,13 @@ const Quiz = ({ quiz }: QuizProps) => {
   return (
     <>
       <QuizContainer>
-        <TextGroup>
+        <TextWrapper>
           <h2 className="quiz__current">
             {currentIndex + 1}/{totalQuestions}
           </h2>
           <ProgressBar current={currentIndex + 1} />
           <h3 className="quiz__question">{currentQuestion.questionText}</h3>
-        </TextGroup>
+        </TextWrapper>
 
         <QuizButtonWrapper
           $direction={currentQuestion.choices.length === 2 ? "row" : "column"}
@@ -133,6 +131,7 @@ const Quiz = ({ quiz }: QuizProps) => {
       {/* ✅ 개별 정답 모달 또는 최종 결과 모달 */}
       {isModalOpen && (
         <BaseModal
+          answer={currentAnswerText}
           isLast={isLast}
           totalPrice={totalPrice}
           isCorrect={isCorrect}
