@@ -9,7 +9,9 @@ import {
   Message,
   Verified,
   SignupContainer,
+  EmailInput,
 } from "@/app/(anon)/signup/components/signupPage.Styled";
+import { CircleCheckBig } from "lucide-react";
 
 const SignupPage = () => {
   const [form, setForm] = useState({
@@ -123,7 +125,7 @@ const SignupPage = () => {
           onChange={handleChange}
         />
         <EmailContainer>
-          <Input
+          <EmailInput
             type="email"
             name="email"
             placeholder="email"
@@ -135,7 +137,7 @@ const SignupPage = () => {
           </button>
         </EmailContainer>
         <EmailContainer>
-          <Input
+          <EmailInput
             type="emailAuthCode"
             name="emailAuthCode"
             placeholder="인증번호 입력"
@@ -143,7 +145,9 @@ const SignupPage = () => {
             onChange={handleChange}
           />
           {isVerified ? (
-            <Verified>확인 완료!</Verified>
+            <Verified>
+              <CircleCheckBig />
+            </Verified>
           ) : (
             <button type="button" onClick={handleEmailVerify}>
               인증번호 확인
