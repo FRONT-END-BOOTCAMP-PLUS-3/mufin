@@ -6,11 +6,13 @@ dotenv.config({ path: ".env.local" });
 const envSchema = z.object({
     NEXTAUTH_SECRET:z.string().nonempty(),
     REDIS_URL: z.string().url(),
-    DATABASE_URL: z.string().nonempty(),
     KIS_API_URL: z.string().url(),
     KIS_APP_KEY: z.string().nonempty(),
     KIS_APP_SECRET: z.string().nonempty(),
     NEXT_PUBLIC_BASE_URL: z.string().url(),
+    JWT_SECRET:z.string().nonempty(),
+    SMTP_EMAIL_USER:z.string().email(),
+    SMTP_EMAIL_PASSWORD: z.string().nonempty(),
   });
 
   const parsed = envSchema.safeParse(process.env);

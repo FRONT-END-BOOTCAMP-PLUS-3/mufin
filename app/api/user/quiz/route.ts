@@ -6,20 +6,21 @@ import { SubmitQuizAnswerUseCase } from "@/application/usecases/quiz/SubmitQuizA
 import { IChoiceRepository } from "@/domain/repositories/IChoiceRepository";
 import { IQuestionRepository } from "@/domain/repositories/IQuestionRepository";
 import { IRecordRepository } from "@/domain/repositories/IRecordRepository";
+import { IWalletRepository } from "@/domain/repositories/IWalletRepository";
 import { PgChoiceRepository } from "@/infrastructure/repositories/PgChoiceRepository";
 import { PgQuestionRepository } from "@/infrastructure/repositories/PgQuestionRepositroy";
 import { PgRecordRepository } from "@/infrastructure/repositories/PgRecordRepository";
+import { PgWalletRepository } from "@/infrastructure/repositories/PgWalletRepository";
 import { NextRequest, NextResponse } from "next/server";
+import { getDecodedUserId } from "@/utils/getDecodedUserId";
 
 // HTTP Method GET : 퀴즈 문제 받아오기
 export async function GET(req: NextRequest) {
   try {
-    // cookies 에서 userId 가져오기
-    // const userId = req.cookies.get("user_id")?.value;
-  
+
     // 사용자가 요청하는 개수 default: 5
     const { searchParams } = new URL(req.url);
-    const userId = searchParams.get("userId");
+    const userId = await getDecodedUserId();
     const limitParam = searchParams.get("limit");
     const limit = limitParam ? parseInt(limitParam, 10) : 5;
 
@@ -52,14 +53,9 @@ export async function GET(req: NextRequest) {
 
 // 퀴즈 정답 record DB에 추가하기
 export async function POST(req: NextRequest) {
-  console.log("POST api/user/quiz")
   try {
-
-
-    // const cookies = req.cookies;
-    // const userId = cookies.get("user_id")?.value;
-
-    const userId= "cbd36afb-9e3c-4434-8766-b91ec0f7eeb4"
+    
+    const userId = await getDecodedUserId();
 
     // userId 유효성 검사
     if (!userId) {
@@ -67,21 +63,29 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const { questionId } = body;
+    const { questionId, reword } = body;
 
     // questionId 유효성 검사
     if (!questionId) {
       return NextResponse.json({ error: "Missing questionId" }, { status: 400 });
     }
 
+    if(!reword){
+      return NextResponse.json({ error: "Missing reword" }, { status: 400 });
+    }
+
     // Repository 인스턴스 생성
     const recordRepository: IRecordRepository = new PgRecordRepository();
+    const walletRepository: IWalletRepository = new PgWalletRepository();
 
     // Repository 의존성주입
-    const submitQuizAnswerUseCase: ISubmitQuizAnswerUseCase = new SubmitQuizAnswerUseCase(recordRepository);
+    const submitQuizAnswerUseCase: ISubmitQuizAnswerUseCase = new SubmitQuizAnswerUseCase(recordRepository, walletRepository);
 
     // Submit question Answer UseCase 동작
-    await submitQuizAnswerUseCase.execute(userId, questionId);
+    await submitQuizAnswerUseCase.execute(userId, questionId, reword);
+
+
+
     return NextResponse.json({status:200});
     // 에러 시 동작 에러코드 반환
   } catch (error) {

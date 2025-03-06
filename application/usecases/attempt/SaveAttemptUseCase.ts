@@ -1,5 +1,5 @@
 import { ISaveAttemptUseCase } from "@/application/usecases/attempt/interfaces/ISaveAttemptUseCase";
-import { IAttemptRepository } from "@/domain/repositories/IAttempRespository";
+import { IAttemptRepository } from "@/domain/repositories/IAttemptRepository";
 
 export class SaveAttemptUseCase implements ISaveAttemptUseCase {
     

@@ -1,5 +1,5 @@
 import { ICheckTodayAttemptUseCase } from "@/application/usecases/attempt/interfaces/ICheckTodayAttmptUseCase";
-import { IAttemptRepository } from "@/domain/repositories/IAttempRespository";
+import { IAttemptRepository } from "@/domain/repositories/IAttemptRepository";
 
 export class CheckTodayAttemptUseCase implements ICheckTodayAttemptUseCase{
     

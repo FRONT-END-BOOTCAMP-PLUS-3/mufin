@@ -16,7 +16,7 @@ export const QuizContainer = styled.section`
   overflow-y: scroll;
 `;
 
-export const TextGroup = styled.div`
+export const TextWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
