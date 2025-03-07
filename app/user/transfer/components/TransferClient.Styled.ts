@@ -2,7 +2,7 @@
  
 import styled from "styled-components";
 
-export const TrandeacionContainer = styled.div`
+export const TransferContainer = styled.div`
   padding: 0 1.25rem 1.25rem 1.25rem;
 `;
 

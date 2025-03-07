@@ -5,14 +5,14 @@ import { useSearchParams } from "next/navigation";
 import {
   FormContainer,
   QuantityControl,
-  TrandeacionContainer,
+  TransferContainer,
   QuantityControlTitle,
   WalletError,
+  MainButton,
 } from "@/app/user/transfer/components/TransferClient.Styled";
 
 import Button from "@/app/components/button/Button";
 import { useRouter } from "next/navigation";
-
 
 const TransferClient = () => {
   const router = useRouter();
@@ -88,7 +88,7 @@ const TransferClient = () => {
 
   return (
     <>
-      <TrandeacionContainer>
+      <TransferContainer>
         <FormContainer>
           <QuantityControlTitle>
             <p>이체할 금액</p>
@@ -107,7 +107,6 @@ const TransferClient = () => {
           {isTransferDisabled && <WalletError>잔액이 부족합니다.</WalletError>}
         </FormContainer>
 
-        {/* 키패드 */}
         <QuantityControl>
           <div className="keypad">
             {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
@@ -121,11 +120,12 @@ const TransferClient = () => {
           </div>
         </QuantityControl>
 
-        {/* 송금 버튼 */}
-        <Button onClick={handleTransfer}>
-          송금하기
-        </Button>
-      </TrandeacionContainer>
+        <MainButton>
+          <Button onClick={handleTransfer}>
+            송금하기
+          </Button>
+        </MainButton>
+      </TransferContainer>
     </>
   );
 };
