@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import { IUserRepository } from "@/domain/repositories/IUserRepository";
+import { RefreshAccessTokenUseCase } from "./RefreshAccessTokenUseCase";
 
 export interface GetUserInfoResult {
   user: { loginId: string; name: string };
@@ -31,22 +32,15 @@ export class GetUserInfoUseCase {
 
     // 2. Access Token이 없거나 유효하지 않으면 refreshToken으로 새 토큰 발급 시도
     if (!decoded && refreshToken) {
-      try {
-        const refreshDecoded = jwt.verify(
-          refreshToken,
-          process.env.JWT_SECRET as string
-        );
-        // refresh token의 loginId로 새 액세스 토큰 발급 (유효시간 1시간)
-        accessToken = jwt.sign(
-          { loginId: (refreshDecoded as jwt.JwtPayload).loginId },
-          process.env.JWT_SECRET as string,
-          { expiresIn: "1h" }
-        );
-        newTokenCookie = `accessToken=${accessToken}; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=3600`;
-        decoded = jwt.verify(accessToken, process.env.JWT_SECRET as string);
-      } catch (error) {
-        throw new Error("Refresh token expired.");
-      }
+      const refreshAccessTokenUseCase = new RefreshAccessTokenUseCase(
+        this.userRepository
+      );
+      const refreshResult = await refreshAccessTokenUseCase.execute(
+        refreshToken
+      );
+      accessToken = refreshResult.accessToken;
+      newTokenCookie = refreshResult.newTokenCookie;
+      decoded = jwt.verify(accessToken, process.env.JWT_SECRET as string);
     }
 
     if (!decoded) {

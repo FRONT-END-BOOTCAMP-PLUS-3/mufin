@@ -10,9 +10,9 @@ export async function GET() {
     const refreshToken = cookieStore.get("refreshToken")?.value;
 
     const userRepository = new UserRepository();
-    const getMyInfoUseCase = new GetUserInfoUseCase(userRepository);
+    const getUserInfoUseCase = new GetUserInfoUseCase(userRepository);
 
-    const result = await getMyInfoUseCase.execute(accessToken, refreshToken);
+    const result = await getUserInfoUseCase.execute(accessToken, refreshToken);
 
     const headers = new Headers({ "Content-Type": "application/json" });
     if (result.newTokenCookie) {
