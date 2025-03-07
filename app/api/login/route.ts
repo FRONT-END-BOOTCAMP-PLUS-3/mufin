@@ -37,13 +37,12 @@ export async function POST(req: Request) {
         "Content-Type": "application/json",
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Login error:", error);
-    return new NextResponse(
-      JSON.stringify({ message: error.message || "Server error" }),
-      {
-        status: 500,
-      }
-    );
+    const errorMessage =
+      error instanceof Error ? error.message : "Server error";
+    return new NextResponse(JSON.stringify({ message: errorMessage }), {
+      status: 500,
+    });
   }
 }

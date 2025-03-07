@@ -23,14 +23,13 @@ export async function GET() {
       status: 200,
       headers,
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error("User fetch error:", error);
-    return new NextResponse(
-      JSON.stringify({ message: error.message || "Server error" }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    const errorMessage =
+      error instanceof Error ? error.message : "Server error";
+    return new NextResponse(JSON.stringify({ message: errorMessage }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 }

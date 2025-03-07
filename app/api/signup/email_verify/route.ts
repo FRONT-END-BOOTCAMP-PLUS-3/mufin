@@ -12,7 +12,7 @@ export async function POST(req: Request) {
       { message: "이메일 인증이 완료되었습니다." },
       { status: 200 }
     );
-  } catch (error: any) {
+  } catch (error) {
     console.error("이메일 인증 오류:", error);
     const errorMessage =
       error instanceof Error ? error.message : "서버 오류 발생";
