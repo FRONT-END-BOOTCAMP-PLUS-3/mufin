@@ -11,7 +11,7 @@ import { NextResponse } from "next/server";
 export async function POST() {
   try {
 
-    const userId = await getDecodedUserId();
+    const userId: string | null = await getDecodedUserId();
     
         if (!userId) {
         return NextResponse.json({ error: "Invalid token" }, { status: 401 });

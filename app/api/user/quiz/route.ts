@@ -20,9 +20,12 @@ export async function GET(req: NextRequest) {
 
     // 사용자가 요청하는 개수 default: 5
     const { searchParams } = new URL(req.url);
-    const userId = await getDecodedUserId();
+    
     const limitParam = searchParams.get("limit");
     const limit = limitParam ? parseInt(limitParam, 10) : 5;
+
+    // 쿠키의 있는 userId 가져오기
+    const userId: string | null = await getDecodedUserId();
 
     if (!userId) {
       return NextResponse.json({ error: "User ID not found in cookies" }, { status: 400 });
