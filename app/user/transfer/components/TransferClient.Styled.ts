@@ -4,52 +4,42 @@ import styled from "styled-components";
 
 export const TransferContainer = styled.div`
   padding: 0 1.25rem 1.25rem 1.25rem;
-`;
-
-export const TabsContainer = styled.div`
   display: flex;
-  width: 100%;
-  justify-content: space-around;
-  margin-bottom: 1.25rem; 
-  border-bottom: 0.063rem solid var(--disabled-color);
+  flex-direction: column;
+  gap: 1rem;
 `;
 
-export const Tab = styled.button<{ $active: boolean }>`
-  flex: 1;
-  text-align: center;
-  padding: 0.625rem;
-  font-size: var(--font-size-lg);
-  border: none;
-  background-color: var(--white-color);
-  font-weight: ${({ $active }) => ($active ? 'bold' : 'normal')};
-  color: ${({ $active }) => ($active ? 'var(--black-color)' : 'var(--gray-900)')};
-  border-bottom: ${({ $active }) => ($active ? '0.125rem solid var(--black-color)' : 'none')};
+export const TransferTitle1 = styled.h2`
+  font-size: var(--font-size-xl);
+  font-weight: bold;
+  margin-top: 1.25rem;
+  color: var(--black-color);
+  margin-left: 0.5rem;
 `;
 
-export const FormContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1.25rem; 
-  padding: 1.25rem; 
-  background-color: var(--primary-light);
-  border-radius: 0.625rem;
+export const TransferTitle2 = styled.h2`
+  font-size: var(--font-size-3xl);
+  font-weight: bold;
+  margin-bottom: 1.25rem;
+  color: var(--primary-color);
+  margin-left: 0.5rem;
 `;
 
-export const QuantityControlTitle = styled.div`
+export const TransferContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   position: relative;
-  padding: 1.25rem; 
   border-radius: 0.625rem; 
   background-color: var(--primary-light);
+  padding: 2rem 1.25rem 1rem 1.25rem;
 
   .row-container {
     display: flex;
     flex-direction: row; 
     justify-content: space-between; 
     width: 100%; 
-    gap: 0.625rem; 
+    gap: 1rem; 
     border-bottom: 0.0625rem solid var(--gray-200); 
   }
 
@@ -60,14 +50,14 @@ export const QuantityControlTitle = styled.div`
   }
 
   .label2 {
-    font-size: var(--font-size-xl);
-    font-weight: bold;
+    font-size: var(--font-size-base);
     padding: 0.5rem; 
     align-self: flex-end; 
   }
 
   input {
     padding: 0.5rem;
+    margin-right: 1rem;
     font-size: var(--font-size-lg);
     font-weight: bold;
     text-align: right; 
@@ -76,10 +66,28 @@ export const QuantityControlTitle = styled.div`
     flex-grow: 1; 
     background-color: var(--primary-light);
   }
+
+  .error-container {
+    height: 2rem;
+    width: 100%;
+    display: flex;
+  }
+
+  .currency {
+    position: absolute;
+    padding: 0.5rem; 
+    right: 0.8rem;
+    font-size: var(--font-size-lg);
+    color: var(--black-color);
+  }
 `;
 
-export const PriceText = styled.p`
-  font-size: var(--font-size-lg);
+export const WalletError = styled.p`
+  font-size: var(--font-size-base); 
+  color: var(--second-color);
+  align-self: flex-end; 
+  margin-right: 0.5rem;
+  margin-left: auto;
   font-weight: bold;
 `;
 
@@ -89,15 +97,14 @@ export const QuantityControl = styled.div`
   align-items: center;
   gap: 0.625rem; 
   position: relative;
-  margin-right: 0.625rem; 
-  margin-left: 0.625rem;
+  margin: auto 0.625rem; 
 
   .keypad {
+    margin-top: 1.5rem;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 0.625rem; 
     width: 90%;
-    margin-top: 0.625rem; 
     padding: 0.625rem 0;
     border-radius: 0.625rem;
   }
@@ -120,18 +127,14 @@ export const MainButton = styled.div`
   justify-content: center; 
   align-items: center;
   gap: 0.625rem; 
-  width: 70%; 
-  height: 2.5rem; 
-  margin: 0 auto;
-  margin-top: 1.25rem; 
+  width: 21.3125rem; 
+  height: 3rem;  
+  position: fixed;
+  bottom: 6rem; 
+  left: 50%; 
+  transform: translateX(-50%); 
   border: none;
   border-radius: 0.625rem; 
   color: var(--white-color);
-`;
-
-export const WalletError = styled.p`
-  font-size: var(--font-size-base); 
-  color: var(--second-color);
-  align-self: flex-end; 
-  margin-right: 0.5rem;
+  background-color: var(--primary-color);
 `;

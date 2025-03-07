@@ -171,6 +171,7 @@ const TradeActionClient = () => {
         />
       </div>
       <p className="label2">총 {finalAmount.toLocaleString()}원</p>
+      <div className="error-container">
         {(isBuyDisabled || isSellDisabled) && (
         <WalletError>
           {activeTab === "buy"
@@ -178,6 +179,8 @@ const TradeActionClient = () => {
             : "보유 수량이 부족합니다."}
         </WalletError>
         )}
+        </div>
+        
       </QuantityControlTitle>
 
       <QuantityControl>

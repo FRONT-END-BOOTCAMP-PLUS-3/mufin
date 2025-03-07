@@ -91,20 +91,19 @@ export const DraggableScrollWepper = styled.div<{ $isDragging: boolean }>`
   overflow-x: auto;
   cursor: ${({ $isDragging }) => ($isDragging ? 'grabbing' : 'grab')};
   width: 100%;
-  height: 30rem;
+  height: 100%;
   align-items: center;
 `;
 
 export const ChartSection = styled.div`
   width: 75rem;
-  height: 30rem;
-  min-height: 30rem;
+  min-height: 26rem;
+  height: 100%;
 `;
 
 export const ChartImageContainer = styled.div`
   width: 100%;
-  height: 30rem;
-  min-height: 30rem;
+  height: 100%;
   text-align: center;
 `;
 

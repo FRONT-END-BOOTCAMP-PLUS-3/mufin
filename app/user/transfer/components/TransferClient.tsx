@@ -3,15 +3,15 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import {
-  FormContainer,
   QuantityControl,
   TransferContainer,
-  QuantityControlTitle,
   WalletError,
   MainButton,
+  TransferContent,
+  TransferTitle1,
+  TransferTitle2,
 } from "@/app/user/transfer/components/TransferClient.Styled";
 
-import Button from "@/app/components/button/Button";
 import { useRouter } from "next/navigation";
 
 const TransferClient = () => {
@@ -89,9 +89,11 @@ const TransferClient = () => {
   return (
     <>
       <TransferContainer>
-        <FormContainer>
-          <QuantityControlTitle>
-            <p>이체할 금액</p>
+        <TransferTitle1>{type === 'toCash' ? '기본계좌에서' : '주식계좌에서'}</TransferTitle1>
+        <TransferTitle2>{type === 'toCash' ? '주식계좌로' : '기본계좌로'} 송금</TransferTitle2>
+          <TransferContent>
+          <div className="row-container">
+            <p className="label">금액</p>
             <input
               type="number"
               value={amount ?? ""}
@@ -99,13 +101,15 @@ const TransferClient = () => {
               placeholder="송금 금액 입력"
               ref={inputRef}
             />
-            <p>
-              현재 잔액: {type === "toCash" ? balances.account : balances.cash} 원
+            <span className="currency">원</span>
+            </div>
+            <p className="label2">
+              송금 가능 금액 : {type === "toCash" ? balances.account : balances.cash}원
             </p>
-          </QuantityControlTitle>
-
-          {isTransferDisabled && <WalletError>잔액이 부족합니다.</WalletError>}
-        </FormContainer>
+            <div className="error-container">
+              {isTransferDisabled && <WalletError>잔액이 부족합니다.</WalletError>}
+            </div>
+          </TransferContent>
 
         <QuantityControl>
           <div className="keypad">
@@ -119,13 +123,20 @@ const TransferClient = () => {
             <button onClick={handleDelete}>⌫</button>
           </div>
         </QuantityControl>
+        </TransferContainer>
 
-        <MainButton>
-          <Button onClick={handleTransfer}>
-            송금하기
-          </Button>
+        <MainButton
+          as="button"
+          onClick={handleTransfer}
+          disabled={
+            !amount ||
+            amount <= 0 ||
+            (type === "toCash" && balances.account < (amount ?? 0)) ||
+            (type === "toAccount" && balances.cash < (amount ?? 0))
+          }
+        >
+          송금하기
         </MainButton>
-      </TransferContainer>
     </>
   );
 };
