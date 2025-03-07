@@ -1,25 +1,27 @@
 import StockClient from "@/app/(anon)/stock/[symbol]/components/StockClient";
-import React from "react";
+import { fetchCurrentStockData } from "@/utils/fetchCurrentStockData";
 
-interface Props {
-  params: { symbol: string }; 
+interface StockDetailProps {
+  params: { symbol: string };
 }
 
-const StockDetailPage = async ({ params }: Props) => {
+const StockDetailPage = async ({params}:StockDetailProps) =>  {
   const { symbol } = await params;
 
   if (!symbol) {
     return <p>잘못된 요청입니다.</p>;
   }
-
-  const decodedSymbol = decodeURIComponent(symbol); 
+  
+  const stockData = await fetchCurrentStockData(symbol);
 
   return (
-    <div>
-      <StockClient symbol={decodedSymbol} />
-    </div>
+      <StockClient
+        symbol={symbol}
+        stockPrice={stockData.stck_prpr || ""}
+        prdyVrss={stockData.prdy_vrss || ""}
+        prdyCtrt={stockData.prdy_ctrt || ""}
+      />
   );
-};
+}
 
 export default StockDetailPage;
-

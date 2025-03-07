@@ -1,7 +1,7 @@
-// src/domain/repositories/IUserRepository.ts
 import { User } from "@prisma/client";
 
 export interface IUserRepository {
+  findByEmail(email: string): Promise<User | null>;
   findByLoginId(loginId: string): Promise<User | null>;
   createUser(data: {
     name: string;

@@ -1,23 +1,25 @@
-// utils/auth.ts
+import { env } from "@/config/env";
 import jwt from "jsonwebtoken";
+import { cookies } from "next/headers";
 
 /**
- * decodeToken
- *
- * @param authHeader - "Bearer <token>" 형식의 Authorization 헤더 값
- * @returns 토큰에서 추출한 userId 값 (토큰이 유효하지 않으면 null 반환)
+ * JWT 토큰에서 userId를 추출하는 함수
+ * @returns userId (없으면 null)
  */
-export function getDecodedUserId(authHeader: string): string | null {
-  // "Bearer <token>" 형식에서 토큰 부분만 추출합니다.
-  const token = authHeader.split(" ")[1];
+export async function getDecodedUserId(): Promise<string | null> {
   try {
-    // 토큰을 검증하고 디코딩합니다.
-    // secret은 환경변수 또는 안전하게 관리되는 값이어야 합니다.
-    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { userId: string };
-    // decoded 객체에서 userId 값을 반환합니다.
-    return decoded.userId;
+    // 1️⃣ 쿠키에서 JWT 토큰 가져오기
+    const accessToken = (await cookies()).get("token")?.value; // kebab-case 사용 권장
+    if (!accessToken) {
+      console.error("Access token not found in cookies");
+      return null;
+    }
+
+    // 2️⃣ 토큰 검증 및 userId 추출
+    const decoded = jwt.verify(accessToken, env.JWT_SECRET as string) as { userId: string };
+    return decoded?.userId || null;
   } catch (error) {
-    console.error("토큰 검증 오류:", error);
+    console.error("Error verifying JWT:", error);
     return null;
   }
 }

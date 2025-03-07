@@ -19,7 +19,6 @@ export const HeaderWrapper = styled.div`
     display: flex;
     align-items: center;
     width: 100%;
-    padding: 0 1.25rem;
 
     h6 {
         position: absolute;

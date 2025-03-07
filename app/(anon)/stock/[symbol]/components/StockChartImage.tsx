@@ -1,12 +1,20 @@
+"use client";
+
 import { useEffect, useState, useRef } from 'react';
+
 import { Chart } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, TimeScale, Tooltip, Legend } from 'chart.js';
 import { CandlestickController, CandlestickElement } from 'chartjs-chart-financial';
 import 'chartjs-chart-financial';
 import 'chartjs-adapter-date-fns';
+
 import StockModalContainer from '@/app/(anon)/stock/[symbol]/components/StockModalContainer';
 import DraggableScrollContainer from '@/app/(anon)/stock/[symbol]/components/DraggableScrollContainer';
+import { marketOpen } from '@/utils/getMarketOpen';
+import { ChartImageContainer, ChartSection } from '@/app/(anon)/stock/[symbol]/components/StockDetail.Styled';
 
+import ErrorScreen from '@/app/(anon)/stock/[symbol]/components/ErrorScreen';
+import LoadingScreen from '@/app/(anon)/stock/[symbol]/components/LodingScreen';
 
 ChartJS.register(CategoryScale, LinearScale, CandlestickController, TimeScale, CandlestickElement, Tooltip, Legend);
 
@@ -44,38 +52,21 @@ interface ChartData {
 const StockChartImage = ({ symbol, activePeriod }: StockChartImageProps) => {
   const [chartData, setChartData] = useState<ChartData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    let timer: NodeJS.Timeout;
-    
-    if (!chartData) {
-      timer = setTimeout(() => {
-        setIsModalOpen(true);
-      }, 3000);
-    } else {
-      setIsModalOpen(false);
-    }
-
-    return () => clearTimeout(timer);
-  }, [chartData]);
-
-  useEffect(() => {
     const fetchChartData = async () => {
       setLoading(true);
-      setError(null);
 
       try {
         let response;
 
-        // 분기 처리: activePeriod 값에 따라 API 호출
         if (activePeriod === '1m') {
-          response = await fetch(`/api/min_chart?symbol=${symbol}`);  // 분봉 차트 API
+          response = await fetch(`/api/stock/min_chart?symbol=${symbol}`);  // 분봉 차트 API
         } else {
-          response = await fetch(`/api/stock_chart?symbol=${symbol}&activePeriod=${activePeriod}`);  // 기존 봉 차트 API
+          response = await fetch(`/api/stock/stock_chart?symbol=${symbol}&activePeriod=${activePeriod}`);  // 기존 봉 차트 API
         }
 
         const data = await response.json();
@@ -152,7 +143,6 @@ const StockChartImage = ({ symbol, activePeriod }: StockChartImageProps) => {
         });
       } catch (error) {
         console.error('차트 데이터 불러오기 오류:', error);
-        setError('데이터를 불러오는 중 오류가 발생했습니다.');
       } finally {
         setLoading(false);
       }
@@ -162,7 +152,7 @@ const StockChartImage = ({ symbol, activePeriod }: StockChartImageProps) => {
 
     // 분봉 차트인 경우 1분마다 데이터 요청
     let interval: NodeJS.Timeout;
-    if (activePeriod === '1m') {
+    if (activePeriod === '1m' && marketOpen() ) {
       interval = setInterval(() => {
         fetchChartData();
       }, 60000); 
@@ -175,15 +165,14 @@ const StockChartImage = ({ symbol, activePeriod }: StockChartImageProps) => {
     };
   }, [symbol, activePeriod]);
 
-  if (loading) return <div>차트 로딩 중...</div>;
-  if (error) return <div>{error}</div>;
-  if (!chartData) return <div>오늘은 휴장일입니다.</div>;
+  if (loading) return <LoadingScreen />; 
+  if (!chartData) return <ErrorScreen />;
 
   return (
-    <div ref={containerRef} style={{ width: '100%', height: '400px', overflowX: 'auto' }}>
+    <ChartImageContainer ref={containerRef}>
       <StockModalContainer isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-      <DraggableScrollContainer style={{ width: '100%', height: '400px' }}>
-      <div style={{ width: '1200px', height: '100%' }}>
+      <DraggableScrollContainer>
+      <ChartSection>
         <Chart
           type="candlestick"
           data={chartData}
@@ -225,9 +214,9 @@ const StockChartImage = ({ symbol, activePeriod }: StockChartImageProps) => {
             },
           }}          
         />
-      </div>
+      </ChartSection>
       </DraggableScrollContainer>
-    </div>
+    </ChartImageContainer>
   );
 };
 

@@ -4,10 +4,10 @@ import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
   try {
-    const kisaccesstoken = await fetchKISAccessToken();
+    const KISAccessToken = await fetchKISAccessToken();
 
-    if (!kisaccesstoken) {
-      return NextResponse.json({ error: "kisaccesstoken not found in cookies" }, { status: 400 });
+    if (!KISAccessToken) {
+      return NextResponse.json({ error: "KISAccessToken not found in cookies" }, { status: 400 });
     }
 
     const url = `${env.KIS_API_URL}/uapi/domestic-stock/v1/quotations/inquire-time-itemchartprice`;
@@ -15,14 +15,14 @@ export async function GET(req: Request) {
     const getCurrentTime = (offset: number): string => {
       const now = new Date();  
       const marketCloseTime = new Date();
-      marketCloseTime.setHours(15, 15, 0, 0);
+      marketCloseTime.setHours(15, 20, 0, 0);
       const marketOpenTime = new Date();
       marketOpenTime.setHours(9, 0, 0, 0); 
 
       let resultTime = now;
       if (now >= marketCloseTime || now < marketOpenTime) {
         resultTime = new Date();
-        resultTime.setHours(15, 15, 0, 0);
+        resultTime.setHours(15, 20, 0, 0);
         resultTime.setMinutes(resultTime.getMinutes() - offset * 31); 
       } else {
         resultTime.setMinutes(resultTime.getMinutes() - offset * 31);
@@ -52,9 +52,9 @@ export async function GET(req: Request) {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
-          'authorization': `Bearer ${kisaccesstoken}`,
-          'appkey': process.env.KIS_APP_KEY!,
-          'appsecret': process.env.KIS_APP_SECRET!,
+          'authorization': `Bearer ${KISAccessToken}`,
+          'appkey': env.KIS_APP_KEY!,
+          'appsecret': env.KIS_APP_SECRET!,
           'tr_id': 'FHKST03010200',
           'custtype': 'P',
         },

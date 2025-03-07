@@ -55,6 +55,16 @@ export const ResultText = styled.h5<{ $color: string }>`
   
   word-wrap: break-word;
   white-space: pre-wrap;
+
+  .modal__answer{
+    font-size: var(--font-size-3xl);
+    font-weight: bold;
+    color: var(--primary-color);
+  }
+  .modal__answer-description{
+    font-size: var(--font-size--lg);
+    color: black;
+  }
   
 `;
 

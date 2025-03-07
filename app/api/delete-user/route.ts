@@ -8,17 +8,20 @@ import { UserRepository } from "@/infrastructure/repositories/PgUserRepository";
 export async function DELETE() {
   try {
     // 1. 쿠키에서 JWT 토큰 가져오기
-    const token = (await cookies()).get("token")?.value;
-    if (!token) {
+    const accessToken = (await cookies()).get("accessToken")?.value;
+    if (!accessToken) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
     // 2. 토큰 검증
     let decoded;
     try {
-      decoded = jwt.verify(token, process.env.JWT_SECRET as string);
+      decoded = jwt.verify(accessToken, process.env.JWT_SECRET as string);
     } catch (error) {
-      return NextResponse.json({ message: "Invalid token" }, { status: 401 });
+      return NextResponse.json(
+        { message: "Invalid accessToken" },
+        { status: 401 }
+      );
     }
 
     const loginId = (decoded as { loginId: string }).loginId;
@@ -29,7 +32,7 @@ export async function DELETE() {
     await deleteAccountUseCase.execute(loginId);
 
     // 4. 쿠키 삭제 (로그아웃 처리)
-    const removeToken = serialize("token", "", {
+    const removeToken = serialize("accessToken", "", {
       httpOnly: true,
       maxAge: 0,
       sameSite: "strict",

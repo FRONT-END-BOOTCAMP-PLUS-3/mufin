@@ -10,13 +10,13 @@ export async function POST(req: Request) {
     const loginUseCase = new LoginUseCase(userRepository);
 
     // 로그인 Use Case 실행
-    const { token, refreshToken } = await loginUseCase.execute({
+    const { accessToken, refreshToken } = await loginUseCase.execute({
       loginId,
       password,
     });
 
     // 쿠키 생성 (access token, refresh token)
-    const accessTokenCookie = serialize("token", token, {
+    const accessTokenCookie = serialize("accessToken", accessToken, {
       httpOnly: true,
       maxAge: 60 * 60, // 1시간
       sameSite: "strict",
@@ -37,13 +37,12 @@ export async function POST(req: Request) {
         "Content-Type": "application/json",
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Login error:", error);
-    return new NextResponse(
-      JSON.stringify({ message: error.message || "Server error" }),
-      {
-        status: 500,
-      }
-    );
+    const errorMessage =
+      error instanceof Error ? error.message : "Server error";
+    return new NextResponse(JSON.stringify({ message: errorMessage }), {
+      status: 500,
+    });
   }
 }

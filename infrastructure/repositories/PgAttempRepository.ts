@@ -1,5 +1,5 @@
 import { prisma } from "@/config/prismaClient";
-import { IAttemptRepository } from "@/domain/repositories/IAttempRespository";
+import { IAttemptRepository } from "@/domain/repositories/IAttemptRepository";
 import { Attempt } from "@prisma/client";
 
 export class PgAttemptRepository implements IAttemptRepository{

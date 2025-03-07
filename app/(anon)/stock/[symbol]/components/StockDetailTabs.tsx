@@ -7,12 +7,15 @@ import {
   TabMenu,
   TabItem,
   ButtonComponenet,
+  StockRenderTabContent,
 } from '@/app/(anon)/stock/[symbol]/components/StockDetail.Styled';
 
 import StockChart from '@/app/(anon)/stock/[symbol]/components/StockChart';
 import StockInfo from '@/app/(anon)/stock/[symbol]/components/StockInfo';
-import Button from '@/app/components/button/Button';
 import StockOrderBook from '@/app/(anon)/stock/[symbol]/components/StockOrderBook';
+import StockModalContainer from '@/app/(anon)/stock/[symbol]/components/StockModalContainer';
+import { marketOpen } from '@/utils/getMarketOpen';
+import Button from '@/app/components/button/Button';
 
 type TabType = 'chart' | 'orderbook' | 'info';
 
@@ -23,15 +26,20 @@ interface StockDetailTabsProps {
 
 const StockDetailTabs = ({ symbol, initialPrice }: StockDetailTabsProps) => {
   const [activeTab, setActiveTab] = useState<TabType>('chart');
-  const router = useRouter();  // useRouter 훅 사용
+  const router = useRouter();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleTabClick = (tab: TabType) => {
     setActiveTab(tab);
-    router.push(`/stock/${symbol}?tab=${tab}`);  // tab을 쿼리 파라미터로 업데이트
+    router.push(`/stock/${symbol}?tab=${tab}`);
   };
 
   const handleTradeClick = () => {
-    router.push(`/user/tradeaction?symbol=${symbol}&initialPrice=${initialPrice}&type=buy`);
+    if (!marketOpen()) {
+      setIsModalOpen(true);
+    } else {
+      router.push(`/user/tradeaction?symbol=${symbol}&initialPrice=${initialPrice}&type=buy`);
+    }
   };
 
   const renderTabContent = () => {
@@ -49,6 +57,7 @@ const StockDetailTabs = ({ symbol, initialPrice }: StockDetailTabsProps) => {
 
   return (
     <>
+    <StockModalContainer isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
       <TabMenu>
         <TabItem
           $active={activeTab === 'chart'}
@@ -69,7 +78,9 @@ const StockDetailTabs = ({ symbol, initialPrice }: StockDetailTabsProps) => {
           종목정보
         </TabItem>
       </TabMenu>
-      {renderTabContent()}
+      <StockRenderTabContent>
+        {renderTabContent()}
+      </StockRenderTabContent>
       <ButtonComponenet>
         <Button onClick={handleTradeClick}>거래하기</Button>
       </ButtonComponenet>

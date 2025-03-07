@@ -19,14 +19,13 @@ export async function POST(req: Request) {
       status: 201,
       headers: { "Content-Type": "application/json" },
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Signup error:", error);
-    return new NextResponse(
-      JSON.stringify({ error: error.message || "회원가입 중 오류 발생" }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    const errorMessage =
+      error instanceof Error ? error.message : "Server error";
+    return new NextResponse(JSON.stringify({ error: errorMessage }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 }

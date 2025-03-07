@@ -1,7 +1,8 @@
 'use client';
 
+import { useState, useEffect } from 'react';
+
 import { Table, TableCell1, TableCell2 } from '@/app/(anon)/stock/[symbol]/components/StockDetail.Styled';
-import React, { useState, useEffect } from 'react';
 
 interface StockInfoProps {
   symbol: string;
@@ -15,28 +16,25 @@ interface StockInfoData {
   totalShare: bigint;
 }
 
-// 데이터 처리 및 표시
 const StockInfo = ({ symbol }: StockInfoProps) => {
   const [stockData, setStockData] = useState<
     Array<{ label: string; value: string | number }>
   >([]);
 
   useEffect(() => {
-    // 데이터 가져오는 부분
     const fetchStockData = async () => {
       try {
-        const response = await fetch(`/api/stock/${symbol}`);
+        const response = await fetch(`/api/stock/stock_info?symbol=${symbol}`);
         if (!response.ok) {
-          throw new Error('주식 데이터를 불러오는 데 실패했습니다.');
+          throw new Error('주식 정보를 불러오는 데 실패했습니다.');
         }
-
         const data: StockInfoData = await response.json();
         
         const transformedData = [
           { label: '주식이름', value: data.stockName },
           { label: '주식코드', value: data.stockCode },
           { label: '상장일', value: data.stockOpen },
-          { label: '상장 주수', value: data.totalShare.toString() }, // bigint 타입은 문자열로 변환
+          { label: '상장 주수', value: data.totalShare.toString() },
           { label: '액면가', value: `${data.faceValue}원`},
         ];
 
@@ -50,6 +48,7 @@ const StockInfo = ({ symbol }: StockInfoProps) => {
   }, [symbol]);
 
   return (
+    <>
       <Table>
         <tbody>
           {stockData.map((row, index) => (
@@ -60,6 +59,7 @@ const StockInfo = ({ symbol }: StockInfoProps) => {
           ))}
         </tbody>
       </Table>
+    </>
   );
 };
 

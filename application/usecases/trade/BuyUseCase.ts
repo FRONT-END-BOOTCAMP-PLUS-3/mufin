@@ -1,14 +1,23 @@
-import { PgPortfolioRepository } from "@/infrastructure/repositories/PgPortfolioRepository";
-import { PgWalletRepository } from "@/infrastructure/repositories/PgWalletRepository";
-import { PgHistoryRepository } from "@/infrastructure/repositories/PgHistoryRepository";
 import { BuyDto } from "@/application/usecases/trade/dtos/BuyDto";
-import { PgStockRepository } from "@/infrastructure/repositories/PgStockRepository";
+import { IWalletRepository } from "@/domain/repositories/IWalletRepository";
+import { IPortfolioRepository } from "@/domain/repositories/IPortfolioRepository";
+import { IHistoryRepository } from "@/domain/repositories/IHistoryRepository";
 
 export class HandleBuyUseCase {
-  private portfolioRepository = new PgPortfolioRepository();
-  private walletRepository = new PgWalletRepository();
-  private historyRepository = new PgHistoryRepository();
-  private stockRepository = new PgStockRepository();
+  private walletRepository: IWalletRepository;
+  private portfolioRepository: IPortfolioRepository;
+  private historyRepository: IHistoryRepository;
+
+  constructor(
+    walletRepository: IWalletRepository,
+    portfolioRepository: IPortfolioRepository,
+    historyRepository: IHistoryRepository
+  ) {
+    this.walletRepository = walletRepository;
+    this.portfolioRepository = portfolioRepository;
+    this.historyRepository = historyRepository;
+  }
+
 
   public async handleBuy(buyDto: BuyDto) {
     const { userId, stockId, quantity, price, totalAmount } = buyDto;
@@ -43,7 +52,7 @@ export class HandleBuyUseCase {
     await this.historyRepository.createHistory(userId, stockId, 'BUY', price, quantity);
 
     // 5. 지갑 업데이트
-    await this.walletRepository.updateWallet(userId, -Number(totalAmount));
+    await this.walletRepository.updateCashByUserId(userId, -Number(totalAmount));
 
     // 6. 성공 메시지 반환
     return { message: '구매가 성공적으로 처리되었습니다.' };

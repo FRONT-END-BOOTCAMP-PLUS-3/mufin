@@ -6,17 +6,10 @@ import { StockInfoUseCase } from '@/application/usecases/stock/StockInfoUseCase'
 const stockRepository = new PgStockRepository();
 const stockUsecase = new StockInfoUseCase(stockRepository);
 
-export async function GET(req: Request, { params }: { params: { symbol?: string } }) {
-  const awaitedParams = await params; // await 결과를 변수에 할당합니다.
-  
-  if (!awaitedParams || !awaitedParams.symbol) {
-    return new Response(
-      JSON.stringify({ error: "Stock symbol is required" }),
-      { status: 400 }
-    );
-  }
+export async function GET(req: Request) {
 
-  const symbol = awaitedParams.symbol;
+  const queryParams = new URL(req.url).searchParams;
+    const symbol = queryParams.get('symbol') || '';
 
   try {
     const stockData = await stockUsecase.getStockInfoByCode(symbol);

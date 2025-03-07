@@ -11,6 +11,7 @@ import {
   TrandeacionContainer,
   MainButton,
   QuantityControlTitle,
+  WalletError,
 } from "@/app/user/tradeaction/components/Trandeaction.Styled";
 
 import OrderDetailsModalContent from "@/app/user/tradeaction/components/OrderDetailsModalContent";
@@ -62,7 +63,7 @@ const TradeActionClient = () => {
     const fetchStockIdName = async () => {
       try {
         console.log("API 호출 전");
-        const response = await fetch(`/api/stock/${symbol}`);
+        const response = await fetch(`/api/stock/stock_info?symbol=${symbol}`);
         if (!response.ok) {
           throw new Error('주식 데이터를 불러오는 데 실패했습니다.');
         }
@@ -87,12 +88,12 @@ const TradeActionClient = () => {
       
       try {
         // 유저 ID를 포함해서 API 호출
-        const walletResponse = await fetch(`/api/wallet?userId=${userId}`);
+        const walletResponse = await fetch(`/api/tradeaction/buy?userId=${userId}`);
         const walletData = await walletResponse.json();
         console.log("Fetched walletData:", walletData);
         setWalletBalance(Number(walletData.cash));
   
-        const portfolioResponse = await fetch(`/api/portfolio?stockId=${stockId}&userId=${userId}`);
+        const portfolioResponse = await fetch(`/api/tradeaction/sell?stockId=${stockId}&userId=${userId}`);
         const portfolioData = await portfolioResponse.json();
         setPortfolioQuantity(portfolioData.quantity);
       } catch (error) {
@@ -173,11 +174,11 @@ const TradeActionClient = () => {
       </div>
       <p className="label2">총 {finalAmount.toLocaleString()}원</p>
         {(isBuyDisabled || isSellDisabled) && (
-        <div style={{ color: "red", marginTop: "8px" }}>
+        <WalletError>
           {activeTab === "buy"
-            ? "잔액이 부족합니다. 구매할 수 없습니다."
-            : "보유 수량이 부족합니다. 판매할 수 없습니다."}
-        </div>
+            ? "잔액이 부족합니다."
+            : "보유 수량이 부족합니다."}
+        </WalletError>
         )}
       </QuantityControlTitle>
 
@@ -215,6 +216,7 @@ const TradeActionClient = () => {
           quantity={quantity ?? 1} 
           price={initialPriceValue} 
           totalAmount={finalAmount} 
+          symbol={symbol}
         />
       </Modal>
       </TrandeacionContainer>

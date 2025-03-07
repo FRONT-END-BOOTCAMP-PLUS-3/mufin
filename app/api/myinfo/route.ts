@@ -6,13 +6,13 @@ import { UserRepository } from "@/infrastructure/repositories/PgUserRepository";
 export async function GET() {
   try {
     const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value;
+    const accessToken = cookieStore.get("accessToken")?.value;
     const refreshToken = cookieStore.get("refreshToken")?.value;
 
     const userRepository = new UserRepository();
-    const getMyInfoUseCase = new GetUserInfoUseCase(userRepository);
+    const getUserInfoUseCase = new GetUserInfoUseCase(userRepository);
 
-    const result = await getMyInfoUseCase.execute(token, refreshToken);
+    const result = await getUserInfoUseCase.execute(accessToken, refreshToken);
 
     const headers = new Headers({ "Content-Type": "application/json" });
     if (result.newTokenCookie) {
@@ -23,14 +23,13 @@ export async function GET() {
       status: 200,
       headers,
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error("User fetch error:", error);
-    return new NextResponse(
-      JSON.stringify({ message: error.message || "Server error" }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    const errorMessage =
+      error instanceof Error ? error.message : "Server error";
+    return new NextResponse(JSON.stringify({ message: errorMessage }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 }
