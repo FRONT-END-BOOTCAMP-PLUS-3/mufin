@@ -1,3 +1,5 @@
+"use client";
+
 import styled from "styled-components";
 
 export const Overlay = styled.div`
@@ -10,6 +12,7 @@ export const Overlay = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 200;
 `;
 
 export const Content = styled.div`

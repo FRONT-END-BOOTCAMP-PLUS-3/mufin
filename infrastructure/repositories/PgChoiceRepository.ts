@@ -2,7 +2,7 @@ import { prisma } from "@/config/prismaClient";
 import { IChoiceRepository } from "@/domain/repositories/IChoiceRepository";
 import { Choice } from "@prisma/client";
 
-export class PrChoiceRepository implements IChoiceRepository {
+export class PgChoiceRepository implements IChoiceRepository {
 
   /**
    * 선택지 생성

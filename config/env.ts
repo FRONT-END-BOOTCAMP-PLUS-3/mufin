@@ -4,9 +4,6 @@ import { z } from "zod";
 dotenv.config({ path: ".env.local" });
 
 const envSchema = z.object({
-    KAKAO_CLIENT_KEY: z.string().nonempty(),
-    KAKAO_CLIENT_SECRET:z.string().nonempty(),
-    KAKAO_REDIRECT_URI:z.string().url(),
     NEXTAUTH_SECRET:z.string().nonempty(),
     REDIS_URL: z.string().url(),
     DATABASE_URL: z.string().nonempty(),

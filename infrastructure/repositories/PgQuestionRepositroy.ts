@@ -9,7 +9,7 @@ interface RawQuestion {
   answer: number;
 }
 
-export class PrQuestionRepository implements IQuestionRepository {
+export class PgQuestionRepository implements IQuestionRepository {
 
   /**
    * 질문 생성

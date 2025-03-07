@@ -40,7 +40,7 @@ export const IntroBox = styled.div`
 export const QuizButton = styled(Link)`
     display: flex;
     align-items: center;
-    gap: 1rem; /* 16px */
+    gap: 0.7rem;
     padding: 1.25rem 1.875rem; /* 20px 30px */
     background-color: var(--primary-color);
     color: white;

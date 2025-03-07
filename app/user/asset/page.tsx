@@ -25,6 +25,8 @@ import {
     Input,
     Button,
 } from "@/app/user/asset/components/Asset.Styled";
+import InvestmentAmount from "./components/InvestmentAmount";
+import Holdings from "./components/Holdings";
 
 const Asset = () => {
     const router = useRouter();
@@ -44,15 +46,21 @@ const Asset = () => {
     // 증권계좌 기준으로 Progress Bar 업데이트
     const progress = Math.min((securitiesAccount / goalAmount) * 100, 100);
 
+    // 예제 데이터 (실제 데이터는 API 연동 예정)
+    const investmentAmount = 750000; // 투자금액: 보유 종목들의 현재 가격 합산
+    const totalProfit = 80000; // 총 평가손익(구매 가격 대비 현재 가격)
+    const totalProfitRate = 8; // 평가손익 비율
+    const cash = 250000; // 예수금 (DB의 cash 항목)
+
+    // 보유 종목 데이터
+    const holdings = [
+        { logo: "/images/naver.png", name: "Naver", quantity: 5, amount: 250000, profit: 3215, profitRate: 1.5 },
+        { logo: "/images/samsung.png", name: "삼성전자", quantity: 5, amount: 250000, profit: 3215, profitRate: 1.5 },
+    ];
+
     useEffect(() => {
         setTotalAssets(securitiesAccount + bankAccount);
     }, [securitiesAccount, bankAccount]);
-
-    // 설정 완료 버튼 클릭 핸들러
-    const handleConfirmGoalAmount = () => {
-        setGoalAmount(Number(tempGoalAmount));
-        setIsModalOpen(false);
-    };
 
     return (
         <Container>
@@ -103,6 +111,16 @@ const Asset = () => {
                     </ProfitText>
                 </RightContainer>
             </AccountSection>
+            {/* 투자금액 & 평가손익 & 예수금 컴포넌트 */}
+            <InvestmentAmount
+                investmentAmount={investmentAmount}
+                totalProfit={totalProfit}
+                totalProfitRate={totalProfitRate}
+                cash={cash}
+            />
+
+            {/* 보유종목 컴포넌트 */}
+            <Holdings holdings={holdings} />
 
             {/* 투자 목표 설정 모달 */}
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
