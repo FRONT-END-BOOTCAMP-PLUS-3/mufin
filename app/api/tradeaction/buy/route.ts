@@ -3,6 +3,16 @@ import { HandleBuyUseCase } from "@/application/usecases/trade/BuyUseCase";
 import { BuyDto } from "@/application/usecases/trade/dtos/BuyDto";
 import { PgWalletRepository } from "@/infrastructure/repositories/PgWalletRepository";
 import { getDecodedUserId } from "@/utils/getDecodedUserId";
+import { PgPortfolioRepository } from "@/infrastructure/repositories/PgPortfolioRepository";
+import { PgHistoryRepository } from "@/infrastructure/repositories/PgHistoryRepository";
+
+// 리포지토리 인스턴스 생성
+const walletRepository = new PgWalletRepository();
+const portfolioRepository = new PgPortfolioRepository();
+const historyRepository = new PgHistoryRepository();
+
+// 모든 리포지토리를 전달하여 UseCase 생성
+const handleBuyUseCase = new HandleBuyUseCase(walletRepository, portfolioRepository, historyRepository);
 
 export async function POST(req: NextRequest) {
   try {
@@ -24,9 +34,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json( {message: "접근 권한이 없습니다." }, { status: 401 })
     }
 
-    // // 수정 사항!!!
-    const handleBuyUseCase = new HandleBuyUseCase();
-    // // 수정 사항!!!
     const result = await handleBuyUseCase.handleBuy({ userId, stockId, quantity, price, totalAmount });
 
     return NextResponse.json(result, { status: 200 });
@@ -43,14 +50,11 @@ export async function GET() {
     // token의 있는 userId 가져오기
     const userId: string | null = await getDecodedUserId();
 
-  if (!userId) {
-    return NextResponse.json({ message: "접근 권한이 없습니다." }, { status: 401 });
-  }
+    if (!userId) {
+      return NextResponse.json({ message: "접근 권한이 없습니다." }, { status: 401 });
+    }
 
-  // // 수정 사항!!!
-  const walletRepository = new PgWalletRepository();
-  // // 수정 사항!!! 
-  const wallet = await walletRepository.findWalletByUserId(userId);
+    const wallet = await walletRepository.findWalletByUserId(userId);
 
     if (!wallet) {
       return NextResponse.json({ message: "해당 사용자의 지갑 정보를 찾을 수 없습니다." }, { status: 500 });
