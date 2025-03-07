@@ -1,14 +1,23 @@
-import { PgPortfolioRepository } from "@/infrastructure/repositories/PgPortfolioRepository";
-import { PgWalletRepository } from "@/infrastructure/repositories/PgWalletRepository";
-import { PgHistoryRepository } from "@/infrastructure/repositories/PgHistoryRepository";
 import { BuyDto } from "@/application/usecases/trade/dtos/BuyDto";
+import { IWalletRepository } from "@/domain/repositories/IWalletRepository";
+import { IPortfolioRepository } from "@/domain/repositories/IPortfolioRepository";
+import { IHistoryRepository } from "@/domain/repositories/IHistoryRepository";
 
 export class HandleBuyUseCase {
-  
-  // 수정 사항!!!
-  private portfolioRepository = new PgPortfolioRepository();
-  private walletRepository = new PgWalletRepository();
-  private historyRepository = new PgHistoryRepository();
+  private walletRepository: IWalletRepository;
+  private portfolioRepository: IPortfolioRepository;
+  private historyRepository: IHistoryRepository;
+
+  constructor(
+    walletRepository: IWalletRepository,
+    portfolioRepository: IPortfolioRepository,
+    historyRepository: IHistoryRepository
+  ) {
+    this.walletRepository = walletRepository;
+    this.portfolioRepository = portfolioRepository;
+    this.historyRepository = historyRepository;
+  }
+
 
   public async handleBuy(buyDto: BuyDto) {
     const { userId, stockId, quantity, price, totalAmount } = buyDto;
