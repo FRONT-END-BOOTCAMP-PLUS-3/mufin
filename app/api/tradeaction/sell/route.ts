@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { HandleSellUseCase } from "@/application/usecases/trade/SellUseCase";
-import { SellDto } from "@/application/usecases/trade/dtos/SellDto";
+import { HandleSellUseCase } from "@/application/usecases/tradeaction/SellUseCase";
+import { SellDto } from "@/application/usecases/tradeaction/dtos/SellDto";
 import { PgPortfolioRepository } from "@/infrastructure/repositories/PgPortfolioRepository";
 import { getDecodedUserId } from "@/utils/getDecodedUserId";
 import { PgWalletRepository } from "@/infrastructure/repositories/PgWalletRepository";

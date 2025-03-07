@@ -46,6 +46,16 @@ export class PgWalletRepository implements IWalletRepository {
         });
     }
 
+    async updateCashAccountWalletByUserId(userId: string, cash: number, account:number): Promise<Wallet> {
+      return await prisma.wallet.update({
+        where: { userId },
+        data: {
+          cash: BigInt(cash),
+          account: BigInt(account),
+        },
+      });
+    }
+
     async deleteWallet(userId: string): Promise<Wallet> {
         return await prisma.wallet.delete({
             where: { userId }

@@ -8,7 +8,6 @@ interface OrderDetailsModalContentProps {
   quantity: number; // 구매/판매 갯수
   price: number; // 한 주 가격
   totalAmount: number; // 총 가격
-  userId : string; // 유저 ID
   stockName: string; // 주식 이름
   stockId: number; // 주식 ID
   symbol : string; // 주식 코드
@@ -16,7 +15,6 @@ interface OrderDetailsModalContentProps {
 
 const OrderDetailsModalContent = ({
   type,
-  userId,
   stockId,
   stockName,
   quantity,
@@ -41,7 +39,6 @@ const OrderDetailsModalContent = ({
           quantity,
           price,
           totalAmount,
-          userId,
           stockName,
           stockId,
         }),

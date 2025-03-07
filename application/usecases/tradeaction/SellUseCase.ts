@@ -1,5 +1,5 @@
 
-import { SellDto } from "@/application/usecases/trade/dtos/SellDto";
+import { SellDto } from "@/application/usecases/tradeaction/dtos/SellDto";
 import { IHistoryRepository } from "@/domain/repositories/IHistoryRepository";
 import { IPortfolioRepository } from "@/domain/repositories/IPortfolioRepository";
 import { IWalletRepository } from "@/domain/repositories/IWalletRepository";
@@ -18,7 +18,6 @@ export class HandleSellUseCase {
     this.portfolioRepository = portfolioRepository;
     this.historyRepository = historyRepository;
   }
-
 
   public async handleSell(sellDto: SellDto) {
     const { userId, stockId, quantity, price, totalAmount } = sellDto;

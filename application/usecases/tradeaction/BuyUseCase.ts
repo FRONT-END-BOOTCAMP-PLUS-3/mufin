@@ -1,4 +1,4 @@
-import { BuyDto } from "@/application/usecases/trade/dtos/BuyDto";
+import { BuyDto } from "@/application/usecases/tradeaction/dtos/BuyDto";
 import { IWalletRepository } from "@/domain/repositories/IWalletRepository";
 import { IPortfolioRepository } from "@/domain/repositories/IPortfolioRepository";
 import { IHistoryRepository } from "@/domain/repositories/IHistoryRepository";
