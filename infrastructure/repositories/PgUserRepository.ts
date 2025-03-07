@@ -1,4 +1,3 @@
-// src/infrastructure/repositories/UserRepository.ts
 import { IUserRepository } from "@/domain/repositories/IUserRepository";
 import { prisma } from "@/config/prismaClient";
 import { User } from "@prisma/client";
@@ -7,6 +6,12 @@ export class UserRepository implements IUserRepository {
   async findByLoginId(loginId: string): Promise<User | null> {
     return await prisma.user.findUnique({
       where: { loginId },
+    });
+  }
+
+  async findByEmail(email: string): Promise<User | null> {
+    return await prisma.user.findUnique({
+      where: { email },
     });
   }
 
