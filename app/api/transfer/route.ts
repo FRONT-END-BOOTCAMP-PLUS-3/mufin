@@ -36,7 +36,6 @@ export async function POST(req: NextRequest) {
 export async function GET() {
  
   try {
-    // token의 있는 userId 가져오기
     const userId: string | null = await getDecodedUserId();
 
     if (!userId) {
@@ -49,7 +48,10 @@ export async function GET() {
       return NextResponse.json({ message: "해당 사용자의 지갑 정보를 찾을 수 없습니다." }, { status: 500 });
     }
 
-    return NextResponse.json({ cash: wallet.cash ? wallet.cash.toString() : "0" }, { status: 200 });
+    return NextResponse.json({ 
+      cash: wallet.cash ? wallet.cash.toString() : "0", 
+      account: wallet.account ? wallet.account.toString() : "0" 
+    }, { status: 200 });
   } catch (error) {
     console.error("Error fetching wallet data:", error);
     return NextResponse.json({ message: "내부 서버 오류" }, { status: 500 });

@@ -11,12 +11,13 @@ import {
 } from "@/app/user/transfer/components/TransferClient.Styled";
 
 import Button from "@/app/components/button/Button";
-import router from "next/router";
+import { useRouter } from "next/navigation";
 
 
 const TransferClient = () => {
+  const router = useRouter();
   const searchParams = useSearchParams();
-  const type = searchParams.get("type");  // 처음에 받아온 type 값
+  const type = searchParams.get("type");
 
   const [amount, setAmount] = useState<number | undefined>(undefined);
   const [balances, setBalances] = useState<{ cash: number; account: number }>({
@@ -31,7 +32,6 @@ const TransferClient = () => {
       inputRef.current.focus();
     }
 
-    // 계좌 및 투자 잔액 불러오기
     const fetchBalances = async () => {
       try {
         const response = await fetch("/api/transfer");
@@ -48,7 +48,7 @@ const TransferClient = () => {
 
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/\D/g, ""); // 숫자만 입력 가능
+    const value = e.target.value.replace(/\D/g, "");
     setAmount(value ? parseInt(value, 10) : undefined);
   };
 
@@ -72,8 +72,7 @@ const TransferClient = () => {
   
       alert(`${type === "toCash" ? "주식계좌로" : "기본계좌로"} 송금 성공!`);
   
-      // 지갑 페이지로 이동
-      router.push("/wallet");  // 지갑 페이지로 이동
+      router.push("/test"); 
     } catch (error) {
       if (error instanceof Error) {
         alert(`${type === "toCash" ? "주식계좌로" : "기본계좌로"} 송금 실패: ${error.message}`);
@@ -84,13 +83,12 @@ const TransferClient = () => {
   };
 
   const isTransferDisabled =
-    (type === "toCash" && (balances.account < (amount ?? 0))) || // 투자 → 계좌 시 보유 금액 부족
-    (type === "toAccount" && (balances.cash < (amount ?? 0))); // 계좌 → 투자 시 보유 금액 부족
+    (type === "toCash" && (balances.account < (amount ?? 0))) || 
+    (type === "toAccount" && (balances.cash < (amount ?? 0))); 
 
   return (
-    <div>
+    <>
       <TrandeacionContainer>
-        {/* 송금 입력 폼 */}
         <FormContainer>
           <QuantityControlTitle>
             <p>이체할 금액</p>
@@ -128,7 +126,7 @@ const TransferClient = () => {
           송금하기
         </Button>
       </TrandeacionContainer>
-    </div>
+    </>
   );
 };
 
