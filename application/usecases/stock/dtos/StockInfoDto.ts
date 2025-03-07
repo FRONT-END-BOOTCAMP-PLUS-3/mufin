@@ -3,6 +3,8 @@ export interface StockInfoDto {
     stockCode: string;
     stockName: string;
     stockOpen? : string;
+    category?: number;
+    stockImage?: string;
     faceValue : number;   
     totalShare : bigint;
   }
