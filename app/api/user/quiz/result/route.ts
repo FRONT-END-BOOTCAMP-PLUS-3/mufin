@@ -35,7 +35,6 @@ export async function POST() {
 
 export async function GET () {
   try{
-
     const userId: string | null = await getDecodedUserId();
 
     if (!userId) {
