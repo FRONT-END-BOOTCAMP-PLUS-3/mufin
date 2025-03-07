@@ -21,7 +21,7 @@ export const useCountUp = (num: number=50000, duration: number=1500) => {
     }, frameRate);
 
     return () => clearInterval(counter);
-  }, [num, duration]);
+  }, [num, duration, frameRate, totalFrame]);
 
   return count;
 };
