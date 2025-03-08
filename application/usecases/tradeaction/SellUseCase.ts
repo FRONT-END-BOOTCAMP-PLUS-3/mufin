@@ -59,4 +59,9 @@ export class HandleSellUseCase {
     // 6. 성공 메시지 반환
     return { message: '판매가 성공적으로 처리되었습니다.' };
   }
+
+  public async getPortfolio(userId: string, stockId: number) {
+    const portfolio = await this.portfolioRepository.findPortfolioByUserIdAndStockCode(userId, stockId);
+    return portfolio ? portfolio.stockQty : 0;
+  }
 }

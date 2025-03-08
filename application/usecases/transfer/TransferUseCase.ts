@@ -37,4 +37,15 @@ export class TransferUseCase {
     await this.walletRepository.updateCashAccountWalletByUserId(userId, Number(wallet.cash), Number(wallet.account));
     return { message: "이체가 성공적으로 완료되었습니다." };
   }
+  public async getWallet(userId: string) {
+    const wallet = await this.walletRepository.findWalletByUserId(userId);
+    if (!wallet) {
+      throw new Error("해당 사용자의 지갑 정보를 찾을 수 없습니다.");
+    }
+    return {
+      cash: wallet.cash ? wallet.cash.toString() : "0",
+      account: wallet.account ? wallet.account.toString() : "0",
+    };
+  }
 }
+

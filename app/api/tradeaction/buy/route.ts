@@ -45,22 +45,16 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET() {
- 
   try {
-    // token의 있는 userId 가져오기
     const userId: string | null = await getDecodedUserId();
 
     if (!userId) {
       return NextResponse.json({ message: "접근 권한이 없습니다." }, { status: 401 });
     }
 
-    const wallet = await walletRepository.findWalletByUserId(userId);
+    const walletData = await handleBuyUseCase.getCash(userId);
 
-    if (!wallet) {
-      return NextResponse.json({ message: "해당 사용자의 지갑 정보를 찾을 수 없습니다." }, { status: 500 });
-    }
-
-    return NextResponse.json({ cash: wallet.cash ? wallet.cash.toString() : "0" }, { status: 200 });
+    return NextResponse.json(walletData, { status: 200 });
   } catch (error) {
     console.error("Error fetching wallet data:", error);
     return NextResponse.json({ message: "내부 서버 오류" }, { status: 500 });
