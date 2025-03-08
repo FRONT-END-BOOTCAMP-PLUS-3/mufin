@@ -1,12 +1,16 @@
+import { AccessTokenUseCase } from "@/application/usecases/kis/AccessTokenUseCase";
+import { IAccessTokenUseCase } from "@/application/usecases/kis/interfaces/IAccessTokenUseCase";
 import { StockInfoUseCase } from "@/application/usecases/stock/StockInfoUseCase";
 import { env } from "@/config/env";
 import { PgStockRepository } from "@/infrastructure/repositories/PgStockRepository";
-import { fetchKISAccessToken } from "@/utils/fetchKISAccessToken";
+
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
   try {
-    const KISAccessToken = await fetchKISAccessToken();
+
+    const kisAccessTokenUseCase :IAccessTokenUseCase = new AccessTokenUseCase(); 
+    const KISAccessToken = await kisAccessTokenUseCase.execute();
 
     if (!KISAccessToken) {
       return NextResponse.json({ error: "KISAccessToken not found in cookies" }, { status: 400 });
