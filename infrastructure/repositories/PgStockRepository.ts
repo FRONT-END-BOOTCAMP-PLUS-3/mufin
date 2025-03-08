@@ -5,7 +5,14 @@ import { prisma } from "@/config/prismaClient";
 export class PgStockRepository implements IStockRepository {
   async findStockByCode(stockCode: string): Promise<Stock | null>  {
     const stock = await prisma.stock.findFirst({
-      where: { stockCode: stockCode },
+      where: { stockCode },
+    });
+    return stock;
+  }
+
+  async findStockById(stockId: number): Promise<Stock | null>  {
+    const stock = await prisma.stock.findFirst({
+      where: { stockId },
     });
     return stock;
   }
