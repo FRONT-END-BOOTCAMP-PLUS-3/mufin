@@ -17,9 +17,9 @@ const StockDetailPage = async ({params}:StockDetailProps) =>  {
   return (
       <StockClient
         symbol={symbol}
-        stockPrice={stockData.stck_prpr || ""}
-        prdyVrss={stockData.prdy_vrss || ""}
-        prdyCtrt={stockData.prdy_ctrt || ""}
+        stockPrice={stockData.data.stckPrpr || ""}
+        prdyVrss={stockData.data.prdyVrss || ""}
+        prdyCtrt={stockData.data.prdyCtrt || ""}
       />
   );
 }

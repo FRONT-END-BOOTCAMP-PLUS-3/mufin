@@ -1,9 +1,12 @@
+import { AccessTokenUseCase } from "@/application/usecases/kis/AccessTokenUseCase";
+import { IAccessTokenUseCase } from "@/application/usecases/kis/interfaces/IAccessTokenUseCase";
 import { env } from "@/config/env";
-import { fetchKISAccessToken } from "@/utils/fetchKISAccessToken";
 import { NextResponse } from "next/server";
 
+const kisAccessTokenUseCase :IAccessTokenUseCase = new AccessTokenUseCase(); 
+const KISAccessToken = await kisAccessTokenUseCase.execute();
+
 export async function fetchKISPrice(symbol: string) {
-  const KISAccessToken = await fetchKISAccessToken();
 
   if (!KISAccessToken) {
     return NextResponse.json(
