@@ -16,7 +16,7 @@ export class ApprovalKeyUseCase implements IApprovalKeyUseCase{
     async execute(): Promise<string> {
         const apiKey = env.KIS_APP_KEY;
 
-        let approvalKey = await this.redisRepository.getApprovalKey(apiKey);
+        let approvalKey = await this.redisRepository.findKISValue("kis_access_token",apiKey);
         if(approvalKey) {
             console.log(`[CACHE HIT] Redis에서 Approval Key 가져��: ${approvalKey}`);
             return approvalKey;
@@ -25,7 +25,7 @@ export class ApprovalKeyUseCase implements IApprovalKeyUseCase{
         approvalKey = await this.kisAuthClient.getApprovalKey();
 
         if(approvalKey) {
-            await this.redisRepository.setApprovalKey(apiKey, approvalKey);
+            await this.redisRepository.saveKISValue('kis_access_token',apiKey, approvalKey);
             console.log("[CACHE UPDATE] Approval Key 저장 완료!");
         }
 
