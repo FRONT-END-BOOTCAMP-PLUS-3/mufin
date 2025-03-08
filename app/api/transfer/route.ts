@@ -1,10 +1,11 @@
 import { TransferDto } from "@/application/usecases/transfer/dtos/TransferDto";
 import { TransferUseCase } from "@/application/usecases/transfer/TransferUseCase";
+import { IWalletRepository } from "@/domain/repositories/IWalletRepository";
 import { PgWalletRepository } from "@/infrastructure/repositories/PgWalletRepository";
 import { getDecodedUserId } from "@/utils/getDecodedUserId";
 import { NextRequest, NextResponse } from "next/server";
 
-const walletRepository = new PgWalletRepository();
+const walletRepository : IWalletRepository = new PgWalletRepository();
 const transferUseCase = new TransferUseCase(walletRepository);
 
 export async function POST(req: NextRequest) {

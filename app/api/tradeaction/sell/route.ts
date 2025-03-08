@@ -5,11 +5,14 @@ import { PgPortfolioRepository } from "@/infrastructure/repositories/PgPortfolio
 import { getDecodedUserId } from "@/utils/getDecodedUserId";
 import { PgWalletRepository } from "@/infrastructure/repositories/PgWalletRepository";
 import { PgHistoryRepository } from "@/infrastructure/repositories/PgHistoryRepository";
+import { IWalletRepository } from "@/domain/repositories/IWalletRepository";
+import { IPortfolioRepository } from "@/domain/repositories/IPortfolioRepository";
+import { IHistoryRepository } from "@/domain/repositories/IHistoryRepository";
 
 // 리포지토리 인스턴스 생성
-const walletRepository = new PgWalletRepository();
-const portfolioRepository = new PgPortfolioRepository();
-const historyRepository = new PgHistoryRepository();
+const walletRepository : IWalletRepository = new PgWalletRepository();
+const portfolioRepository : IPortfolioRepository = new PgPortfolioRepository();
+const historyRepository : IHistoryRepository = new PgHistoryRepository();
 
 // 모든 리포지토리를 전달하여 UseCase 생성
 const handleSellUseCase = new HandleSellUseCase(walletRepository, portfolioRepository, historyRepository);
