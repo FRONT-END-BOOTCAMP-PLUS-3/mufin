@@ -1,5 +1,5 @@
 
-import { SellDto } from "@/application/usecases/trade/dtos/SellDto";
+import { SellDto } from "@/application/usecases/tradeaction/dtos/SellDto";
 import { IHistoryRepository } from "@/domain/repositories/IHistoryRepository";
 import { IPortfolioRepository } from "@/domain/repositories/IPortfolioRepository";
 import { IWalletRepository } from "@/domain/repositories/IWalletRepository";
@@ -18,7 +18,6 @@ export class HandleSellUseCase {
     this.portfolioRepository = portfolioRepository;
     this.historyRepository = historyRepository;
   }
-
 
   public async handleSell(sellDto: SellDto) {
     const { userId, stockId, quantity, price, totalAmount } = sellDto;
@@ -59,5 +58,10 @@ export class HandleSellUseCase {
 
     // 6. 성공 메시지 반환
     return { message: '판매가 성공적으로 처리되었습니다.' };
+  }
+
+  public async getPortfolio(userId: string, stockId: number) {
+    const portfolio = await this.portfolioRepository.findPortfolioByUserIdAndStockCode(userId, stockId);
+    return portfolio ? portfolio.stockQty : 0;
   }
 }
