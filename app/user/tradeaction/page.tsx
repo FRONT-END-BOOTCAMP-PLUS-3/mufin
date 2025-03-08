@@ -1,5 +1,7 @@
 import TradeActionClient from "@/app/user/tradeaction/components/TradeActionClient";
 
-export default function TradeActionPage() {
+const TradeActionPage = () => {
   return <TradeActionClient />;
 }
+
+export default TradeActionPage;
