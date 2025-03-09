@@ -33,14 +33,6 @@ export const HistoryTabItem = styled.div<{ $active?: boolean }>`
   cursor: pointer;
 `;
 
-export const HistoryTrem = styled.div`
-  margin-left : 0.75rem;
-  font-size: var(--font-size-base);
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-`;
-
 export const HistoryTable = styled.table`
   width: 100%;
   border-collapse: collapse;
@@ -83,4 +75,45 @@ export const NoDataText = styled.div`
   color: var(--gray-800);
   text-align: center;
   padding: 1rem;
+`;
+
+export const DropdownContainer = styled.div`
+  position: relative;
+  display: inline-block;
+  width: 100px;
+`;
+
+export const SelectedValue = styled.div`
+  padding: 0.625rem;
+  border: none;
+  cursor: pointer;
+  font-size: var(--font-size-base);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const DropdownList = styled.ul`
+  position: absolute;
+  width: 100%;
+  max-height: 12.5rem;
+  overflow-y: auto;
+  background: var(--white-color);
+  border: 1px solid var(--gray-200);
+  border-radius: 0.3125rem;
+  margin-top: 0.3125rem;
+  list-style: none;
+  box-shadow: 0px 0.25rem 0.375rem rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+`;
+
+export const DropdownItem = styled.li`
+  padding: 0.375rem;
+  font-size: var(--font-size-base);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--primary-300);
+    color: var(--white-color);
+  }
 `;
