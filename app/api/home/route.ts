@@ -4,14 +4,13 @@ import { GetCurrentPriceUseCase } from "@/application/usecases/kis/GetCurrentPri
 import { StockInfoUseCase } from "@/application/usecases/stock/StockInfoUseCase";
 import { IStockRepository } from "@/domain/repositories/IStockRepository";
 import { PgStockRepository } from "@/infrastructure/repositories/PgStockRepository";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function GET(req: NextRequest) {
+
+export async function GET() {
   try {
-    const { searchParams } = new URL(req.url);
-    const requestParam = searchParams.get("stockList");
+    const stockCodes = ["005930", "000660", "373220", "035720"];
 
-    const requests = requestParam ? requestParam.split(",") : [];
 
     // repository 인스턴스 생성
     const stockRepository: IStockRepository = new PgStockRepository();
@@ -23,7 +22,7 @@ export async function GET(req: NextRequest) {
     );
 
     const results = await Promise.all(
-      requests.map((stockCode) => getHomeDataUseCase.execute(stockCode))
+      stockCodes.map((stockCode) => getHomeDataUseCase.execute(stockCode))
     );
 
     if (results.length === 0) {
