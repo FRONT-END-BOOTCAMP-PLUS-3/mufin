@@ -2,25 +2,29 @@ import { StockListResponseDto } from "@/application/usecases/home/dtos/StockList
 import * as S from "@/app/te/components/Te.Styled";
 import { env } from "@/config/env";
 
-async function fetchStocks(stockList: string[]): Promise<StockListResponseDto[]> {
-    const queryString = new URLSearchParams({stockList: stockList.join(","),}).toString();
+interface StockListProps {
+    path:string;
+}
 
-    const res = await fetch(`${env.NEXT_PUBLIC_BASE_URL}/api/home?${queryString}`, {
+async function fetchStocks(path: string): Promise<StockListResponseDto[]> {
+    
+    const res = await fetch(`${env.NEXT_PUBLIC_BASE_URL}${path}`, {
         cache: "no-store",
     });
 
     return await res.json();
 }
 
-const StockList = async () => {
-    const stockCodes = ["005930", "000660", "373220", "035720"];
-    const stockData = await fetchStocks(stockCodes);
+const StockList = async ({path}:StockListProps) => {
+    
+    const stockData = await fetchStocks(path);
+
 
     return (
-        <S.StockWrapper>
-            <S.TitleBox>인기 종목</S.TitleBox>
+    <>
+       
             <S.StockItemBox>
-            {stockData?.map(({ stockCode, stockImage, stockId, stockName, currentPrice }) => {
+            {stockData?.map(({ index, stockCode, stockImage, stockId, stockName, currentPrice }) => {
                 const isPositive = !currentPrice.prdyVrss.startsWith("-");
             
                 const formattedVrss =
@@ -40,6 +44,7 @@ const StockList = async () => {
                 return (
                     <S.StockLink href={`/stock/${stockCode}`} key={stockId}>
                     <S.StockLeft>
+                        {index && <span>{index}.</span>}
                         <S.LogoWrapper>
                         {stockImage && (
                             <S.StockImage
@@ -66,7 +71,7 @@ const StockList = async () => {
                 }
             )}
             </S.StockItemBox>
-        </S.StockWrapper>
+        </>
     );
 };
 

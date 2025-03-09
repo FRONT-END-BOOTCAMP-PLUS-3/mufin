@@ -29,9 +29,9 @@ export const StockItemBox = styled.div`
     justify-content: center;
     align-items: center;
 
-    margin-top: 0.375rem;
-    gap: 0.75rem;
+    width: 100%;
 
+    margin-top: 0.375rem;
 `;
 
 export const StockLink = styled(Link)`

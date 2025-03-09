@@ -15,6 +15,5 @@ export const CategoryContainer = styled.section`
     margin-top: 20px;
     padding: 20px;
 
-   
     
 `;

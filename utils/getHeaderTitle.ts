@@ -1,7 +1,7 @@
 "use client"
 import { useSearchParams } from "next/navigation";
 
-import { ROUTE_HEADER_MAP } from "@/constants/routeMap";
+import { CATEGORY_MAP, ROUTE_HEADER_MAP } from "@/constants/routeMap";
 
 export const useGetHeaderTitle = (pathname: string): string => {
   const searchParams = useSearchParams();
@@ -13,8 +13,14 @@ export const useGetHeaderTitle = (pathname: string): string => {
   }
 
   // `/stock?c=자동차`
-  if (pathname === "/stock") {
-    title = searchParams.get("c") || "주식 목록";
+  if (pathname === "/category") {
+    const param = searchParams.get("c");
+    if (param) {
+      const c = parseInt(param, 10);
+      title = CATEGORY_MAP[c] ?? "주식 목록";
+    } else {
+      title = "주식 목록";
+    }
   }
 
   return title;
