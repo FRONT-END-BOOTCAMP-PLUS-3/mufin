@@ -7,8 +7,8 @@ export const ROUTE_HEADER_MAP: Record<string, string> = {
 };
 
 export const CATEGORY_MAP: Record<number, string> = {
-  1: "자동차",
-  2: "스마트폰",
+  1: "스마트폰",
+  2: "자동차",
   3: "식품",
   4: "화학",
   5: "제약",
