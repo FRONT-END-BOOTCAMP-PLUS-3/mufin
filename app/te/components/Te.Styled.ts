@@ -86,12 +86,6 @@ export const StockImage = styled(Image)`
     object-fit: cover;
 `;
 
-export const StockFirstWord = styled.h2`
-    width: 100%;
-    height: 100%;
-    border:1px solid var(--gray-900);
-    border-radius: 50%;
-`
 
 export const StockName = styled.div`
     font-size: 1rem;
@@ -116,5 +110,3 @@ export const StockChange = styled.p<{ $isPositive: boolean }>`
     font-size: 1rem;
     color: ${(props) => (props.$isPositive ?   "var(--second-color)" : "var(--primary-color)")};
 `;
-
-
