@@ -54,8 +54,6 @@ export const StockLink = styled(Link)`
     }
 `;
 
-
-
 export const StockInfo = styled.div`
     display: flex;
     justify-content: space-between;
@@ -80,8 +78,20 @@ export const LogoWrapper = styled.div`
 
     border-radius: 50%;
     overflow: hidden;
-    
 `;
+
+export const StockImage = styled(Image)`
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+`;
+
+export const StockFirstWord = styled.h2`
+    width: 100%;
+    height: 100%;
+    border:1px solid var(--gray-900);
+    border-radius: 50%;
+`
 
 export const StockName = styled.div`
     font-size: 1rem;
@@ -104,11 +114,7 @@ export const StockPrice = styled.p`
 
 export const StockChange = styled.p<{ $isPositive: boolean }>`
     font-size: 1rem;
-    color: ${(props) => (props.$isPositive ?  "var(--primary-color)": "var(--second-color)")};
+    color: ${(props) => (props.$isPositive ?   "var(--second-color)" : "var(--primary-color)")};
 `;
 
-export const StockImage = styled(Image)`
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-`;
+
