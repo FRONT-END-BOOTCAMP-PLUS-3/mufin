@@ -37,6 +37,11 @@ export class StockByCategoryUseCase implements IStockByCategoryUseCase{
             }
         }));
 
+        updatedStocks.sort(
+            (a, b) => Number(b.currentPrice.stckPrpr) - Number(a.currentPrice.stckPrpr)
+          );
+      
+
         return updatedStocks;
     }
 
