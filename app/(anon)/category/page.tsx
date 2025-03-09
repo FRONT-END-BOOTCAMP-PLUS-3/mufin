@@ -1,8 +1,8 @@
 import Category from "@/app/(anon)/category/components/Category";
 
-const categoryPage = () => {
+const categoryPage = ({ searchParams }: { searchParams?: { c?: string } }) => {
     return (
-        <Category/>
+        <Category searchParams={searchParams ?? {}}/>
     );
 }
 export default categoryPage;
