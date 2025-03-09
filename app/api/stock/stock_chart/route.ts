@@ -1,5 +1,7 @@
+import { StockChartDto } from "@/application/usecases/kis/dtos/StockChartDto";
+import { GetStockChartUseCase } from "@/application/usecases/kis/GetStockChartUseCase";
+import { IGetStockChartUseCase } from "@/application/usecases/kis/interfaces/IGetStockChartUseCase";
 import { StockInfoUseCase } from "@/application/usecases/stock/StockInfoUseCase";
-import { fetchKISStockChart } from "@/infrastructure/api/kisApiClient";
 import { PgStockRepository } from "@/infrastructure/repositories/PgStockRepository";
 
 import { NextResponse } from "next/server";
@@ -9,39 +11,22 @@ export async function GET(req: Request) {
     // 요청된 symbol과 activePeriod 추출
     const queryParams = new URL(req.url).searchParams;
     const symbol = queryParams.get("symbol") || "";
-    const activePeriod = queryParams.get("activePeriod") || "";
-
+    const activePeriod = queryParams.get("activePeriod") || "D";
+    
     const stockRepository = new PgStockRepository();
-    const stockUsecase = new StockInfoUseCase(stockRepository);
+    const stockUseCase = new StockInfoUseCase(stockRepository);
 
-    const stockData = await stockUsecase.getStockInfoByCode(symbol);
+    //
+    const getStockChartUseCase : IGetStockChartUseCase = new GetStockChartUseCase(stockUseCase)
 
-    const getCurrentDate = (): string => {
-      const today = new Date();
-      const year = today.getFullYear();
-      const month = (today.getMonth() + 1).toString().padStart(2, "0");
-      const day = today.getDate().toString().padStart(2, "0");
+    const stockChartDtos: StockChartDto[] = await getStockChartUseCase.execute(symbol, activePeriod);
 
-      return `${year}${month}${day}`;
-    };
-
-    if (!stockData || !stockData.stockOpen) {
-      return NextResponse.json(
-        { error: "상장일 정보를 찾을 수 없습니다." },
-        { status: 404 }
-      );
+    if(stockChartDtos.length === 0) {
+      return NextResponse.json({ error: '주식 차트 데이터가 존재하지 않습니다.' }, { status: 500 });
     }
 
-    const stockOpenDate = stockData.stockOpen;
+    return NextResponse.json(stockChartDtos,{status:200})
 
-    const data = await fetchKISStockChart(
-      symbol,
-      stockOpenDate,
-      getCurrentDate(),
-      activePeriod
-    );
-
-    return NextResponse.json(data, { status: 200 });
   } catch (error: unknown) {
     console.error("API 요청 실패:", error);
     const errorMessage =
