@@ -19,7 +19,7 @@ export class StockByCategoryUseCase implements IStockByCategoryUseCase{
             throw new Error("not found StocksByCategory in useCases");
         }
         const updatedStocks: StockListResponseDto[] = await Promise.all(
-        stocks.map(async(stock, index)=>{
+        stocks.map(async(stock)=>{
             const currentPrice = await this.getCurrentPriceUseCase.execute(stock.stockCode);
 
             if(!currentPrice ){
@@ -27,7 +27,7 @@ export class StockByCategoryUseCase implements IStockByCategoryUseCase{
             }
 
             return {
-                index:index+1,
+                index:0, // 임시 index, 나중에 업데이트 예정
                 stockId: stock.stockId,
                 stockCode: stock.stockCode,
                 stockName: stock.stockName,
@@ -41,8 +41,14 @@ export class StockByCategoryUseCase implements IStockByCategoryUseCase{
             (a, b) => Number(b.currentPrice.stckPrpr) - Number(a.currentPrice.stckPrpr)
           );
       
+          // 정렬 후에 index를 1부터 다시 부여
+          const finalStocks = updatedStocks.map((stock, index) => ({
+            ...stock,
+            index: index + 1,
+          }));
+      
 
-        return updatedStocks;
+        return finalStocks;
     }
 
 }
