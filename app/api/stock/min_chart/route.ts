@@ -1,6 +1,6 @@
 import { AccessTokenUseCase } from "@/application/usecases/kis/AccessTokenUseCase";
 import { IAccessTokenUseCase } from "@/application/usecases/kis/interfaces/IAccessTokenUseCase";
-import { env } from "@/config/env";
+import { fetchKISMinChart } from "@/infrastructure/api/kisApiClient";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
@@ -12,7 +12,6 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "KISAccessToken not found in cookies" }, { status: 400 });
     }
 
-    const url = `${env.KIS_API_URL}/uapi/domestic-stock/v1/quotations/inquire-time-itemchartprice`;
 
     const getCurrentTime = (offset: number): string => {
       const now = new Date();  
@@ -40,33 +39,12 @@ export async function GET(req: Request) {
 
     const requests = Array.from({ length: 4 }, async (_, i) => {
       const formattedTime = getCurrentTime(i);
-      const params = new URLSearchParams({
-        FID_ETC_CLS_CODE: '',
-        FID_COND_MRKT_DIV_CODE: 'J',
-        FID_INPUT_ISCD: symbol,
-        FID_INPUT_HOUR_1: formattedTime,
-        FID_PW_DATA_INCU_YN: 'N',
-      });
+
 
       console.log('Processing time:', formattedTime);
 
-      const response = await fetch(`${url}?${params.toString()}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'authorization': `Bearer ${KISAccessToken}`,
-          'appkey': env.KIS_APP_KEY!,
-          'appsecret': env.KIS_APP_SECRET!,
-          'tr_id': 'FHKST03010200',
-          'custtype': 'P',
-        },
-      });
+      return fetchKISMinChart(symbol, formattedTime);
 
-      if (!response.ok) {
-        throw new Error(`API 요청 실패: ${response.status}`);
-      }
-
-      return response.json();
     });
 
     const data = await Promise.all(requests);  
