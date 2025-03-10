@@ -1,6 +1,4 @@
 import { NextResponse, NextRequest } from "next/server";
-import { RefreshAccessTokenUseCase } from "@/application/usecases/user/RefreshAccessTokenUseCase";
-import { UserRepository } from "@/infrastructure/repositories/PgUserRepository";
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -25,29 +23,35 @@ export async function middleware(req: NextRequest) {
       return NextResponse.redirect(new URL("/login", req.url));
     }
 
-    // refreshToken이 있을 경우 accessToken 재발급 시도
-    const userRepository = new UserRepository();
-    const refreshAccessTokenUseCase = new RefreshAccessTokenUseCase(
-      userRepository
-    );
+    // ✅ API Route를 호출하여 Access Token 갱신
     try {
-      console.log("Refresh Token을 이용해 재발급 시도");
-      const refreshResult = await refreshAccessTokenUseCase.execute(
-        refreshToken
-      );
-      console.log("리프레쉬 결과 : ", refreshResult);
+      console.log("🔄 Refresh Token을 이용해 재발급 시도");
+
+      const refreshResponse = await fetch(new URL("/api/refresh-token", req.url), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ refreshToken }),
+      });
+
+      if (!refreshResponse.ok) {
+        console.error("❌ Refresh Token 검증 실패");
+        return NextResponse.redirect(new URL("/login", req.url));
+      }
+
+      const { accessToken: newAccessToken } = await refreshResponse.json();
+      console.log("✅ 새로운 Access Token 발급 완료");
 
       const response = NextResponse.next();
-      response.cookies.set("accessToken", refreshResult.accessToken, {
+      response.cookies.set("accessToken", newAccessToken, {
         httpOnly: true,
         sameSite: "strict",
         path: "/",
         maxAge: 3600,
       });
-      console.log("새로운 Access Token 발급 완료");
+
       return response;
-    } catch (refreshError) {
-      console.error("Refresh Token 검증 실패:", refreshError);
+    } catch (error) {
+      console.error("🚨 API 호출 중 오류 발생:", error);
       return NextResponse.redirect(new URL("/login", req.url));
     }
   }
@@ -55,7 +59,7 @@ export async function middleware(req: NextRequest) {
   return NextResponse.next();
 }
 
-// 미들웨어 적용 범위 지정
+// ✅ 미들웨어는 Edge에서 실행되도록 설정
 export const config = {
   matcher: ["/user/:path*", "/login", "/signup"],
 };

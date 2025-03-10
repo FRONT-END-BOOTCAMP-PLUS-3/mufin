@@ -29,9 +29,9 @@ export const StockItemBox = styled.div`
     justify-content: center;
     align-items: center;
 
-    margin-top: 0.375rem;
-    gap: 0.75rem;
+    width: 100%;
 
+    margin-top: 0.375rem;
 `;
 
 export const StockLink = styled(Link)`
@@ -53,8 +53,6 @@ export const StockLink = styled(Link)`
         background-color: #f7f7f7;
     }
 `;
-
-
 
 export const StockInfo = styled.div`
     display: flex;
@@ -80,8 +78,14 @@ export const LogoWrapper = styled.div`
 
     border-radius: 50%;
     overflow: hidden;
-    
 `;
+
+export const StockImage = styled(Image)`
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+`;
+
 
 export const StockName = styled.div`
     font-size: 1rem;
@@ -104,11 +108,5 @@ export const StockPrice = styled.p`
 
 export const StockChange = styled.p<{ $isPositive: boolean }>`
     font-size: 1rem;
-    color: ${(props) => (props.$isPositive ?  "var(--primary-color)": "var(--second-color)")};
-`;
-
-export const StockImage = styled(Image)`
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    color: ${(props) => (props.$isPositive ?   "var(--second-color)" : "var(--primary-color)")};
 `;
