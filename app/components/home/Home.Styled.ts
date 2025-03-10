@@ -45,7 +45,7 @@ export const QuizButton = styled.button`
     color: white;
     text-decoration: none;
     border-radius: 14px;
-    font-size: 1rem;
+    font-size: var(--font-size-base);
     font-weight: bold;
 
     &:hover {
