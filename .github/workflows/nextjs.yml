@@ -112,6 +112,21 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             cd /home/mufindata
+            
+            echo "Creating .env file..."
+            cat << 'EOF' > .env
+            DATABASE_URL=${{ secrets.DATABASE_URL }}
+            NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }}
+            REDIS_URL=${{ secrets.REDIS_URL }}
+            NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}
+            KIS_API_URL=${{ secrets.KIS_API_URL }}
+            KIS_APP_KEY=${{ secrets.KIS_APP_KEY }}
+            KIS_APP_SECRET=${{ secrets.KIS_APP_SECRET }}
+            JWT_SECRET=${{ secrets.JWT_SECRET }}
+            SMTP_EMAIL_USER=${{ secrets.SMTP_EMAIL_USER }}
+            SMTP_EMAIL_PASSWORD=${{ secrets.SMTP_EMAIL_PASSWORD }}
+            EOF
+            
             echo "Removing previous build files..."
             rm -rf *
             echo "Copying new build files..."
