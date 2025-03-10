@@ -15,37 +15,37 @@ import {
 const categories = [
   {
     name: "자동차",
-    image: "/stock-category/automobile.svg",
+    image: "/stock-category/automobile.png",
     path: "/stocks/automobile",
     color: "#B1B8FF",
   },
   {
     name: "스마트폰",
-    image: "/stock-category/smartphone.svg",
+    image: "/stock-category/smartphone.png",
     path: "/stocks/smartphone",
     color: "#FFB5FA",
   },
   {
     name: "식품",
-    image: "/stock-category/food.svg",
+    image: "/stock-category/food.png",
     path: "/stocks/food",
     color: "#FFD6A8",
   },
   {
     name: "화학",
-    image: "/stock-category/chemistry.svg",
+    image: "/stock-category/chemistry.png",
     path: "/stocks/chemistry",
     color: "#A5EAFF",
   },
   {
     name: "제약",
-    image: "/stock-category/pharmaceutical.svg",
+    image: "/stock-category/pharmaceutical.png",
     path: "/stocks/pharmaceutical",
     color: "#B4FFBC",
   },
   {
     name: "반도체",
-    image: "/stock-category/semiconductor.svg",
+    image: "/stock-category/semiconductor.png",
     path: "/stocks/semiconductor",
     color: "#FF8D8D",
   },
@@ -66,7 +66,7 @@ const StockCategory = () => {
                     src={category.image}
                     alt={category.name}
                     width={80}
-                    height={20}
+                    height={80}
                   />
                 </ImageWrapper>
               </CategoryCard>
