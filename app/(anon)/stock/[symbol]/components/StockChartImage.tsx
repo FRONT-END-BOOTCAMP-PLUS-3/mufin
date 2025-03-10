@@ -15,18 +15,9 @@ import { ChartImageContainer, ChartSection } from '@/app/(anon)/stock/[symbol]/c
 
 import ErrorScreen from '@/app/(anon)/stock/[symbol]/components/ErrorScreen';
 import LoadingScreen from '@/app/(anon)/stock/[symbol]/components/LodingScreen';
+import { StockChartDto } from '@/application/usecases/kis/dtos/StockChartDto';
 
 ChartJS.register(CategoryScale, LinearScale, CandlestickController, TimeScale, CandlestickElement, Tooltip, Legend);
-
-interface StockDataItem {
-  stck_bsop_date: string;
-  stck_cntg_hour : string;
-  stck_oprc: string;
-  stck_hgpr: string;
-  stck_lwpr: string;
-  stck_clpr: string;
-  stck_prpr : string;
-}
 
 interface StockChartImageProps {
   symbol: string;
@@ -49,6 +40,31 @@ interface ChartData {
   datasets: FinancialDataset[];
 }
 
+const parseDate = (dateStr: string, timeStr?: string): Date => {
+  const year = parseInt(dateStr.substring(0, 4), 10);
+  const month = parseInt(dateStr.substring(4, 6), 10) - 1;
+  const day = parseInt(dateStr.substring(6, 8), 10);
+  if (timeStr) {
+    const hours = parseInt(timeStr.substring(0, 2), 10);
+    const minutes = parseInt(timeStr.substring(2, 4), 10);
+    const seconds = parseInt(timeStr.substring(4, 6), 10);
+    return new Date(year, month, day, hours, minutes, seconds);
+  }
+  return new Date(year, month, day);
+};
+
+const createCandlestickItem = (item: StockChartDto, activePeriod: string) => {
+  const date = parseDate(item.stckBsopDate, activePeriod === '1m' ? item.stckCntgHour : undefined);
+  return {
+    x: date,
+    o: Number(item.stckOprc),
+    h: Number(item.stckHgpr),
+    l: Number(item.stckLwpr),
+    c: Number(activePeriod === '1m' ? item.stckPrpr : item.stckClpr),
+  };
+};
+
+
 const StockChartImage = ({ symbol, activePeriod }: StockChartImageProps) => {
   const [chartData, setChartData] = useState<ChartData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -61,75 +77,18 @@ const StockChartImage = ({ symbol, activePeriod }: StockChartImageProps) => {
       setLoading(true);
 
       try {
-        let response;
-
-        if (activePeriod === '1m') {
-          response = await fetch(`/api/stock/min_chart?symbol=${symbol}`);  // 분봉 차트 API
-        } else {
-          response = await fetch(`/api/stock/stock_chart?symbol=${symbol}&activePeriod=${activePeriod}`);  // 기존 봉 차트 API
-        }
+          const response = await fetch(`/api/stock/${symbol}?activePeriod=${activePeriod}`);  // 분봉 차트 API   
 
         const data = await response.json();
 
         let candlestickData: { x: Date; o: number; h: number; l: number; c: number }[] = [];
 
-        if (activePeriod === '1m') {
-          // 분봉 차트의 경우 flatMap을 사용하여 output2를 합치기
-          const combinedOutput2 = data.flatMap((item: { output2: StockDataItem[] }) => item.output2 || []);
-
-          // 각 항목에서 필요한 데이터 포맷으로 변환
-          candlestickData = combinedOutput2.map((item: StockDataItem) => {
-            const dateStr = item.stck_bsop_date; 
-            const timeStr = item.stck_cntg_hour; 
-
-            let date: Date;
-
-            // 분 봉 차트 처리
-            if (dateStr && timeStr) {
-              const year = parseInt(dateStr.substring(0, 4), 10);
-              const month = parseInt(dateStr.substring(4, 6), 10) - 1;
-              const day = parseInt(dateStr.substring(6, 8), 10);
-              const hours = parseInt(timeStr.substring(0, 2), 10);
-              const minutes = parseInt(timeStr.substring(2, 4), 10);
-              const seconds = parseInt(timeStr.substring(4, 6), 10);
-              date = new Date(year, month, day, hours, minutes, seconds);
-            } else if (dateStr) {
-              const year = parseInt(dateStr.substring(0, 4), 10);
-              const month = parseInt(dateStr.substring(4, 6), 10) - 1;
-              const day = parseInt(dateStr.substring(6, 8), 10);
-              date = new Date(year, month, day);
-            } else {
-              console.warn("Neither dateStr nor timeStr is available:", item);
-              return null;
-            }
-
-            return {
-              x: date,
-              o: Number(item.stck_oprc),
-              h: Number(item.stck_hgpr),
-              l: Number(item.stck_lwpr),
-              c: Number(item.stck_prpr),
-            };
-          }).filter(Boolean); 
+        if (data) {
+          candlestickData = data
+            .map((item: StockChartDto) => createCandlestickItem(item, activePeriod))
+            .filter(Boolean);
         } else {
-          if (!data?.output2) {
-            console.error('output2가 존재하지 않습니다.');
-            return;
-          }
-
-          // 기존 봉 차트 처리 (date 값만으로 변환)
-          candlestickData = data.output2.map((item: StockDataItem) => {
-            const dateStr = item.stck_bsop_date;
-            const date = new Date(parseInt(dateStr.substring(0, 4), 10), parseInt(dateStr.substring(4, 6), 10) - 1, parseInt(dateStr.substring(6, 8), 10));
-
-            return {
-              x: date,
-              o: Number(item.stck_oprc),
-              h: Number(item.stck_hgpr),
-              l: Number(item.stck_lwpr),
-              c: Number(item.stck_clpr),
-            };
-          });
+          console.error('데이터가 없습니다.');
         }
 
         setChartData({
@@ -138,7 +97,7 @@ const StockChartImage = ({ symbol, activePeriod }: StockChartImageProps) => {
               label: `${symbol} 봉 차트`,
               data: candlestickData,
               barThickness: 7,
-            }
+            },
           ],
         });
       } catch (error) {
