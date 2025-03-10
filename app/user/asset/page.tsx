@@ -34,29 +34,52 @@ const Asset = () => {
     // 투자 목표 설정 모달 상태
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // 자산 데이터 (DB에서 가져올 예정)
-    const [goalAmount, setGoalAmount] = useState(7700000); // 투자 목표 금액
-    const [tempGoalAmount, setTempGoalAmount] = useState(goalAmount.toString()); //임시 목표금액
-    const [securitiesAccount, setSecuritiesAccount] = useState(1500000); // 증권계좌 자산
-    const [bankAccount, setBankAccount] = useState(1000000); // 일반계좌 자산
-    const [totalAssets, setTotalAssets] = useState(securitiesAccount + bankAccount); // 총자산
-    const [profit, setProfit] = useState(3216); // 평가손익
-    const [profitRate, setProfitRate] = useState(1.6); // 수익률
+    // DB에서 받아올 자산 데이터 상태
+    const [goalAmount, setGoalAmount] = useState(0); // 투자 목표 금액 (Wallet.target)
+    const [tempGoalAmount, setTempGoalAmount] = useState("0");
+    const [securitiesAccount, setSecuritiesAccount] = useState(0); // 증권계좌 자산 (현재는 cash 값)
+    const [bankAccount, setBankAccount] = useState(0); // 일반계좌 자산 (Wallet.account)
+    const [totalAssets, setTotalAssets] = useState(0); // 총 자산 = 증권계좌 자산 + 일반계좌 자산
+    const [profit, setProfit] = useState(0); // 평가손익 (추후 구현)
+    const [profitRate, setProfitRate] = useState(0); // 평가손익 비율 (추후 구현)
+    const [cash, setCash] = useState(0); // 예수금 (Wallet.cash)
+    const [holdings, setHoldings] = useState<any[]>([]); // 보유종목 (추후 구현)
+    const [investmentAmount, setInvestmentAmount] = useState(0);
+    const [totalProfit, setTotalProfit] = useState(0);
+    const [totalProfitRate, setTotalProfitRate] = useState(0);
 
-    // 증권계좌 기준으로 Progress Bar 업데이트
-    const progress = Math.min((securitiesAccount / goalAmount) * 100, 100);
+    // 목표금액이 0이 아닐 경우 증권계좌 기준 Progress Bar 계산
+    const progress = goalAmount > 0 ? Math.min((securitiesAccount / goalAmount) * 100, 100) : 0;
 
-    // 예제 데이터 (실제 데이터는 API 연동 예정)
-    const investmentAmount = 750000; // 투자금액: 보유 종목들의 현재 가격 합산
-    const totalProfit = 80000; // 총 평가손익(구매 가격 대비 현재 가격)
-    const totalProfitRate = 8; // 평가손익 비율
-    const cash = 250000; // 예수금 (DB의 cash 항목)
+    useEffect(() => {
+        // API 엔드포인트에서 자산 데이터 받아오기
+        async function fetchAssetData() {
+            try {
+                const response = await fetch("/api/user/asset");
+                if (!response.ok) {
+                    throw new Error("자산 데이터를 불러오지 못했습니다.");
+                }
+                const data = await response.json();
 
-    // 보유 종목 데이터
-    const holdings = [
-        { logo: "/images/naver.png", name: "Naver", quantity: 5, amount: 250000, profit: 3215, profitRate: 1.5 },
-        { logo: "/images/samsung.png", name: "삼성전자", quantity: 5, amount: 250000, profit: 3215, profitRate: 1.5 },
-    ];
+                // API에서 받아온 데이터로 상태 업데이트
+                setGoalAmount(data.goalAmount);
+                setTempGoalAmount(data.goalAmount.toString());
+                setSecuritiesAccount(data.securitiesAccount);
+                setBankAccount(data.bankAccount);
+                setTotalAssets(data.totalAssets);
+                setProfit(data.profit);
+                setProfitRate(data.profitRate);
+                setCash(data.cash);
+                setHoldings(data.holdings);
+                setInvestmentAmount(data.investmentAmount);
+                setTotalProfit(data.totalProfit);
+                setTotalProfitRate(data.totalProfitRate);
+            } catch (error) {
+                console.error("자산 데이터를 가져오는 중 에러 발생:", error);
+            }
+        }
+        fetchAssetData();
+    }, []);
 
     useEffect(() => {
         setTotalAssets(securitiesAccount + bankAccount);
@@ -111,6 +134,7 @@ const Asset = () => {
                     </ProfitText>
                 </RightContainer>
             </AccountSection>
+
             {/* 투자금액 & 평가손익 & 예수금 컴포넌트 */}
             <InvestmentAmount
                 investmentAmount={investmentAmount}
@@ -125,13 +149,7 @@ const Asset = () => {
             {/* 투자 목표 설정 모달 */}
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
                 <h6>목표 금액 설정</h6>
-                <Input
-                    type="number"
-                    value={tempGoalAmount}
-                    onChange={(e) => {
-                        setTempGoalAmount(e.target.value);
-                    }}
-                />
+                <Input type="number" value={tempGoalAmount} onChange={(e) => setTempGoalAmount(e.target.value)} />
                 <Button
                     onClick={() => {
                         setGoalAmount(Number(tempGoalAmount));
@@ -144,4 +162,5 @@ const Asset = () => {
         </Container>
     );
 };
+
 export default Asset;

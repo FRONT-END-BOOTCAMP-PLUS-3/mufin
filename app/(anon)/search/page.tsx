@@ -12,7 +12,7 @@ const SearchPage = () => {
             <SearchBarWrapper>
                 <SearchInput
                     type="text"
-                    placeholder="종목을 검색하세요"
+                    placeholder="종목을 검색해보세요"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
@@ -33,7 +33,7 @@ const Container = styled.div`
     margin: 0 auto;
     padding: 0;
     display: flex;
-    flex-direction: column; /* 맨 위에서부터 차곡차곡 쌓이도록 설정 */
+    flex-direction: column;
 `;
 
 const SearchBarWrapper = styled.div`
@@ -44,7 +44,7 @@ const SearchBarWrapper = styled.div`
     border-radius: 10px;
     background: white;
     width: 100%;
-    max-width: 29rem; /* 레이아웃 크기에 맞춤 */
+    max-width: 29rem;
     margin: 0 auto;
     position: fixed;
     top: 4rem;
@@ -63,7 +63,7 @@ const SearchInput = styled.input`
 `;
 
 const SearchIcon = styled.div`
-    width: 2rem; /* 아이콘이 정상적으로 보이도록 크기 설정 */
+    width: 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
