@@ -24,16 +24,22 @@ export default function Home() {
         headers: { "Content-Type": "application/json" },
       });
 
+      if(response.status === 401) {
+        alert("로그인이 필요합니다.");
+        return;
+      }
+
       const result = await response.json();
 
       const isTodayAttempt: boolean = result.isTodayAttempt;
 
-      if (!isTodayAttempt) {
-        router.push("user/quiz");
+      if (isTodayAttempt) {
+        alert("오늘의 퀴즈를 만료했습니다.");
       } else {
-        alert("오늘의 퀴즈를 이미 다푸셨습니다.");
+        router.push("user/quiz");
       }
     } catch (error) {
+      alert("로그인이 필요한 기능입니다.");
       console.error("에러 발생:", error);
     }
   };
