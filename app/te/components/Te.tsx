@@ -50,14 +50,21 @@ const StockList = async ({ path }: StockListProps) => {
                 <S.StockLeft>
                   {index && <span>{index}.</span>}
                   <S.LogoWrapper>
-                    {stockImage && (
+                    {stockImage ? (
                       <S.StockImage
                         src={`/stock/${stockImage}.png`}
                         alt={stockName}
                         width={40}
                         height={40}
                       />
-                    ) }
+                    ): <>
+                    <S.StockImage
+                        src={`/stock/DEFAULT.png`}
+                        alt={"stockDefault"}
+                        width={40}
+                        height={40}
+                        />
+                    </> }
                   </S.LogoWrapper>
                   <S.StockName>{stockName}</S.StockName>
                 </S.StockLeft>
