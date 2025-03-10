@@ -51,3 +51,4 @@ export const CategoryCard = styled.div<{ color: string }>`
         filter: brightness(90%);
     }
 `;
+export const ImageWrapper = styled.div``;

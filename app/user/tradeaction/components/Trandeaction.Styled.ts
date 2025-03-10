@@ -49,7 +49,7 @@ export const QuantityControlTitle = styled.div`
     flex-direction: row; 
     justify-content: space-between; 
     width: 100%; 
-    gap: 0.625rem; 
+    gap: 1rem; 
     border-bottom: 0.0625rem solid var(--gray-200); 
   }
 
@@ -76,6 +76,20 @@ export const QuantityControlTitle = styled.div`
     flex-grow: 1; 
     background-color: var(--primary-light);
   }
+  .error-container {
+    height: 1rem;
+    width: 100%;
+    display: flex;
+  }
+`;
+
+export const WalletError = styled.p`
+  font-size: var(--font-size-base); 
+  color: var(--second-color);
+  align-self: flex-end; 
+  margin-right: 0.5rem;
+  margin-left: auto;
+  font-weight: bold;
 `;
 
 export const PriceText = styled.p`
@@ -93,11 +107,11 @@ export const QuantityControl = styled.div`
   margin-left: 0.625rem;
 
   .keypad {
+    margin-top: 1.5rem;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 0.625rem; 
     width: 90%;
-    margin-top: 0.625rem; 
     padding: 0.625rem 0;
     border-radius: 0.625rem;
   }
@@ -120,10 +134,14 @@ export const MainButton = styled.div<{ $isBuy: boolean }>`
   justify-content: center; 
   align-items: center;
   gap: 0.625rem; 
-  width: 70%; 
-  height: 2.5rem; 
+  width: 21.3125rem; 
+  height: 3rem; 
   margin: 0 auto;
   margin-top: 1.25rem; 
+  position: fixed;
+  bottom: 6rem;
+  left: 50%; 
+  transform: translateX(-50%); 
   border: none;
   border-radius: 0.625rem; 
   background-color: ${({ $isBuy }) => ($isBuy ? "var(--second-color)" : "var(--primary-color)")};
@@ -190,11 +208,4 @@ export const ModalButton = styled.div<{ $isBuy: boolean }>`
   border-radius: 0.625rem;
   background-color: ${({ $isBuy }) => ($isBuy ? "var(--second-color)" : "var(--primary-color)")};
   color: var(--white-color);
-`;
-
-export const WalletError = styled.p`
-  font-size: var(--font-size-base); 
-  color: var(--second-color);
-  align-self: flex-end; 
-  margin-right: 0.5rem;
 `;

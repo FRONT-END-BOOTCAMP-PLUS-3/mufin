@@ -10,12 +10,8 @@ export async function fetchCurrentStockData(symbol: string) {
   
       const data = await response.json();
 
-      const output = data.output;
-
       return {
-        stck_prpr: output.stck_prpr || "",
-        prdy_vrss: output.prdy_vrss || "",
-        prdy_ctrt: output.prdy_ctrt || "",
+        data
       };
     } catch (error) {
       console.error('주식 데이터 가져오기 실패:', error);

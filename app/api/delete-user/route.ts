@@ -17,7 +17,7 @@ export async function DELETE() {
     let decoded;
     try {
       decoded = jwt.verify(accessToken, process.env.JWT_SECRET as string);
-    } catch (error) {
+    } catch {
       return NextResponse.json(
         { message: "Invalid accessToken" },
         { status: 401 }

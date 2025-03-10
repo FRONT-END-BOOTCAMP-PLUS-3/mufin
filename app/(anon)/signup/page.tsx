@@ -39,7 +39,15 @@ const SignupPage = () => {
       return;
     }
 
-    const { confirmPassword, ...dataToSend } = form;
+    // const { confirmPassword, ...dataToSend } = form;
+
+    const dataToSend = {
+      name: form.name,
+      loginId: form.loginId,
+      password: form.password,
+      email: form.email,
+      emailAuthCode: form.emailAuthCode,
+    };
 
     const res = await fetch("/api/signup", {
       method: "POST",

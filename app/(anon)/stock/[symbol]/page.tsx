@@ -2,7 +2,7 @@ import StockClient from "@/app/(anon)/stock/[symbol]/components/StockClient";
 import { fetchCurrentStockData } from "@/utils/fetchCurrentStockData";
 
 interface StockDetailProps {
-  params: { symbol: string };
+  params: Promise<{ symbol: string }>;
 }
 
 const StockDetailPage = async ({params}:StockDetailProps) =>  {
@@ -17,9 +17,9 @@ const StockDetailPage = async ({params}:StockDetailProps) =>  {
   return (
       <StockClient
         symbol={symbol}
-        stockPrice={stockData.stck_prpr || ""}
-        prdyVrss={stockData.prdy_vrss || ""}
-        prdyCtrt={stockData.prdy_ctrt || ""}
+        stockPrice={stockData.data.stckPrpr || ""}
+        prdyVrss={stockData.data.prdyVrss || ""}
+        prdyCtrt={stockData.data.prdyCtrt || ""}
       />
   );
 }

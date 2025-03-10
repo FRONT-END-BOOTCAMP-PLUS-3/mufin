@@ -37,7 +37,6 @@ const TradeActionClient = () => {
   const [walletBalance, setWalletBalance] = useState<number | null>(null);
   const [portfolioQuantity, setPortfolioQuantity] = useState<number | null>(null);
 
-  const userId = "b1bc9ef8-4582-47ea-b538-ab2b827f7663"; 
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -87,13 +86,12 @@ const TradeActionClient = () => {
       }
       
       try {
-        // 유저 ID를 포함해서 API 호출
-        const walletResponse = await fetch(`/api/tradeaction/buy?userId=${userId}`);
+        const walletResponse = await fetch(`/api/tradeaction/buy`);
         const walletData = await walletResponse.json();
         console.log("Fetched walletData:", walletData);
         setWalletBalance(Number(walletData.cash));
   
-        const portfolioResponse = await fetch(`/api/tradeaction/sell?stockId=${stockId}&userId=${userId}`);
+        const portfolioResponse = await fetch(`/api/tradeaction/sell?stockId=${stockId}`);
         const portfolioData = await portfolioResponse.json();
         setPortfolioQuantity(portfolioData.quantity);
       } catch (error) {
@@ -102,7 +100,7 @@ const TradeActionClient = () => {
     };
   
     fetchWalletAndPortfolio();
-  }, [stockId, userId]);
+  }, [stockId]);
 
   if (!symbol) {
     return <div>잘못된 요청입니다.</div>;
@@ -173,6 +171,7 @@ const TradeActionClient = () => {
         />
       </div>
       <p className="label2">총 {finalAmount.toLocaleString()}원</p>
+      <div className="error-container">
         {(isBuyDisabled || isSellDisabled) && (
         <WalletError>
           {activeTab === "buy"
@@ -180,6 +179,8 @@ const TradeActionClient = () => {
             : "보유 수량이 부족합니다."}
         </WalletError>
         )}
+        </div>
+        
       </QuantityControlTitle>
 
       <QuantityControl>
@@ -210,7 +211,6 @@ const TradeActionClient = () => {
       >
         <OrderDetailsModalContent 
           type={activeTab} 
-          userId={userId}
           stockId={stockId || 0} 
           stockName={stockName || ""}
           quantity={quantity ?? 1} 

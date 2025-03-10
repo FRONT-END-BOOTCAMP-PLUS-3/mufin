@@ -74,6 +74,7 @@ const Asset = () => {
                 setInvestmentAmount(data.investmentAmount);
                 setTotalProfit(data.totalProfit);
                 setTotalProfitRate(data.totalProfitRate);
+                setTotalAssets(data.totalAssets); // 백엔드에서 계산한 값 사용
             } catch (error) {
                 console.error("자산 데이터를 가져오는 중 에러 발생:", error);
             }

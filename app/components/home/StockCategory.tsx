@@ -7,22 +7,48 @@ import {
     TitleBox,
     Grid,
     CategoryCard,
+    ImageWrapper,
     CategoryName,
     CategoryWrapper,
 } from "@/app/components/home/StockCategory.Styled";
 
 const categories = [
-    { name: "자동차", image: "/stock-category/automobile.svg", path: "/stocks/automobile", color: "#B1B8FF" },
-    { name: "스마트폰", image: "/stock-category/smartphone.svg", path: "/stocks/smartphone", color: "#FFB5FA" },
-    { name: "식품", image: "/stock-category/food.svg", path: "/stocks/food", color: "#FFD6A8" },
     {
-        name: "엔터테인먼트",
-        image: "/stock-category/entertainment.svg",
-        path: "/stocks/entertainment",
+        name: "자동차",
+        image: "/stock-category/automobile.svg",
+        path: "/stocks/automobile",
+        color: "#B1B8FF",
+    },
+    {
+        name: "스마트폰",
+        image: "/stock-category/smartphone.svg",
+        path: "/stocks/smartphone",
+        color: "#FFB5FA",
+    },
+    {
+        name: "식품",
+        image: "/stock-category/food.svg",
+        path: "/stocks/food",
+        color: "#FFD6A8",
+    },
+    {
+        name: "화학",
+        image: "/stock-category/chemistry.svg",
+        path: "/stocks/chemistry",
         color: "#A5EAFF",
     },
-    { name: "제약", image: "/stock-category/pharmaceutical.svg", path: "/stocks/pharmaceutical", color: "#B4FFBC" },
-    { name: "반도체", image: "/stock-category/semiconductor.svg", path: "/stocks/semiconductor", color: "#FF8D8D" },
+    {
+        name: "제약",
+        image: "/stock-category/pharmaceutical.svg",
+        path: "/stocks/pharmaceutical",
+        color: "#B4FFBC",
+    },
+    {
+        name: "반도체",
+        image: "/stock-category/semiconductor.svg",
+        path: "/stocks/semiconductor",
+        color: "#FF8D8D",
+    },
 ];
 
 const StockCategory = () => {
@@ -35,13 +61,9 @@ const StockCategory = () => {
                         <CategoryWrapper>
                             <CategoryName>{category.name}</CategoryName>
                             <CategoryCard color={category.color}>
-                                <Image
-                                    src={category.image}
-                                    alt={category.name}
-                                    width={80}
-                                    height={80}
-                                    style={{ width: "auto", height: "auto" }}
-                                />
+                                <ImageWrapper>
+                                    <Image src={category.image} alt={category.name} width={80} height={20} />
+                                </ImageWrapper>
                             </CategoryCard>
                         </CategoryWrapper>
                     </Link>
