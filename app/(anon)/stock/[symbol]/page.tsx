@@ -2,7 +2,7 @@ import StockClient from "@/app/(anon)/stock/[symbol]/components/StockClient";
 import { fetchCurrentStockData } from "@/utils/fetchCurrentStockData";
 
 interface StockDetailProps {
-  params: { symbol: string };
+  params: Promise<{ symbol: string }>;
 }
 
 const StockDetailPage = async ({params}:StockDetailProps) =>  {

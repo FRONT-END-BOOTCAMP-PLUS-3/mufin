@@ -1,6 +1,6 @@
 import Te from "@/app/te/components/Te";
 
-const page = () => {
+const TePage = () => {
   const path = `/api/home`;
   return (
     <>
@@ -8,4 +8,4 @@ const page = () => {
     </>
   );
 }
-export default page;
+export default TePage;

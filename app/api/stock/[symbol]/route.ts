@@ -11,11 +11,11 @@ import { IGetStockChartUseCase } from "@/application/usecases/kis/interfaces/IGe
 import { StockInfoUseCase } from "@/application/usecases/stock/StockInfoUseCase";
 import { PgStockRepository } from "@/infrastructure/repositories/PgStockRepository";
 
-export async function GET(req: NextRequest,{ params }: { params: { symbol: string }}) {
+export async function GET(req: NextRequest,{ params }: { params: Promise<{ symbol: string }>}) {
   try {
     
     // param을 통해 동적 주식코드 받아오기
-    const { symbol } = await params;
+    const  {symbol}  = await params;
 
     //query String을 통해서 activePeriod의 값을 가져와서 종류 비교
     const { searchParams } = new URL(req.url);

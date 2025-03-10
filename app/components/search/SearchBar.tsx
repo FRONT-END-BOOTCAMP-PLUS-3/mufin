@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image"; // ✅ Next.js 최적화된 이미지 사용
 import { SearchContainer, SearchText } from "./SearchBar.Styled";
 import { Search } from "lucide-react";
 
