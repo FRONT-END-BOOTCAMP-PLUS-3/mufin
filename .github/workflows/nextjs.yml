@@ -86,7 +86,7 @@ jobs:
      
      # 9. 빌드 산출물을 아티팩트로 업로드 (배포 단계에서 사용)
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           path: ./out
 
