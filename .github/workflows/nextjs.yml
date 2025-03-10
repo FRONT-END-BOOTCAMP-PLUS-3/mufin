@@ -66,6 +66,9 @@ jobs:
       - name: Generate Prisma Client
         run: npx prisma generate
 
+      - name: Load environment variables
+        run: export $(grep -v '^#' .env | xargs)
+
       # 6. Next.js 애플리케이션 빌드
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
