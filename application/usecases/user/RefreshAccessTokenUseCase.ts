@@ -33,7 +33,7 @@ export class RefreshAccessTokenUseCase {
       const newTokenCookie = `accessToken=${newAccessToken}; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=3600`;
 
       return { accessToken: newAccessToken, newTokenCookie };
-    } catch (error) {
+    } catch  {
       throw new Error("Refresh token expired.");
     }
   }

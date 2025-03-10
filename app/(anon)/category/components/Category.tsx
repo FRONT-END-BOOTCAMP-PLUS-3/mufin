@@ -1,21 +1,17 @@
 import StockList from "@/app/te/components/Te";
 import { CategoryContainer } from "@/app/(anon)/category/components/Category.Styled";
-interface CategoryProps {
-  searchParams: { c?: string };
-}
+// import { CategoryPageProps } from "@/app/(anon)/category/page";
 
-const Category = async({ searchParams }: CategoryProps) => {
-  const resolvedSearchParams = await Promise.resolve(searchParams);
-  const { c } = resolvedSearchParams;
-  const category = c || "1";
-  const path = `/api/category?c=${category}`;
-  console.log("category=",category);
+interface CategoryProps {
+  categoryId: string; // 부모에서 이미 문자열로 확정해서 넘겨줌
+}
+export default async function Category({ categoryId }: CategoryProps) {
+  
+  const path = `/api/category?c=${categoryId}`;
 
   return (
     <CategoryContainer>
       <StockList path={path} />
     </CategoryContainer>
-  );
-};
-
-export default Category;
+  );  
+}
