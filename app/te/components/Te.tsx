@@ -52,7 +52,7 @@ const StockList = async ({ path }: StockListProps) => {
                   <S.LogoWrapper>
                     {stockImage && (
                       <S.StockImage
-                        src={`/stock-logo/${stockImage.toLowerCase()}.png`}
+                        src={`/stock/${stockImage}.png`}
                         alt={stockName}
                         width={40}
                         height={40}
