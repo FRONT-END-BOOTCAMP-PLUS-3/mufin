@@ -31,6 +31,26 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Create .env file
+        run: |
+          echo "Creating .env file..."
+          rm -f .env  # 기존 파일 삭제
+          cat << EOF > .env
+          NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}
+          REDIS_URL=${{ secrets.REDIS_URL }}
+          KIS_API_URL=${{ secrets.KIS_API_URL }}
+          KIS_APP_KEY=${{ secrets.KIS_APP_KEY }}
+          KIS_APP_SECRET=${{ secrets.KIS_APP_SECRET }}
+          NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }}
+          JWT_SECRET=${{ secrets.JWT_SECRET }}
+          SMTP_EMAIL_USER=${{ secrets.SMTP_EMAIL_USER }}
+          SMTP_EMAIL_PASSWORD=${{ secrets.SMTP_EMAIL_PASSWORD }}
+          EOF
+          
+          echo "✅ .env file created successfully!"
+          cat .env  # 🚀 생성된 파일 내용 확인
+
         
       # 2. 패키지 매니저 감지(yarn 또는 npm)
       - name: Detect package manager
