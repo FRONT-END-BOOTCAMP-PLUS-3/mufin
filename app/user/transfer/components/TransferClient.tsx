@@ -13,6 +13,8 @@ import {
 } from "@/app/user/transfer/components/TransferClient.Styled";
 
 import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
+import '@/app/components/styles/swal-custom.css';
 
 const TransferClient = () => {
   const router = useRouter();
@@ -70,14 +72,48 @@ const TransferClient = () => {
   
       if (!response.ok) throw new Error(result.message);
   
-      alert(`${type === "toCash" ? "주식계좌로" : "기본계좌로"} 송금 성공!`);
+      Swal.fire({
+        title: `${type === "toCash" ? "주식계좌로" : "기본계좌로"} 송금 성공!`,
+        icon: "success",
+        confirmButtonText: "확인",
+        customClass: {
+              title: 'swal-title-custom',
+              popup: 'swal-popup-custom',
+              confirmButton: 'swal-confirm-button',
+              icon: 'swal-icon-custom'
+            }
+      });
   
       router.push("/test"); 
     } catch (error) {
       if (error instanceof Error) {
-        alert(`${type === "toCash" ? "주식계좌로" : "기본계좌로"} 송금 실패: ${error.message}`);
+        Swal.fire({
+          title: `${type === "toCash" ? "주식계좌로" : "기본계좌로"} 송금 실패`,
+          icon: "error",
+          confirmButtonText: "확인",
+          customClass: {
+              title: 'swal-title-custom',
+              popup: 'swal-popup-custom',
+              confirmButton: 'swal-confirm-button',
+              icon: 'swal-icon-custom'
+            },
+          width: '90%'
+        });
+        console.log(`${type === "toCash" ? "주식계좌로" : "기본계좌로"} 송금 실패: ${error.message}`);
       } else {
-        alert(`${type === "toCash" ? "주식계좌로" : "기본계좌로"} 송금 실패: 알 수 없는 오류`);
+        Swal.fire({
+          title: `${type === "toCash" ? "주식계좌로" : "기본계좌로"} 송금 실패`,
+          icon: "error",
+          confirmButtonText: "확인",
+          customClass: {
+              title: 'swal-title-custom',
+              popup: 'swal-popup-custom',
+              confirmButton: 'swal-confirm-button',
+              icon: 'swal-icon-custom'
+            },
+          width: '90%'
+        });
+        console.log(`${type === "toCash" ? "주식계좌로" : "기본계좌로"} 송금 실패: 알 수 없는 오류`);
       }
     }
   };

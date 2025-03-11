@@ -9,29 +9,12 @@ export const StockWrapper = styled.section`
     padding: 0 0.625rem;
 `;
 
-export const TitleBox = styled.div`
-    display: inline-flex;
-    justify-content: center;
-    align-items:center;
-
-    padding: 0.25rem 0.875rem; 
-
-    background-color: var(--gray-200);
-    border-radius: 6px;
-
-    font-size: 1rem;
-    font-weight: bold;
-`;
-
 export const StockItemBox = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
     width: 100%;
-
-    margin-top: 0.375rem;
 `;
 
 export const StockLink = styled(Link)`
@@ -42,15 +25,13 @@ export const StockLink = styled(Link)`
     width: 100%;
 
     padding: 0.5rem;
-
-    border-bottom: 1px solid #ddd;
     
     color: inherit;
 
     cursor: pointer;
 
     &:hover {
-        background-color: #f7f7f7;
+        background-color: var(--background-color);
     }
 `;
 
@@ -85,7 +66,6 @@ export const StockImage = styled(Image)`
     height: 100%;
     object-fit: cover;
 `;
-
 
 export const StockName = styled.div`
     font-size: 1rem;
