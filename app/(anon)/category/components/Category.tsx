@@ -1,5 +1,6 @@
-import StockList from "@/app/te/components/Te";
+
 import { CategoryContainer } from "@/app/(anon)/category/components/Category.Styled";
+import StockList from "@/app/components/home/StockList";
 // import { CategoryPageProps } from "@/app/(anon)/category/page";
 
 interface CategoryProps {
