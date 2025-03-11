@@ -21,3 +21,24 @@ export async function GET(request: Request) {
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
 }
+
+// PATCH 메서드: 목표금액(target) 업데이트
+export async function PATCH(request: Request) {
+    const userId = await getDecodedUserId();
+    if (!userId) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    try {
+        const { target } = await request.json();
+        if (typeof target !== "number") {
+            return NextResponse.json({ error: "Invalid target value" }, { status: 400 });
+        }
+        const walletRepository = new PgWalletRepository();
+        const updatedWallet = await walletRepository.updateTargetByUserId(userId, target);
+        // 업데이트 후 DB에서 가져온 target 값을 number로 변환하여 반환
+        return NextResponse.json({ target: Number(updatedWallet.target) });
+    } catch (error: any) {
+        return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+}

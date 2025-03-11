@@ -82,9 +82,24 @@ const Asset = () => {
         fetchAssetData();
     }, []);
 
-    useEffect(() => {
-        setTotalAssets(securitiesAccount + bankAccount);
-    }, [securitiesAccount, bankAccount]);
+    // 목표금액 업데이트 API 호출 함수
+    const updateGoalAmount = async (newTarget: number) => {
+        try {
+            const response = await fetch("/api/user/asset", {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ target: newTarget }),
+            });
+            if (!response.ok) {
+                throw new Error("목표 금액 업데이트 실패");
+            }
+            const data = await response.json();
+            // 서버에서 반환한 target 값을 적용
+            setGoalAmount(data.target);
+        } catch (error) {
+            console.error("목표 금액 업데이트 중 에러 발생:", error);
+        }
+    };
 
     return (
         <Container>
@@ -152,8 +167,9 @@ const Asset = () => {
                 <h6>목표 금액 설정</h6>
                 <Input type="number" value={tempGoalAmount} onChange={(e) => setTempGoalAmount(e.target.value)} />
                 <Button
-                    onClick={() => {
-                        setGoalAmount(Number(tempGoalAmount));
+                    onClick={async () => {
+                        const newTarget = Number(tempGoalAmount);
+                        await updateGoalAmount(newTarget);
                         setIsModalOpen(false);
                     }}
                 >
