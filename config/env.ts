@@ -3,17 +3,6 @@ import { z } from "zod";
 
 dotenv.config({ path: ".env" });
 
-console.log("🔍 환경 변수 확인:");
-console.log("NEXTAUTH_SECRET:", process.env.NEXTAUTH_SECRET);
-console.log("REDIS_URL:", process.env.REDIS_URL);
-console.log("KIS_API_URL:", process.env.KIS_API_URL);
-console.log("KIS_APP_KEY:", process.env.KIS_APP_KEY);
-console.log("KIS_APP_SECRET:", process.env.KIS_APP_SECRET);
-console.log("NEXT_PUBLIC_BASE_URL:", process.env.NEXT_PUBLIC_BASE_URL);
-console.log("JWT_SECRET:", process.env.JWT_SECRET);
-console.log("SMTP_EMAIL_USER:", process.env.SMTP_EMAIL_USER);
-console.log("SMTP_EMAIL_PASSWORD:", process.env.SMTP_EMAIL_PASSWORD);
-
 const envSchema = z.object({
     NEXTAUTH_SECRET:z.string().nonempty(),
     REDIS_URL: z.string().url(),
