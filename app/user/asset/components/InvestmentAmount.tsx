@@ -1,6 +1,6 @@
 "use client";
 
-import styled from "styled-components";
+import { Amount, CashAmount, CashContainer, CashLabel, Container, ProfitContainer, ProfitLabel, ProfitValue, Title } from "@/app/user/asset/components/InvestmentAmount.Styled";
 
 interface InvestmentAmountProps {
     investmentAmount: number;
@@ -19,7 +19,7 @@ const InvestmentAmount = ({ investmentAmount, totalProfit, totalProfitRate, cash
             {/* 총 평가손익 */}
             <ProfitContainer>
                 <ProfitLabel>총 평가손익(원)</ProfitLabel>
-                <ProfitValue isPositive={totalProfit >= 0}>
+                <ProfitValue $isPositive={totalProfit >= 0}>
                     {totalProfit >= 0 ? "+" : ""}
                     {totalProfit.toLocaleString()}원 ({totalProfitRate}%)
                 </ProfitValue>
@@ -35,57 +35,3 @@ const InvestmentAmount = ({ investmentAmount, totalProfit, totalProfitRate, cash
 };
 
 export default InvestmentAmount;
-
-// Styled Components
-const Container = styled.div`
-    width: 100%;
-    padding-top: 1.5rem;
-`;
-
-const Title = styled.h3`
-    font-size: 1.375rem;
-    font-weight: bold;
-`;
-
-const Amount = styled.p`
-    font-size: 1.375rem;
-    font-weight: bold;
-    margin-top: 0.5rem;
-`;
-
-const ProfitContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 0.75rem;
-`;
-
-const ProfitLabel = styled.p`
-    font-size: 1rem;
-`;
-
-const ProfitValue = styled.p<{ isPositive: boolean }>`
-    font-size: 1rem;
-    font-weight: bold;
-    color: ${({ isPositive }) => (isPositive ? "red" : "blue")};
-`;
-
-const CashContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 1rem;
-    padding: 0.75rem;
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-`;
-
-const CashLabel = styled.p`
-    font-size: 1rem;
-    font-weight: bold;
-`;
-
-const CashAmount = styled.p`
-    font-size: 1rem;
-    font-weight: bold;
-`;

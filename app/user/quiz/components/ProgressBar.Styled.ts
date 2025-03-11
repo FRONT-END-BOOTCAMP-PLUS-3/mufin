@@ -19,7 +19,7 @@ export const ProgressBarContainer = styled.div`
   width: 100%;
   height: 20px;
 
-  background-color: #dedede;
+  background-color: var(--background-color);
   opacity: 0.8;
 
   border-radius: 16px;

@@ -1,6 +1,6 @@
 "use client";
 
-import styled from "styled-components";
+import { Container, ProfitText, StockInfo, StockLogo, Table, TableCell, TableHeader, TableRow, Title } from "@/app/user/asset/components/Holdings.Styled";
 
 interface Holding {
     logo: string;
@@ -40,7 +40,7 @@ const Holdings = ({ holdings }: HoldingsProps) => {
                             <TableCell>
                                 {stock.amount.toLocaleString()} 원
                                 {stock.profit !== undefined && stock.profitRate !== undefined && (
-                                    <ProfitText isPlus={stock.profit >= 0}>
+                                    <ProfitText $isPlus={stock.profit >= 0}>
                                         {stock.profit >= 0 ? "+" : ""}
                                         {stock.profit.toLocaleString()}원 ({stock.profitRate}%)
                                     </ProfitText>
@@ -55,54 +55,3 @@ const Holdings = ({ holdings }: HoldingsProps) => {
 };
 
 export default Holdings;
-
-// Styled Components
-const Container = styled.div`
-    width: 100%;
-    padding-top: 1.5rem;
-`;
-
-const Title = styled.h3`
-    font-size: 1.375rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-`;
-
-const Table = styled.table`
-    width: 100%;
-    border-collapse: collapse;
-`;
-
-const TableHeader = styled.th`
-    font-size: 1rem;
-    font-weight: bold;
-    padding: 0.75rem;
-    text-align: left;
-    border-bottom: 2px solid #ddd;
-`;
-
-const TableRow = styled.tr`
-    text-align: left;
-`;
-
-const TableCell = styled.td`
-    padding: 0.75rem;
-`;
-
-const StockInfo = styled.div`
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-`;
-
-const StockLogo = styled.img`
-    width: 1.5rem;
-    height: 1.5rem;
-`;
-
-const ProfitText = styled.p<{ isPlus: boolean }>`
-    font-size: 0.875rem;
-    font-weight: bold;
-    color: ${({ isPlus }) => (isPlus ? "red" : "blue")};
-    margin-top: 0.25rem;
-`;
