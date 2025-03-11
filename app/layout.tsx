@@ -2,7 +2,8 @@ import "@/styles/globals.css";
 import StyledComponentsRegistry from "@/lib/StyledComponentsRegistry";
 import LayoutClient from "@/app/components/LayoutClient";
 import { Suspense } from "react";
-import LoadingScreen from "@/app/(anon)/stock/[symbol]/components/LodingScreen";
+import LoadingPage from "@/app/components/home/LoadingPage";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -12,7 +13,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <StyledComponentsRegistry>
-          <Suspense fallback={<LoadingScreen />}>
+          <Suspense fallback={<LoadingPage />}>
             <LayoutClient> {children} </LayoutClient>
           </Suspense>
         </StyledComponentsRegistry>
