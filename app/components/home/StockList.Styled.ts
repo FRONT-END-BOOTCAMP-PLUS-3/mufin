@@ -1,34 +1,52 @@
+"use client"
 import styled from "styled-components";
 import Image from "next/image";
 import Link from "next/link";
 
-export const StockContainer = styled.div`
+export const StockWrapper = styled.section`
     width: 100%;
-    max-width: 390px;
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
+    padding: 0 0.625rem;
 `;
 
 export const TitleBox = styled.div`
-    display: inline-block;
-    padding: 3px 13px;
+    display: inline-flex;
+    justify-content: center;
+    align-items:center;
+
+    padding: 0.25rem 0.875rem; 
+
     background-color: var(--gray-200);
-    border-radius: 5px;
+    border-radius: 6px;
+
     font-size: 1rem;
     font-weight: bold;
 `;
 
-export const StockItems = styled.div`
-    margin-top: 5px;
+export const StockItemBox = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+
+    margin-top: 0.375rem;
 `;
 
 export const StockLink = styled(Link)`
-    text-decoration: none;
-    color: inherit;
-`;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    width: 100%;
 
-export const StockItem = styled.div`
-    padding: 5px;
+    padding: 0.5rem;
+
     border-bottom: 1px solid #ddd;
+    
+    color: inherit;
+
     cursor: pointer;
 
     &:hover {
@@ -46,23 +64,36 @@ export const StockInfo = styled.div`
 export const StockLeft = styled.div`
     display: flex;
     align-items: center;
-    gap: 10px;
+    justify-content: center;
+    gap: 0.75rem;
 `;
 
 export const LogoWrapper = styled.div`
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    overflow: hidden;
+    display: flex;
     align-items: center;
     justify-content: center;
+
+    width: 2.5rem;
+    height: 2.5rem;
+
+    border-radius: 50%;
+    overflow: hidden;
 `;
+
+export const StockImage = styled(Image)`
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+`;
+
 
 export const StockName = styled.div`
     font-size: 1rem;
-    color: #4a4a4a;
+    color: var(--gray-800);
     font-weight: 500;
 `;
+
+
 
 export const StockRight = styled.div`
     display: flex;
@@ -70,18 +101,12 @@ export const StockRight = styled.div`
     align-items: flex-end;
 `;
 
-export const StockPrice = styled.div`
-    font-size: 1.1rem;
+export const StockPrice = styled.p`
+    font-size: var(--font-size-xl);
     font-weight: bold;
 `;
 
-export const StockChange = styled.div<{ $isPositive: boolean }>`
-    font-size: 0.9rem;
-    color: ${(props) => (props.$isPositive ? "red" : "blue")};
-`;
-
-export const StockImage = styled(Image)`
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+export const StockChange = styled.p<{ $isPositive: boolean }>`
+    font-size: 1rem;
+    color: ${(props) => (props.$isPositive ?   "var(--second-color)" : "var(--primary-color)")};
 `;
