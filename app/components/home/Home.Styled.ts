@@ -6,8 +6,8 @@ export const Container = styled.div`
     flex-direction: column;
     align-items: center;
     width: 100%;
-    padding: 15px;
-    gap: 20px;
+    padding: 1rem; /* 16px */
+    gap: 1.25rem; /* 20px */
 `;
 
 export const TopSection = styled.section`
@@ -15,7 +15,7 @@ export const TopSection = styled.section`
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    max-width: 410px;
+    max-width: 25.5rem; /* 408px */
 `;
 
 export const ImageWrapper = styled.div`
@@ -26,25 +26,25 @@ export const IntroBox = styled.div`
     flex: 1.2;
     text-align: center;
     border: 1px solid var(--gray-100);
-    border-radius: 10px;
-    padding: 10px;
+    border-radius: 0.75rem; /* 12px */
+    padding: 0.75rem; /* 12px */
 
     p {
-        font-size: 0.9rem;
+        font-size: 0.875rem; /* 14px */
         color: var(--gray-800);
-        margin-bottom: 10px;
+        margin-bottom: 0.75rem; /* 12px */
     }
 `;
 
 export const QuizButton = styled.button`
     display: flex;
     align-items: center;
-    gap: 15px;
-    padding: 20px 30px;
+    gap: 0.7rem;
+    padding: 1.25rem 1.875rem; /* 20px 30px */
     background-color: var(--primary-color);
     color: white;
     text-decoration: none;
-    border-radius: 14px;
+    border-radius: 1rem;
     font-size: var(--font-size-base);
     font-weight: bold;
 
@@ -62,8 +62,8 @@ export const InvestmentSection = styled.section`
     justify-content: flex-start;
     align-items: center;
     width: 100%;
-    max-width: 410px;
-    gap: 15px;
+    max-width: 25.5rem; /* 408px */
+    gap: 1rem; /* 16px */
 `;
 
 export const InvestmentHeader = styled.div`
@@ -71,15 +71,17 @@ export const InvestmentHeader = styled.div`
     justify-content: flex-start;
     align-items: center;
     width: 100%;
-    max-width: 410px;
-    gap: 15px;
+    max-width: 25.5rem; /* 408px */
+    gap: 1rem; /* 16px */
+
     h2 {
-        font-size: 1.5rem;
+        font-size: 1.5rem; /* 24px */
         font-weight: bold;
     }
+
     p {
         color: var(--gray-800);
-        padding-top: 10px;
-        font-size: 0.8rem;
+        padding-top: 0.75rem; /* 12px */
+        font-size: 0.875rem; /* 14px */
     }
 `;
