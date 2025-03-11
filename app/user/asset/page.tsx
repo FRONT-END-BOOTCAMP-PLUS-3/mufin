@@ -43,7 +43,7 @@ const Asset = () => {
     const [profit, setProfit] = useState(0); // 평가손익 (추후 구현)
     const [profitRate, setProfitRate] = useState(0); // 평가손익 비율 (추후 구현)
     const [cash, setCash] = useState(0); // 예수금 (Wallet.cash)
-    const [holdings, setHoldings] = useState<any[]>([]); // 보유종목 (추후 구현)
+    const [holdings, setHoldings] = useState([]); // 보유종목 (추후 구현)
     const [investmentAmount, setInvestmentAmount] = useState(0);
     const [totalProfit, setTotalProfit] = useState(0);
     const [totalProfitRate, setTotalProfitRate] = useState(0);
