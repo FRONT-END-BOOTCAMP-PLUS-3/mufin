@@ -4,5 +4,6 @@ export interface IStockRepository {
     findStockByCode(stockCode: string): Promise<Stock | null>;
     findStockById(stockId: number): Promise<Stock | null>;
     findStocksByCategory(category: number): Promise<Stock [] | []>
+    findStockByName(stockName: string): Promise<Stock[]>;
   }
   
