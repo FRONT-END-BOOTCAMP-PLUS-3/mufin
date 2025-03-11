@@ -1,12 +1,21 @@
 import { prisma } from "@/config/prismaClient";
-import { IPortfolioRepository } from "@/domain/repositories/IPortfolioRepository";
+import { IPortfolioRepository, PortfolioWithStock } from "@/domain/repositories/IPortfolioRepository";
 import { Portfolio } from "@prisma/client";
 
 export class PgPortfolioRepository implements IPortfolioRepository {
-    async findPortfoliosByUserId(userId: string): Promise<Portfolio[]> {
-        return await prisma.portfolio.findMany({
+    // 사용자 포트폴리오 목록 조회 (주식 정보 포함)
+    async findPortfoliosByUserId(userId: string): Promise<PortfolioWithStock[]> {
+        return (await prisma.portfolio.findMany({
             where: { userId },
-        });
+            include: {
+                stock: {
+                    select: {
+                        stockCode: true,
+                        stockName: true,
+                    },
+                },
+            },
+        })) as PortfolioWithStock[];
     }
 
     async findPortfolioByUserIdAndStockCode(userId: string, stockId: number): Promise<Portfolio | null> {

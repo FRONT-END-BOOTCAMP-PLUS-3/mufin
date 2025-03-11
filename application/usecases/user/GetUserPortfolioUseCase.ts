@@ -3,12 +3,13 @@ import { IPortfolioRepository } from "@/domain/repositories/IPortfolioRepository
 import { IGetCurrentPriceUseCase } from "@/application/usecases/kis/interfaces/IGetCurrentPriceUseCase";
 
 export interface PortfolioWithPrice {
+    portfolioId: number;
     stockId: number;
     stockCode: string;
     stockName: string;
     stockQty: number;
     currentPrice: number;
-    marketValue: number; // 보유수량 * 현재가
+    marketValue: number;
 }
 
 export class GetUserPortfolioUseCase {
@@ -18,29 +19,30 @@ export class GetUserPortfolioUseCase {
     ) {}
 
     async execute(userId: string): Promise<PortfolioWithPrice[]> {
-        // 1. 회원의 포트폴리오 데이터를 조회
-        const portfolioData = await this.portfolioRepository.findPortfoliosByUserId(userId);
-
-        // 2. 각 주식 종목에 대해 현재가 정보를 가져오고 병합
+        // portfolioRepository는 userId에 해당하는 포트폴리오 항목들을 조회하며,
+        // 각 항목에는 관련된 Stock 정보가 포함되어 있음
+        const portfolioItems = await this.portfolioRepository.findPortfoliosByUserId(userId);
         const result: PortfolioWithPrice[] = [];
 
-        for (const holding of portfolioData.holdings) {
-            // holding.stockCode는 주식 종목 코드라고 가정
-            const currentPriceDto = await this.getCurrentPriceUseCase.execute(holding.stockCode);
-            if (!currentPriceDto) continue; // 데이터가 없으면 건너뜀
+        for (const item of portfolioItems) {
+            // item.stock에 stockCode, stockName 등이 포함되어 있다고 가정합니다.
+            const currentPriceDto = await this.getCurrentPriceUseCase.execute(item.stock.stockCode);
+            if (!currentPriceDto) continue;
 
             const currentPrice = Number(currentPriceDto.stckPrpr);
-            const marketValue = holding.stockQty * currentPrice;
+            const marketValue = item.stockQty * currentPrice;
 
             result.push({
-                stockId: holding.stockId,
-                stockCode: holding.stockCode,
-                stockName: holding.stockName,
-                stockQty: holding.stockQty,
+                portfolioId: item.portfolioId,
+                stockId: item.stockId,
+                stockCode: item.stock.stockCode,
+                stockName: item.stock.stockName,
+                stockQty: item.stockQty,
                 currentPrice,
                 marketValue,
             });
         }
+
         return result;
     }
 }

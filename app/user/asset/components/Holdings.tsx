@@ -3,10 +3,15 @@
 import styled from "styled-components";
 
 interface Holding {
-    logo: string;
-    name: string;
-    quantity: number;
-    amount: number;
+    // API에서 받을 수 있는 필드 (두 가지 네이밍을 모두 지원)
+    logo?: string;
+    stockCode?: string;
+    name?: string;
+    stockName?: string;
+    quantity?: number;
+    stockQty?: number;
+    amount?: number;
+    marketValue?: number;
     profit?: number;
     profitRate?: number;
 }
@@ -28,26 +33,46 @@ const Holdings = ({ holdings }: HoldingsProps) => {
                     </TableRow>
                 </thead>
                 <tbody>
-                    {holdings.map((stock, index) => (
-                        <TableRow key={index}>
-                            <TableCell>
-                                <StockInfo>
-                                    <StockLogo src={stock.logo} alt={stock.name} />
-                                    {stock.name}
-                                </StockInfo>
-                            </TableCell>
-                            <TableCell>{stock.quantity}주</TableCell>
-                            <TableCell>
-                                {stock.amount.toLocaleString()} 원
-                                {stock.profit !== undefined && stock.profitRate !== undefined && (
-                                    <ProfitText isPlus={stock.profit >= 0}>
-                                        {stock.profit >= 0 ? "+" : ""}
-                                        {stock.profit.toLocaleString()}원 ({stock.profitRate}%)
-                                    </ProfitText>
-                                )}
-                            </TableCell>
-                        </TableRow>
-                    ))}
+                    {holdings.map((item, index) => {
+                        // API에서 전달받은 필드명이 다를 수 있으므로 기본값으로 변환
+                        const logo =
+                            item.logo ||
+                            (item.stockCode ? `/images/${item.stockCode}.png` : "/images/default_stock.png");
+                        const displayName = item.name || item.stockName || "알 수 없음";
+                        const quantity =
+                            item.quantity !== undefined
+                                ? item.quantity
+                                : item.stockQty !== undefined
+                                ? item.stockQty
+                                : 0;
+                        const amount =
+                            item.amount !== undefined
+                                ? item.amount
+                                : item.marketValue !== undefined
+                                ? item.marketValue
+                                : 0;
+
+                        return (
+                            <TableRow key={index}>
+                                <TableCell>
+                                    <StockInfo>
+                                        <StockLogo src={logo} alt={displayName} />
+                                        {displayName}
+                                    </StockInfo>
+                                </TableCell>
+                                <TableCell>{quantity}주</TableCell>
+                                <TableCell>
+                                    {amount.toLocaleString()} 원
+                                    {item.profit !== undefined && item.profitRate !== undefined && (
+                                        <ProfitText isPlus={item.profit >= 0}>
+                                            {item.profit >= 0 ? "+" : ""}
+                                            {item.profit.toLocaleString()}원 ({item.profitRate}%)
+                                        </ProfitText>
+                                    )}
+                                </TableCell>
+                            </TableRow>
+                        );
+                    })}
                 </tbody>
             </Table>
         </Container>
