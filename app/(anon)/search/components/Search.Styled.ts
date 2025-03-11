@@ -90,3 +90,21 @@ export const StockName = styled.div`
 export const HighlightedText = styled.span`
     color: var(--primary-color); 
 `;
+
+export const NoResultsContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 400px;
+    border-radius: 10px;
+    padding: 2rem;
+    text-align: center;
+    color: var(--gray-700);
+`;
+
+export const Message = styled.p`
+    font-size: var(--font-size-2xl);
+    font-weight: bold;
+    margin-top: 1rem;
+`;

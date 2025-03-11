@@ -2,26 +2,9 @@
 
 import React, { useState, useEffect } from "react";
 import { Search } from "lucide-react";
-import { SearchContainer, SearchBarWrapper, SearchInput, StockLink, LogoWrapper, StockImage, StockName, SearchContentWrapper, SearchButton, HighlightedText } from "@/app/(anon)/search/components/Search.Styled";
-
-const HighlightText = ({ text, query }: { text: string; query: string }) => {
-    if (!query) return <>{text}</>;
-
-    const regex = new RegExp(`(${query})`, "gi");
-    const parts = text.split(regex);
-
-    return (
-        <>
-            {parts.map((part, index) =>
-                part.toLowerCase() === query.toLowerCase() ? (
-                    <HighlightedText key={index}>{part}</HighlightedText>
-                ) : (
-                    part
-                )
-            )}
-        </>
-    );
-};
+import { SearchContainer, SearchBarWrapper, SearchInput, StockLink, LogoWrapper, StockImage, StockName, SearchContentWrapper, SearchButton } from "@/app/(anon)/search/components/Search.Styled";
+import HighlightText from "@/app/(anon)/search/components/HighlightText";
+import NoResults from "@/app/(anon)/search/components/NoResults";
 
 const SearchClient = () => {
     const [searchTerm, setSearchTerm] = useState(""); 
@@ -49,11 +32,12 @@ const SearchClient = () => {
             };
 
             handleSearch();  
+        } else {
+            setResults([]);
         }
     }, [debouncedSearchTerm]); 
 
     return (
-        <>
         <SearchContainer>
             <SearchBarWrapper>
                 <SearchInput
@@ -67,9 +51,11 @@ const SearchClient = () => {
                 </SearchButton>
             </SearchBarWrapper>
             
-            {/* 검색 결과를 보여주는 부분 */}
             <SearchContentWrapper>
-                {results?.map(({ stockCode, stockImage, stockId, stockName }) => (
+            {results?.length === 0 ? (
+                    <NoResults/>
+                ) : (
+                results?.map(({ stockCode, stockImage, stockId, stockName }) => (
                     <StockLink href={`/stock/${stockCode}`} key={stockId}>
                         <LogoWrapper>
                             {stockImage ? (
@@ -92,10 +78,10 @@ const SearchClient = () => {
                             <HighlightText text={stockName} query={searchTerm} />
                         </StockName>
                     </StockLink>
-                ))}
+                 ))
+                )}
             </SearchContentWrapper>
         </SearchContainer>
-        </>
     );
 };
 
