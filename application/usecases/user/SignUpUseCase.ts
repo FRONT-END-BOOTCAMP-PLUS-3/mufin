@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import { IUserRepository } from "@/domain/repositories/IUserRepository";
+import { IWalletRepository } from "@/domain/repositories/IWalletRepository";
 
 interface SignupRequest {
   name: string;
@@ -19,7 +20,10 @@ interface SignupResponse {
 }
 
 export class SignUpUseCase {
-  constructor(private userRepository: IUserRepository) {}
+  constructor(
+    private userRepository: IUserRepository,
+    private walletRepository: IWalletRepository
+  ) {}
 
   async execute(request: SignupRequest): Promise<SignupResponse> {
     const { name, loginId, email, password } = request;
@@ -45,6 +49,9 @@ export class SignUpUseCase {
       email,
       password: hashedPassword,
     });
+
+    // 회원가입 후 지갑 생성
+    await this.walletRepository.createWallet(createdUser.userId);
 
     return {
       message: "회원가입 성공",

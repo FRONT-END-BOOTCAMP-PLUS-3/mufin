@@ -1,12 +1,14 @@
 import { NextResponse } from "next/server";
 import { UserRepository } from "@/infrastructure/repositories/PgUserRepository";
+import { PgWalletRepository } from "@/infrastructure/repositories/PgWalletRepository";
 import { SignUpUseCase } from "@/application/usecases/user/SignUpUseCase";
 
 export async function POST(req: Request) {
   try {
     const { name, loginId, password, email } = await req.json();
     const userRepository = new UserRepository();
-    const signupUseCase = new SignUpUseCase(userRepository);
+    const walletRepository = new PgWalletRepository();
+    const signupUseCase = new SignUpUseCase(userRepository, walletRepository);
 
     const { message, user } = await signupUseCase.execute({
       name,
