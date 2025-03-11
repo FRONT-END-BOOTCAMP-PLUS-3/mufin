@@ -13,6 +13,7 @@ import {
 import StockList from "@/app/components/home/StockList";
 import StockCategory from "./components/home/StockCategory";
 import { useRouter } from "next/navigation";
+import { ArrowRight } from "lucide-react";
 
 export default function Home() {
   const router = useRouter();
@@ -52,19 +53,15 @@ export default function Home() {
             src="/character.svg"
             alt="character"
             width={135}
-            height={100}
+            height={152}
+            priority
           />
         </ImageWrapper>
         <IntroBox>
           <p>금융 퀴즈를 풀고 포인트를 쌓아 실전처럼 투자해보세요!</p>
           <QuizButton onClick={handleQuizButtonClick}>
             오늘의 퀴즈 풀기
-            <Image
-              src="/arrow_right.svg"
-              alt="arrow_right"
-              width={12}
-              height={20}
-            />
+            <ArrowRight size={18} />
           </QuizButton>
         </IntroBox>
       </TopSection>
