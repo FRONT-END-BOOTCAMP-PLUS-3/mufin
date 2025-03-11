@@ -35,14 +35,13 @@ export class HandleBuyUseCase {
     wallet.cash -= BigInt(totalAmount);
 
     // 3. 포트폴리오에 주식 추가
-    const portfolio = await this.portfolioRepository.findPortfoliosByUserId(userId);
-    const existingStock = portfolio.find(item => item.stockId === stockId);
+    const existingStock = await this.portfolioRepository.findPortfolioByUserIdAndStockCode(userId, stockId);
 
     if (existingStock) {
         // 주식 수량 증가
-        existingStock.stockQty += quantity;
+        const newQuantity = existingStock.stockQty + quantity;
         // 변경된 포트폴리오 업데이트
-        await this.portfolioRepository.savePortfolio(userId, stockId, existingStock.stockQty);
+        await this.portfolioRepository.savePortfolio(userId, stockId, newQuantity);
     } else {
         // 주식이 없으면 새로 추가
         await this.portfolioRepository.savePortfolio(userId, stockId, quantity);

@@ -2,6 +2,8 @@
 
 import { InfoItem, InfoList, ModalButton, ModalContainer, SubTitle, Title, TotalPrice } from "@/app/user/tradeaction/components/Trandeaction.Styled";
 import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
+import '@/app/components/styles/swal-custom.css';
 
 interface OrderDetailsModalContentProps {
   type: string; // 매매 타입 (buy 또는 sell)
@@ -47,13 +49,47 @@ const OrderDetailsModalContent = ({
       const data = await response.json();
       if (!response.ok) throw new Error(data.message);
 
-      alert(`${isBuy ? "구매" : "판매"} 성공!`);
+      Swal.fire({
+        title: `${isBuy ? "구매" : "판매"} 성공!`,
+        icon: "success",
+        confirmButtonText: "확인",
+        customClass: {
+              title: 'swal-title-custom',
+              popup: 'swal-popup-custom',
+              confirmButton: 'swal-confirm-button',
+              icon: 'swal-icon-custom'
+            }
+      });
       router.push(`/stock/${symbol}`);
     } catch (error) {
       if (error instanceof Error) {
-        alert(`${isBuy ? "구매" : "판매"} 실패: ${error.message}`);
+        Swal.fire({
+          title: `${isBuy ? "구매" : "판매"} 실패`,
+          icon: "success",
+          confirmButtonText: "확인",
+          customClass: {
+              title: 'swal-title-custom',
+              popup: 'swal-popup-custom',
+              confirmButton: 'swal-confirm-button',
+              icon: 'swal-icon-custom'
+            },
+          width: '90%'
+        });
+        console.log(`${isBuy ? "구매" : "판매"} 실패: ${error.message}`);
       } else {
-        alert(`${isBuy ? "구매" : "판매"} 실패: 알 수 없는 오류`);
+        Swal.fire({
+          title: `${isBuy ? "구매" : "판매"} 실패`,
+          icon: "success",
+          confirmButtonText: "확인",
+          customClass: {
+              title: 'swal-title-custom',
+              popup: 'swal-popup-custom',
+              confirmButton: 'swal-confirm-button',
+              icon: 'swal-icon-custom'
+            },
+          width: '90%'
+        });
+        console.log(`${isBuy ? "구매" : "판매"} 실패: 알 수 없는 오류`);
       }
     }
   };

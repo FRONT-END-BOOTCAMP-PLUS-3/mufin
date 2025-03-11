@@ -6,6 +6,7 @@ import {
   ImageWrapper,
   InvestmentSection,
   InvestmentHeader,
+  TitleBox,
 } from "@/app/components/home/Home.Styled";
 
 import StockList from "@/app/components/home/StockList";
@@ -35,7 +36,9 @@ export default function Home() {
           <p>모의투자로 투자 감각을 키워보세요</p>
         </InvestmentHeader>
         <SearchBar />
+        <TitleBox>인기 종목</TitleBox>
         <StockList path={path} /> {/*인기종목 리스트*/}
+        <TitleBox>카테고리로 보기</TitleBox>
         <StockCategory /> {/* 카테고리 리스트*/}
       </InvestmentSection>
     </Container>

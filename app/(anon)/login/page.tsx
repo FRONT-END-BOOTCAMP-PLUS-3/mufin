@@ -8,6 +8,8 @@ import {
 } from "@/app/(anon)/login/components/loginPage.Styled";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import Swal from "sweetalert2";
+import '@/app/components/styles/swal-custom.css';
 
 const Login = () => {
   const [loginId, setloginId] = useState("");
@@ -23,10 +25,31 @@ const Login = () => {
     });
     const data = await res.json();
     if (res.ok) {
-      alert("로그인 성공!");
+      Swal.fire({
+        title: "로그인 성공!",
+        icon: "success",
+        confirmButtonText: "확인",
+        customClass: {
+              title: 'swal-title-custom',
+              popup: 'swal-popup-custom',
+              confirmButton: 'swal-confirm-button',
+              icon: 'swal-icon-custom'
+            }
+      });
       router.push("/");
     } else {
-      alert(data.message || "로그인 실패");
+      Swal.fire({
+        title: "로그인 실패",
+        icon: "error",
+        confirmButtonText: "확인",
+        customClass: {
+              title: 'swal-title-custom',
+              popup: 'swal-popup-custom',
+              confirmButton: 'swal-confirm-button',
+              icon: 'swal-icon-custom'
+            }
+      });
+      console.log(data.message || "로그인 실패");
     }
   };
   return (

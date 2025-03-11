@@ -12,6 +12,8 @@ import {
 } from "@/app/(anon)/myinfo/components/page.styled";
 import { useRouter } from "next/navigation";
 import Modal from "@/app/components/modal/Modal";
+import Swal from "sweetalert2";
+import '@/app/components/styles/swal-custom.css';
 
 const MyInfo = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -52,7 +54,18 @@ const MyInfo = () => {
       headers: { "Content-Type": "application/json" },
       credentials: "include",
     });
-    alert("로그아웃 하였습니다!");
+    Swal.fire({
+      title: "로그아웃 하였습니다!",
+      icon: "success",
+      confirmButtonText: "확인",
+      customClass: {
+              title: 'swal-title-custom',
+              popup: 'swal-popup-custom',
+              confirmButton: 'swal-confirm-button',
+              icon: 'swal-icon-custom'
+            },
+      width: '90%'
+    });
     router.push("/");
   };
 
@@ -63,7 +76,18 @@ const MyInfo = () => {
       headers: { "Content-Type": "application/json" },
       credentials: "include",
     });
-    alert("회원탈퇴 하였습니다!");
+    Swal.fire({
+      title: "회원탈퇴 하였습니다!",
+      icon: "success",
+      confirmButtonText: "확인",
+      customClass: {
+              title: 'swal-title-custom',
+              popup: 'swal-popup-custom',
+              confirmButton: 'swal-confirm-button',
+              icon: 'swal-icon-custom'
+            },
+      width: '90%'
+    });
     router.push("/");
   };
 
