@@ -30,6 +30,7 @@
     "react-spinners": "^0.15.0",
     "socket.io": "^4.8.1",
     "styled-components": "^6.1.15",
+    "sweetalert2": "^11.17.2",
     "tsconfig-paths": "^4.2.0",
     "ws": "^8.18.1",
     "zod": "^3.24.2"

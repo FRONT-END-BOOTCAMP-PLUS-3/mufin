@@ -3,15 +3,15 @@ import Link from "next/link";
 
 export const SearchContainer = styled(Link)`
     width: 100%;
-    max-width: 410px; /* 서치바 너비 조정 */
+    max-width: 410px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 12px 16px;
-    border: 1px solid var(--gray-300);
-    border-radius: 30px;
-    background-color: white;
-    cursor: pointer; /* 클릭 가능하도록 설정 */
+    border: 1px solid var(--primary-200);
+    border-radius: 20px;
+    background-color: var(--white-color);
+    cursor: pointer;
     transition: 0.2s;
 
     &:hover {
