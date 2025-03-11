@@ -3,13 +3,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import {
-  Container,
-  TitleBox,
-  Grid,
-  CategoryCard,
-  ImageWrapper,
-  CategoryName,
-  CategoryWrapper,
+    Container,
+    TitleBox,
+    Grid,
+    CategoryCard,
+    ImageWrapper,
+    CategoryName,
+    CategoryWrapper,
 } from "@/app/components/home/StockCategory.Styled";
 
 const categories = [
