@@ -116,10 +116,10 @@ jobs:
     steps:
       # 10. 빌드 산출물 다운로드
       - name: Download Build Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-output
-          path: ./build-output
+          path: ./out
 
       # 10. SSH를 통해 Linux 서버에 배포
       - name: Deploy to Linux Server via SSH
