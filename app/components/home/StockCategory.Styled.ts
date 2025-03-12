@@ -2,27 +2,13 @@ import Link from "next/link";
 import styled from "styled-components";
 
 export const Container = styled.div`
-    display: flex;
+    display: grid;
     flex-direction: column;
     width: 100%;
-    max-width: 24.5rem;
-`;
-
-export const TitleBox = styled.div`
-    display: inline-block;
-    width: fit-content;
-    padding: 0.25rem 0.875rem;
-    background-color: var(--gray-200);
-    border-radius: 5px;
-    font-size: 1rem;
-    font-weight: bold;
-`;
-
-export const Grid = styled.div`
-    display: grid;
+    margin-bottom: 10px;
     grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
-    margin-top: 1rem;
+    margin-top: 0.75rem;
 `;
 
 export const CategoryWrapper = styled.div`
@@ -35,7 +21,7 @@ export const CategoryWrapper = styled.div`
 export const CategoryName = styled.span`
     font-size: var(--font-size-base);
     font-weight: bold;
-    margin-bottom: 5px; /* 위 간격 조정 */
+    margin-top: 5px; /* 위 간격 조정 */
     cursor: default;
 `;
 

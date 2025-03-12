@@ -6,8 +6,8 @@ export const Container = styled.div`
     flex-direction: column;
     align-items: center;
     width: 100%;
-    padding: 1rem; /* 16px */
-    gap: 1.25rem; /* 20px */
+    padding: 1rem; 
+    gap: 1.25rem; 
 `;
 
 export const TopSection = styled.section`
@@ -15,38 +15,42 @@ export const TopSection = styled.section`
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    max-width: 25.5rem; /* 408px */
+    max-width: 25.5rem;
 `;
 
 export const ImageWrapper = styled.div`
-    flex: 1;
+    flex: 0.4;
 `;
 
 export const IntroBox = styled.div`
-    flex: 1.2;
+    flex: 0.6;
     text-align: center;
-    border: 1px solid var(--gray-100);
-    border-radius: 0.75rem; /* 12px */
-    padding: 0.75rem; /* 12px */
+    background-color: var(--primary-50);
+    border-radius: 10px;
+    padding: 1rem; 
 
     p {
         font-size: 0.875rem; /* 14px */
-        color: var(--gray-800);
-        margin-bottom: 0.75rem; /* 12px */
+        color: var(--black-color);
+        margin-bottom: 1rem; /* 12px */
     }
 `;
 
 export const QuizButton = styled.button`
     display: flex;
-    align-items: center;
+    align-items: center;         /* 수직 중앙 정렬 */
+    justify-content: center;
     gap: 0.7rem;
-    padding: 1.25rem 1.875rem; /* 20px 30px */
+    padding: 1rem;
     background-color: var(--primary-color);
-    color: white;
+    color: var(--white-color);
     text-decoration: none;
-    border-radius: 1rem;
+    border-radius: 10px;
+    border: none;
     font-size: var(--font-size-base);
     font-weight: bold;
+    text-align: center;
+    width: 100%;
 
     &:hover {
         background-color: var(--primary-700);
@@ -84,4 +88,28 @@ export const InvestmentHeader = styled.div`
         padding-top: 0.75rem; /* 12px */
         font-size: 0.875rem; /* 14px */
     }
+`;
+
+export const QuizErrorModal = styled.div`
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--white-color);
+  border: none;
+  gap: 0.5rem;
+
+  p{
+    font-size: 1rem;
+  }
+`;
+
+export const TitleBox = styled.div`
+    text-align: left;
+    width: 100%;
+    border-bottom : 1px solid var(--disabled-color);
+    padding: 0.75rem;
+    font-size: var(--font-size-xl);
+    font-weight: bold;
 `;

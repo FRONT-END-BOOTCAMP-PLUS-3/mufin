@@ -12,6 +12,8 @@ import {
   EmailInput,
 } from "@/app/(anon)/signup/components/signupPage.Styled";
 import { CircleCheckBig } from "lucide-react";
+import Swal from "sweetalert2";
+import '@/app/components/styles/swal-custom.css';
 
 const SignupPage = () => {
   const [form, setForm] = useState({
@@ -58,14 +60,34 @@ const SignupPage = () => {
     const data = await res.json();
     setMessage(data.message || data.error);
     if (data.message) {
-      alert("회원가입 성공!");
+      Swal.fire({
+        title: "회원가입 성공!",
+        icon: "success",
+        confirmButtonText: "확인",
+        customClass: {
+              title: 'swal-title-custom',
+              popup: 'swal-popup-custom',
+              confirmButton: 'swal-confirm-button',
+              icon: 'swal-icon-custom'
+            }
+      });
       router.push("/login");
     }
   };
 
   const handleEmailAuth = async () => {
     if (!form.email) {
-      alert("이메일을 입력해주세요.");
+      Swal.fire({
+        title: "이메일을 입력해주세요.",
+        icon: "info",
+        confirmButtonText: "확인",
+        customClass: {
+              title: 'swal-title-custom',
+              popup: 'swal-popup-custom',
+              confirmButton: 'swal-confirm-button',
+              icon: 'swal-icon-custom'
+            }
+      });
       return;
     }
     try {
@@ -77,18 +99,51 @@ const SignupPage = () => {
 
       const data = await res.json();
       if (res.ok) {
-        alert("인증번호가 이메일로 전송되었습니다!");
+        Swal.fire({
+          title: "인증번호가 이메일로 전송되었습니다!",
+          icon: "success",
+          confirmButtonText: "확인",
+          customClass: {
+              title: 'swal-title-custom',
+              popup: 'swal-popup-custom',
+              confirmButton: 'swal-confirm-button',
+              icon: 'swal-icon-custom'
+            },
+          width: '90%'
+        });
       } else {
-        alert(`${data.error || "인증 요청 실패"}`);
+        Swal.fire({
+          title: "이미 가입된 이메일입니다",
+          icon: "error",
+          confirmButtonText: "확인",
+          customClass: {
+              title: 'swal-title-custom',
+              popup: 'swal-popup-custom',
+              confirmButton: 'swal-confirm-button',
+              icon: 'swal-icon-custom'
+            },
+          width: '90%'
+        });
+        console.log(data.error || "인증 요청 실패");
       }
     } catch (error) {
-      alert(error);
+      console.log(error);
     }
   };
 
   const handleEmailVerify = async () => {
     if (!form.emailAuthCode) {
-      alert("인증코드를 입력해주세요.");
+      Swal.fire({
+        title: "인증코드를 입력해주세요.",
+        icon: "info",
+        confirmButtonText: "확인",
+        customClass: {
+              title: 'swal-title-custom',
+              popup: 'swal-popup-custom',
+              confirmButton: 'swal-confirm-button',
+              icon: 'swal-icon-custom'
+            }
+      });
       return;
     }
     try {
@@ -104,13 +159,35 @@ const SignupPage = () => {
       const data = await res.json();
       if (res.ok) {
         setIsVerified(true);
-        alert("인증이 완료되었습니다!");
+        Swal.fire({
+          title: "인증이 완료되었습니다!",
+          icon: "success",
+          confirmButtonText: "확인",
+          customClass: {
+              title: 'swal-title-custom',
+              popup: 'swal-popup-custom',
+              confirmButton: 'swal-confirm-button',
+              icon: 'swal-icon-custom'
+            },
+          width: '90%'
+        });
       } else {
-        alert(`${data.error || "인증 실패"}`);
+        Swal.fire({
+          title: "인증 실패",
+          icon: "error",
+          confirmButtonText: "확인",
+          customClass: {
+              title: 'swal-title-custom',
+              popup: 'swal-popup-custom',
+              confirmButton: 'swal-confirm-button',
+              icon: 'swal-icon-custom'
+            },
+          width: '90%'
+        });
+        console.log(data.error || "인증 실패");
       }
     } catch (error) {
       console.error("이메일 인증 실패:", error);
-      alert("이메일 인증 중 오류가 발생했습니다.");
     }
   };
 

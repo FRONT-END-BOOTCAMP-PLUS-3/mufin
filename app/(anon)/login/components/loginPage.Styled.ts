@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const LoginContainer = styled.div`
+  margin-top: 50px;
   display: flex;
   justify-content: center;
   height: 100vh;
@@ -14,7 +15,7 @@ export const LoginBox = styled.div`
   background: white;
   border-radius: 10px;
   h1 {
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
     font-size: 1.5rem;
   }
   form {
@@ -29,7 +30,7 @@ export const LoginBox = styled.div`
 export const Input = styled.input`
   width: 100%;
   padding: 1rem;
-  border: 1px solid #ccc;
+  border: 1px solid var(--disabled-color);
   border-radius: 10px;
   font-size: 1rem;
   height: 3rem;
@@ -37,11 +38,13 @@ export const Input = styled.input`
 `;
 
 export const Button = styled.button`
-  width: 60%;
+  width: 100%;
   padding: 10px;
   border: none;
   background-color: var(--primary-color);
   color: white;
   font-size: 1rem;
   border-radius: 10px;
+  margin-top: 1rem;
 `;
+

@@ -21,7 +21,7 @@ const StockList = async ({ path }: StockListProps) => {
   return (
     <>
       <StockItemBox>
-        {stockData?.map(
+        {stockData && stockData.length !== 0 && stockData.map(
           ({
             index,
             stockCode,

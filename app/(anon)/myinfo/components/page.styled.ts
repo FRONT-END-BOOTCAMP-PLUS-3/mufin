@@ -1,6 +1,7 @@
 import { styled } from "styled-components";
 
 export const Container = styled.div`
+  margin-top: 50px;
   display: flex;
   text-align: center;
   flex-direction: column;
@@ -10,22 +11,22 @@ export const Container = styled.div`
 
 export const MyBox = styled.div`
   display: flex;
-  border: 1px solid var(--disabled-color);
+  flex-direction: column; 
+  align-items: center; 
   border-radius: 10px;
   width: 80%;
-  align-items: center;
-  height: 5rem;
-  justify-content: space-around;
+  height: 10rem;
+  justify-content: center; 
   font-size: var(--font-size-2xl);
   letter-spacing: -0.5px;
+
   img {
-    margin-right: -1.5rem;
+    margin-bottom: 0.5rem; 
   }
 `;
 
 export const LoginBox = styled.div`
   display: flex;
-  border: 1px solid var(--disabled-color);
   flex-direction: column;
   border-radius: 10px;
   width: 80%;
@@ -40,7 +41,7 @@ export const Button = styled.button`
   background-color: var(--primary-light);
   border: var(--disabled-color);
   border-radius: 10px;
-  height: 4rem;
+  height: 3rem;
   width: 70%;
 `;
 
@@ -48,11 +49,12 @@ export const ModalStyle = styled.div`
   p {
     font-size: var(--font-size-2xl);
   }
+  margin: 1.5rem;
 `;
 
 export const ButtonStyle = styled.div`
-  margin-top: 1.5rem;
+  margin-top: 2rem;
   display: flex;
   justify-content: center;
-  gap: 2rem;
+  gap: 1rem;
 `;

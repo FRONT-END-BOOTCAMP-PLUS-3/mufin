@@ -12,6 +12,8 @@ import {
 } from "@/app/(anon)/myinfo/components/page.styled";
 import { useRouter } from "next/navigation";
 import Modal from "@/app/components/modal/Modal";
+import Swal from "sweetalert2";
+import '@/app/components/styles/swal-custom.css';
 
 const MyInfo = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -52,7 +54,18 @@ const MyInfo = () => {
       headers: { "Content-Type": "application/json" },
       credentials: "include",
     });
-    alert("로그아웃 하였습니다!");
+    Swal.fire({
+      title: "로그아웃 하였습니다!",
+      icon: "success",
+      confirmButtonText: "확인",
+      customClass: {
+              title: 'swal-title-custom',
+              popup: 'swal-popup-custom',
+              confirmButton: 'swal-confirm-button',
+              icon: 'swal-icon-custom'
+            },
+      width: '90%'
+    });
     router.push("/");
   };
 
@@ -63,7 +76,18 @@ const MyInfo = () => {
       headers: { "Content-Type": "application/json" },
       credentials: "include",
     });
-    alert("회원탈퇴 하였습니다!");
+    Swal.fire({
+      title: "회원탈퇴 하였습니다!",
+      icon: "success",
+      confirmButtonText: "확인",
+      customClass: {
+              title: 'swal-title-custom',
+              popup: 'swal-popup-custom',
+              confirmButton: 'swal-confirm-button',
+              icon: 'swal-icon-custom'
+            },
+      width: '90%'
+    });
     router.push("/");
   };
 
@@ -95,8 +119,8 @@ const MyInfo = () => {
         <Image
           src="/user_profile.png"
           alt="user_profile"
-          width={45}
-          height={45}
+          width={100}
+          height={100}
         />
         {isLoggedIn ? (
           <>
@@ -119,19 +143,19 @@ const MyInfo = () => {
           <Button onClick={() => router.push("/signup")}>회원가입</Button>
         </LoginBox>
       )}
-      <ModalStyle>
         <Modal isOpen={isModalOpen} onClose={closeModal}>
-          <p>
-            {modalType === "logout"
-              ? "로그아웃 하시겠습니까?"
-              : "정말로 회원탈퇴 하시겠습니까?"}
-          </p>
-          <ButtonStyle>
-            <Button onClick={handleConfirm}>확인</Button>
-            <Button onClick={closeModal}>취소</Button>
-          </ButtonStyle>
+          <ModalStyle>
+            <p>
+              {modalType === "logout"
+                ? "로그아웃 하시겠습니까?"
+                : "정말로 회원탈퇴 하시겠습니까?"}
+            </p>
+            <ButtonStyle>
+              <Button onClick={handleConfirm}>확인</Button>
+              <Button onClick={closeModal}>취소</Button>
+            </ButtonStyle>
+          </ModalStyle>
         </Modal>
-      </ModalStyle>
     </Container>
   );
 };

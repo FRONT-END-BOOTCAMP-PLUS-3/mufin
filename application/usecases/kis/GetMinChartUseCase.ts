@@ -46,7 +46,6 @@ export class GetMinChartUseCase implements IGetMinChartUseCase {
     // 여러 offset에 대해 API 호출 (예: 4회)
     const requests = Array.from({ length: 4 }, async (_, i) => {
       const formattedTime = getCurrentTime(i);
-      console.log("Processing time:", formattedTime);
       const fetchData = await fetchKISMinChart(symbol, formattedTime);
 
       return fetchData.output2.map((item: KISStockChartItem) => ({
