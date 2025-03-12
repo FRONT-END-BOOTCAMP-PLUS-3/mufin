@@ -31,4 +31,11 @@ export class AccessTokenUseCase implements IAccessTokenUseCase {
 
         return kisAccessToken;
     }
+    async renewAccessToken(): Promise<string> {
+        const apiKey = env.KIS_APP_KEY;
+        const newToken = await this.kisAuthClient.getAccessToken();
+        await this.redisRepository.saveKISValue("kis_access_token", apiKey, newToken);
+        console.log(`[RENEW] Redis에 새로운 토큰 업데이트: ${newToken}`);
+        return newToken;
+      }
 }
