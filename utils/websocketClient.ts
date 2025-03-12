@@ -1,4 +1,4 @@
-import { marketOpen } from "@/utils/getMarketOpen";
+// import { marketOpen } from "@/utils/getMarketOpen";
 
 export const createMessage = (
   approvalKey: string,
@@ -26,10 +26,10 @@ export const createMessage = (
  * @returns 연결된 WebSocket 인스턴스를 Promise로 반환
  */
 export const connectWs = (path: string): Promise<WebSocket|null> => {
-  if (!marketOpen()) {  
-    console.log("❌ 마켓이 닫혀 있어서 WebSocket 연결을 시도하지 않습니다.");
-    return Promise.resolve(null);
-  }
+  // if (!marketOpen()) {  
+  //   console.log("❌ 마켓이 닫혀 있어서 WebSocket 연결을 시도하지 않습니다.");
+  //   return Promise.resolve(null);
+  // }
 
   return new Promise((resolve, reject) => {
     const url = `ws://ops.koreainvestment.com:21000${path}`;
