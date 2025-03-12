@@ -47,7 +47,7 @@ const StockDetailTabs = ({ symbol, initialPrice }: StockDetailTabsProps) => {
       case 'chart':
         return <StockChart symbol={symbol} />;
       case 'orderbook':
-        return <StockOrderBook />;
+        return <StockOrderBook symbol={symbol}/>;
       case 'info':
         return <StockInfo symbol={symbol} />;
       default:
