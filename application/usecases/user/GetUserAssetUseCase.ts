@@ -1,6 +1,6 @@
 // application/usecases/user/GetUserAssetUseCase.ts
 import { IWalletRepository } from "@/domain/repositories/IWalletRepository";
-import { UserAssetDTO } from "./dtos/userAssetDto";
+import { UserAssetDTO } from "@/application/usecases/user/dtos/userAssetDto";
 
 export class GetUserAssetUseCase {
     constructor(private walletRepository: IWalletRepository) {}
