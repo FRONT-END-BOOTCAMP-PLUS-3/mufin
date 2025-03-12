@@ -113,9 +113,7 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Build Next.js Project
-        run: npm run build
-        
+             
 
       # 10. SSH를 통해 Linux 서버에 배포
       - name: Deploy to Remote Server via SSH
