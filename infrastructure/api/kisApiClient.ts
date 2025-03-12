@@ -4,23 +4,38 @@ import { env } from "@/config/env";
 import { NextResponse } from "next/server";
 
 const kisAccessTokenUseCase: IAccessTokenUseCase = new AccessTokenUseCase();
-const KISAccessToken = await kisAccessTokenUseCase.execute();
+
+
+// KIS API 응답 타입 정의 (필요한 필드에 맞게 확장 가능)
+interface KISResponse {
+  
+    rt_cd: string;
+    msg1?: string;
+    msg_cd?: string;
+    token?: string;
+  
+  // 기타 필요한 필드...
+}
 
 async function executeKISRequest(
   endpoint: string,
   params: URLSearchParams,
   trId: string
 ) {
-  if (!KISAccessToken) {
+  const url = `${env.KIS_API_URL}${endpoint}`;
+
+ let KISAccessToken = await kisAccessTokenUseCase.execute();
+  
+ if (!KISAccessToken) {
     return NextResponse.json(
       { error: "KISAccessToken not found in cookies" },
       { status: 400 }
     );
   }
 
-  const url = `${env.KIS_API_URL}${endpoint}`;
 
-  const response = await fetch(`${url}?${params.toString()}`, {
+
+  let response = await fetch(`${url}?${params.toString()}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json; charset=utf-8",
@@ -32,11 +47,42 @@ async function executeKISRequest(
     },
   });
 
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(`KIS API 호출 실패: ${errorText}`);
+  let data: KISResponse = await response.json();
+
+
+  if (
+    !response.ok ||
+    (data.rt_cd === "1" &&
+      data.msg1 &&
+      data.msg1.includes("기간이 만료된 token"))
+  ) {
+    if (data.msg1 && data.msg1.includes("기간이 만료된 token")) {
+      
+      KISAccessToken = await kisAccessTokenUseCase.renewAccessToken();
+
+      // 새로운 토큰으로 재요청
+      response = await fetch(`${url}?${params.toString()}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+          authorization: `Bearer ${KISAccessToken}`,
+          appkey: env.KIS_APP_KEY!,
+          appsecret: env.KIS_APP_SECRET!,
+          tr_id: trId,
+          custtype: "P",
+        },
+      });
+      data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(`KIS API 재호출 실패: ${JSON.stringify(data)}`);
+      }
+    } else {
+      throw new Error(`KIS API 호출 실패: ${JSON.stringify(data)}`);
+    }
   }
-  return response.json();
+
+  return data;
 }
 
 /**
