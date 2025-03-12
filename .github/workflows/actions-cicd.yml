@@ -61,11 +61,11 @@ jobs:
           fi
       
       # 3. Node.js 환경 설정
-      - name: Setup Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
-          cache: ${{ steps.detect-package-manager.outputs.manager }}
+          node-version: lts/*
+          cache: 'npm'
           
       # 4. 의존성 설치
       - name: Install dependencies
@@ -79,8 +79,8 @@ jobs:
         run: export $(grep -v '^#' .env | xargs)
 
       # 6. Next.js 애플리케이션 빌드
-      - name: Build with Next.js
-        run: ${{ steps.detect-package-manager.outputs.runner }} next build
+      - name: Build Next.js Project
+        run: npm run buildext build
           
       # 7. 빌드 속도 개선을 위한 캐시 qhrdnjs
       - name: Restore cache
@@ -102,6 +102,17 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: 'npm'
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Next.js Project
+        run: npm run build
 
       # 10. SSH를 통해 Linux 서버에 배포
       - name: Deploy to Remote Server via SSH
