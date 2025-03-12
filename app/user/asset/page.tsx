@@ -27,7 +27,7 @@ import {
 } from "@/app/user/asset/components/Asset.Styled";
 import InvestmentAmount from "./components/InvestmentAmount";
 import Holdings from "./components/Holdings";
-import { PortfolioWithStock } from "@/domain/repositories/IPortfolioRepository";
+import { PortfolioWithPrice } from "@/application/usecases/user/GetUserPortfolioUseCase";
 
 const Asset = () => {
     const router = useRouter();
@@ -42,7 +42,7 @@ const Asset = () => {
     const [cash, setCash] = useState(0);
 
     // Portfolio 관련 데이터 및 계산된 값
-    const [holdings, setHoldings] = useState<PortfolioWithStock[]>([]);
+    const [holdings, setHoldings] = useState<PortfolioWithPrice[]>([]);
     const [investmentAmount, setInvestmentAmount] = useState(0);
     const [securitiesAccount, setSecuritiesAccount] = useState(0);
 
@@ -83,9 +83,12 @@ const Asset = () => {
         fetchAssetData();
     }, []);
 
-    // 투자금액 계산: 각 보유종목의 marketValue의 합계를 계산
+    // 투자금액 계산: 각 보유종목의 (currentPrice * stockQty)의 합계를 계산
     useEffect(() => {
-        const totalInvestment = holdings.reduce((sum, item) => sum + (item.totalValue || 0), 0);
+        const totalInvestment = holdings.reduce(
+            (sum, item) => sum + (item.currentPrice || 0) * (item.stockQty || 0),
+            0
+        );
         setInvestmentAmount(totalInvestment);
     }, [holdings]);
 

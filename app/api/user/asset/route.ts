@@ -8,7 +8,7 @@ import { GetCurrentPriceUseCase } from "@/application/usecases/kis/GetCurrentPri
 import { GetUserPortfolioUseCase } from "@/application/usecases/user/GetUserPortfolioUseCase";
 
 // GET 메서드: Wallet 정보와 Portfolio(보유종목+현재가) 정보를 모두 조회하여 반환
-export async function GET(request: NextRequest) {
+export async function GET() {
     // 쿠키에 저장된 JWT 토큰에서 userId 추출
     const userId = await getDecodedUserId();
     if (!userId) {
@@ -32,7 +32,8 @@ export async function GET(request: NextRequest) {
         return NextResponse.json(result);
     } catch (error: unknown) {
         console.error("GET /api/user/asset error:", error);
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred";
+        return NextResponse.json({ error: errorMessage }, { status: 500 });
     }
 }
 
@@ -53,6 +54,7 @@ export async function PATCH(request: NextRequest) {
         // 업데이트 후 DB에서 가져온 target 값을 number로 변환하여 반환
         return NextResponse.json({ target: Number(updatedWallet.target) });
     } catch (error: unknown) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred";
+        return NextResponse.json({ error: errorMessage }, { status: 500 });
     }
 }

@@ -10,7 +10,7 @@ interface Holding {
     stockQty?: number;
     profit?: number;
     profitRate?: number;
-    totalValue?: number;
+    //totalValue?: number;
     currentPrice?: number;
 }
 
@@ -23,7 +23,7 @@ const Holdings = ({ holdings }: HoldingsProps) => {
         console.log("Holdings Data:", holdings);
         holdings.forEach((item, index) => {
             console.log(`Holding ${index + 1}:`, item);
-            console.log("totalValue:", item.totalValue);
+            //console.log("totalValue:", item.totalValue);
             console.log("currPrice:", item.currentPrice);
             console.log("profit:", item.profit);
             console.log("profitRate:", item.profitRate);
@@ -44,9 +44,11 @@ const Holdings = ({ holdings }: HoldingsProps) => {
                     {holdings.map((item, index) => {
                         // API에서 전달받은 필드명이 다를 수 있으므로 기본값으로 변환
                         const displayName = item.stockName || "알 수 없음";
-                        const quantity = item.stockQty || 0;
-                        const total = quantity * item.currentPrice;
-
+                        const quantity = item.stockQty ?? 0;
+                        const price = item.currentPrice ?? 0;
+                        const total = quantity * price;
+                        const profit = item.profit ?? 0; // undefined일 경우 0으로 처리
+                        const profitRate = item.profitRate ?? 0; // undefined일 경우 0으로 처리
                         const stockImageSrc = item.stockImage ? `/stock/${item.stockImage}.png` : `/stock/DEFAULT.png`;
 
                         return (
@@ -60,15 +62,9 @@ const Holdings = ({ holdings }: HoldingsProps) => {
                                 <TableCell>{quantity}주</TableCell>
                                 <TableCell>
                                     {total} 원
-                                    {/* {item.profit !== undefined && item.profitRate !== undefined && (
-                                        <ProfitText isPlus={item.profit >= 0}>
-                                            {item.profit >= 0 ? "+" : ""}
-                                            {item.profit.toLocaleString()}원 ({item.profitRate}%)
-                                        </ProfitText>
-                                    )} */}
-                                    <ProfitText $isPlus={item.profit >= 0}>
-                                        {item.profit >= 0 ? "+" : ""}
-                                        {item.profit}원 ({item.profitRate}%)
+                                    <ProfitText $isPositive={profit >= 0}>
+                                        {profit >= 0 ? "+" : ""}
+                                        {profit}원 ({profitRate}%)
                                     </ProfitText>
                                 </TableCell>
                             </TableRow>
@@ -127,8 +123,8 @@ const StockImage = styled.img`
     border-radius: 50%;
 `;
 
-const ProfitText = styled.p<{ isPlus: boolean }>`
+const ProfitText = styled.p<{ $isPositive: boolean }>`
     font-size: 0.7rem;
     font-weight: bold;
-    color: ${({ $isPlus }) => ($isPlus ? "red" : "blue")};
+    color: ${({ $isPositive }) => ($isPositive ? "red" : "blue")};
 `;

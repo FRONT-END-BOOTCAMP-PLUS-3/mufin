@@ -9,7 +9,6 @@ export interface PortfolioWithPrice {
     stockName: string;
     stockQty: number;
     currentPrice: number;
-    totalValue: number;
     stockImage: string;
     profit: number;
     profitRate: number;
@@ -45,7 +44,6 @@ export class GetUserPortfolioUseCase {
                 stockQty: item.stockQty,
                 stockImage: item.stock.stockImage,
                 currentPrice,
-                totalValue,
                 profit,
                 profitRate,
             });
