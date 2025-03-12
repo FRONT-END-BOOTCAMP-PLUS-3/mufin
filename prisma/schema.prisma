@@ -101,7 +101,7 @@ model Portfolio {
   portfolioId Int      @id @default(autoincrement()) @map("portfolio_id")
   userId      String   @map("user_id")
   stockId     Int      @map("stock_id")
-  stockQty  Int      @map("stock_qty")
+  stockQty    Int      @map("stock_qty")
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @default(now()) @map("updated_at")
   

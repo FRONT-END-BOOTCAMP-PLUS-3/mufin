@@ -1,14 +1,17 @@
 "use client";
-
+import { useEffect } from "react";
 import styled from "styled-components";
 
 interface Holding {
-    logo: string;
-    name: string;
-    quantity: number;
-    amount: number;
+    // API에서 받을 수 있는 필드 (두 가지 네이밍을 모두 지원)
+    stockImage?: string;
+    //stockCode?: string;
+    stockName?: string;
+    stockQty?: number;
     profit?: number;
     profitRate?: number;
+    //totalValue?: number;
+    currentPrice?: number;
 }
 
 interface HoldingsProps {
@@ -16,6 +19,16 @@ interface HoldingsProps {
 }
 
 const Holdings = ({ holdings }: HoldingsProps) => {
+    useEffect(() => {
+        console.log("Holdings Data:", holdings);
+        holdings.forEach((item, index) => {
+            console.log(`Holding ${index + 1}:`, item);
+            //console.log("totalValue:", item.totalValue);
+            console.log("currPrice:", item.currentPrice);
+            console.log("profit:", item.profit);
+            console.log("profitRate:", item.profitRate);
+        });
+    }, [holdings]);
     return (
         <Container>
             <Title>보유 종목</Title>
@@ -28,26 +41,35 @@ const Holdings = ({ holdings }: HoldingsProps) => {
                     </TableRow>
                 </thead>
                 <tbody>
-                    {holdings.map((stock, index) => (
-                        <TableRow key={index}>
-                            <TableCell>
-                                <StockInfo>
-                                    <StockLogo src={stock.logo} alt={stock.name} />
-                                    {stock.name}
-                                </StockInfo>
-                            </TableCell>
-                            <TableCell>{stock.quantity}주</TableCell>
-                            <TableCell>
-                                {stock.amount.toLocaleString()} 원
-                                {stock.profit !== undefined && stock.profitRate !== undefined && (
-                                    <ProfitText isPlus={stock.profit >= 0}>
-                                        {stock.profit >= 0 ? "+" : ""}
-                                        {stock.profit.toLocaleString()}원 ({stock.profitRate}%)
+                    {holdings.map((item, index) => {
+                        // API에서 전달받은 필드명이 다를 수 있으므로 기본값으로 변환
+                        const displayName = item.stockName || "알 수 없음";
+                        const quantity = item.stockQty ?? 0;
+                        const price = item.currentPrice ?? 0;
+                        const total = quantity * price;
+                        const profit = item.profit ?? 0; // undefined일 경우 0으로 처리
+                        const profitRate = item.profitRate ?? 0; // undefined일 경우 0으로 처리
+                        const stockImageSrc = item.stockImage ? `/stock/${item.stockImage}.png` : `/stock/DEFAULT.png`;
+
+                        return (
+                            <TableRow key={index}>
+                                <TableCell>
+                                    <StockInfo>
+                                        <StockImage src={stockImageSrc} alt={displayName} width={40} height={40} />
+                                        {displayName}
+                                    </StockInfo>
+                                </TableCell>
+                                <TableCell>{quantity}주</TableCell>
+                                <TableCell>
+                                    {total} 원
+                                    <ProfitText $isPositive={profit >= 0}>
+                                        {profit >= 0 ? "+" : ""}
+                                        {profit}원 ({profitRate}%)
                                     </ProfitText>
-                                )}
-                            </TableCell>
-                        </TableRow>
-                    ))}
+                                </TableCell>
+                            </TableRow>
+                        );
+                    })}
                 </tbody>
             </Table>
         </Container>
@@ -95,14 +117,14 @@ const StockInfo = styled.div`
     gap: 0.5rem;
 `;
 
-const StockLogo = styled.img`
+const StockImage = styled.img`
     width: 1.5rem;
     height: 1.5rem;
+    border-radius: 50%;
 `;
 
-const ProfitText = styled.p<{ isPlus: boolean }>`
-    font-size: 0.875rem;
+const ProfitText = styled.p<{ $isPositive: boolean }>`
+    font-size: 0.7rem;
     font-weight: bold;
-    color: ${({ isPlus }) => (isPlus ? "red" : "blue")};
-    margin-top: 0.25rem;
+    color: ${({ $isPositive }) => ($isPositive ? "red" : "blue")};
 `;
