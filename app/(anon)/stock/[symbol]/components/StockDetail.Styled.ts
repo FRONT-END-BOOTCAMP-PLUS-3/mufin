@@ -7,7 +7,7 @@ export const StockContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0 1.25rem 1.25rem 1.25rem;  
-  min-height: 98%;
+  min-height: 100%;
   justify-content: space-between;
   gap: 0.5rem;
 `;
