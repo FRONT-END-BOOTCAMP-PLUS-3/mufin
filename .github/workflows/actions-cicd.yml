@@ -107,6 +107,12 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: next-build
+          path: .next
+
       # 10. SSH를 통해 Linux 서버에 배포
       - name: Deploy to Remote Server via SSH
         uses: appleboy/ssh-action@v1.0.3
