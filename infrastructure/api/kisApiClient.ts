@@ -7,15 +7,7 @@ const kisAccessTokenUseCase: IAccessTokenUseCase = new AccessTokenUseCase();
 
 
 // KIS API 응답 타입 정의 (필요한 필드에 맞게 확장 가능)
-interface KISResponse {
-  
-    rt_cd: string;
-    msg1?: string;
-    msg_cd?: string;
-    token?: string;
-  
-  // 기타 필요한 필드...
-}
+
 
 async function executeKISRequest(
   endpoint: string,
@@ -47,7 +39,7 @@ async function executeKISRequest(
     },
   });
 
-  let data: KISResponse = await response.json();
+  let data = await response.json();
 
 
   if (
