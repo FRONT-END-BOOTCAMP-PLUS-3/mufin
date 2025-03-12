@@ -68,21 +68,29 @@ export const StockImage = styled(Image)`
 `;
 
 export const StockName = styled.div`
+    display: flex;
     font-size: var(--font-size-lg);
     color: var(--black-color);
     font-weight: 500;
+    flex-wrap: wrap;
+    word-wrap: break-word;
 `;
 
 
 export const StockRight = styled.div`
     display: flex;
+    flex: 1;
     flex-direction: column;
     align-items: flex-end;
+
+    text-align: end;
 `;
 
 export const StockPrice = styled.p`
     font-size: var(--font-size-lg);
     font-weight: bold;
+    
+    white-space: nowrap;
 `;
 
 export const StockChange = styled.p<{ $isPositive: boolean }>`
