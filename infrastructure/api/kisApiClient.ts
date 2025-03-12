@@ -142,3 +142,16 @@ export async function fetchKISStockChart(
 
   return await executeKISRequest(endPoint, params, trId);
 }
+
+export async function fetchKISOrderBook(symbol: string) {
+  const endPoint = `/uapi/domestic-stock/v1/quotations/inquire-asking-price-exp-ccn`;
+
+  const params = new URLSearchParams({
+    FID_COND_MRKT_DIV_CODE: "J",
+    FID_INPUT_ISCD: symbol,
+  });
+
+  const trId = "FHKST01010200";
+
+  return await executeKISRequest(endPoint, params, trId);
+}
