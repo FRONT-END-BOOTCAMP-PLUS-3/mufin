@@ -1,4 +1,4 @@
-import { Portfolio, Stock } from "@prisma/client";
+import { Portfolio } from "@prisma/client";
 // Portfolio + Stock 정보를 포함하는 타입
 export type PortfolioWithStock = {
     portfolioId: number;
@@ -10,7 +10,7 @@ export type PortfolioWithStock = {
     stock: {
         stockCode: string;
         stockName: string;
-        //stockImage: string;
+        stockImage: string;
     };
 };
 export interface IPortfolioRepository {
