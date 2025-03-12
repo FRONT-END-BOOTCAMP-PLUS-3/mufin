@@ -14,7 +14,7 @@ const SearchClient = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setDebouncedSearchTerm(searchTerm);
-        }, 1000); 
+        }, 100); 
 
         return () => clearTimeout(timer);  
     }, [searchTerm]);
