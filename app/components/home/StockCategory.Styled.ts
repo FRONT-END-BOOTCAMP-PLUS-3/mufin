@@ -22,7 +22,7 @@ export const CategoryName = styled.span`
     font-size: var(--font-size-base);
     font-weight: bold;
     margin-top: 5px; /* 위 간격 조정 */
-    cursor: default;
+    cursor: default; 
 `;
 
 export const CategoryCard = styled(Link)<{ color: string }>`

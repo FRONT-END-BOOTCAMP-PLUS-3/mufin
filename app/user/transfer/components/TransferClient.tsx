@@ -84,7 +84,7 @@ const TransferClient = () => {
             }
       });
   
-      router.push("/test"); 
+      router.push("/user/asset"); 
     } catch (error) {
       if (error instanceof Error) {
         Swal.fire({

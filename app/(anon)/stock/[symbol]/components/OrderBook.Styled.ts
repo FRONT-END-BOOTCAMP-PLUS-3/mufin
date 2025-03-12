@@ -2,14 +2,18 @@ import styled from "styled-components";
 
 export const OrderBookContainer = styled.div`
   width: 100%;
-  padding: 12px 15px;
-  margin-top: 5px;
+  height: 100%;
+  padding: 0.75rem 0.9375rem;
+  margin-top: auto;
+  display: flex; 
+  flex-direction: column; 
+  flex-grow: 1; 
 `;
 
 export const OrderBookTable = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 0.65rem;
 `;
 
 export const OrderRow = styled.div`
@@ -19,30 +23,30 @@ export const OrderRow = styled.div`
 `;
 
 export const Price = styled.span`
-  width: 80px;
+  width: 5rem;
   text-align: right;
-  font-size: 14px;
-  padding-right: 10px;
+  font-size: 0.875rem;
+  padding-right: 0.625rem;
 `;
 
 export const OrderDetails = styled.div`
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 0.625rem;
   position: relative;
   flex: 1;
-  padding-left: 10px;
+  padding-left: 0.625rem;
   border-left: 1px solid var(--disabled-color);
 `;
 
 export const OrderBar = styled.div<{ width: number }>`
-  height: 20px;
+  height: 1.25rem;
   width: ${({ width }) => width}%;
-  background-color: ${({ className }) => (className === "ask" ? "var(--primary-300)" : "var(--second-300)")};
-  border-radius: 5px;
+  background-color: ${({ className }) => (className === "ask" ? "#abdfdf" : "#ffb3c2")};
+  border-radius: 0.2rem;
 `;
 
 export const Volume = styled.span<{ $className: "ask" | "bid" }>`
-  font-size: 14px;
+  font-size: 0.875rem;
   color: ${({ $className }) => ($className === "ask" ? "var(--primary-color)" : "var(--second-color)")};
 `;
