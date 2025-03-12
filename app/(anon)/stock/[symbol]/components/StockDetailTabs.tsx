@@ -35,7 +35,7 @@ const StockDetailTabs = ({ symbol, initialPrice }: StockDetailTabsProps) => {
   };
 
   const handleTradeClick = () => {
-    if (marketOpen()) {
+    if (!marketOpen()) {
       setIsModalOpen(true);
     } else {
       router.push(`/user/tradeaction?symbol=${symbol}&initialPrice=${initialPrice}&type=buy`);

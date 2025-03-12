@@ -27,7 +27,7 @@ const SearchClient = () => {
                     const data = await response.json();
                     setResults(data); 
                 } catch (error) {
-                    console.error("검색 실패:", error);
+                    console.log("검색 실패:", error);
                 }
             };
 

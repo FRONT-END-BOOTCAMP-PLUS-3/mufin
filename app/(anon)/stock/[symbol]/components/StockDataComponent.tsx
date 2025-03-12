@@ -56,12 +56,12 @@ const StockDataComponent: React.FC<StockDataComponentProps> = ({
               });
             }
           } catch (error) {
-            console.error("❌ 데이터 파싱 실패:", error);
+            console.log("❌ 데이터 파싱 실패:", error);
           }
         });
       }
       } catch (error) {
-        console.error("WebSocket 초기화 에러:", error);
+        console.log("WebSocket 초기화 에러:", error);
       }
     }
 
