@@ -40,11 +40,13 @@ export class HandleBuyUseCase {
     if (existingStock) {
         // 주식 수량 증가
         const newQuantity = existingStock.stockQty + quantity;
+
+        const newTotalAmount = existingStock.total + BigInt(totalAmount);
         // 변경된 포트폴리오 업데이트
-        await this.portfolioRepository.savePortfolio(userId, stockId, newQuantity);
+        await this.portfolioRepository.savePortfolio(userId, stockId, newQuantity, Number(newTotalAmount));
     } else {
         // 주식이 없으면 새로 추가
-        await this.portfolioRepository.savePortfolio(userId, stockId, quantity);
+        await this.portfolioRepository.savePortfolio(userId, stockId, quantity, Number(totalAmount));
     }
 
     // 4. 거래 내역 기록
