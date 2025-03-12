@@ -5,8 +5,8 @@
   "theme_color": "#5865f2",
   "background_color": "#eef0fe",
   "display": "standalone",
-  "scope": "https://mufin.newlecture.com/",
-  "start_url": "https://mufin.newlecture.com/",
+  "scope": "http://mufin.newlecture.com/",
+  "start_url": "http://mufin.newlecture.com/",
   "form_factor": "wide",
   "icons": [
     {
