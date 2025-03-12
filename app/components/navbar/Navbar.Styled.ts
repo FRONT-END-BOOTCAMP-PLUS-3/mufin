@@ -4,12 +4,12 @@ export const NavbarContainer = styled.div`
   max-width: var(--background-width);
   display: flex;
   justify-content: space-around;
-  align-items: flex-end;
+  align-items: center;
   background-color: var(--primary-light);
   position: fixed;
   bottom: 0;
   width: 100%;
-  height: 60px;
+  height: 80px;
 `;
 
 export const NavbarItem = styled.div<{ $isActive?: boolean }>`
