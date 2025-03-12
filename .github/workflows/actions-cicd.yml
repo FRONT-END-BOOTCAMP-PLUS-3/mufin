@@ -92,11 +92,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}
      
-     # 9. 빌드 산출물을 아티팩트로 업로드 (배포 단계에서 사용)
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          path: ./next
+  
 
   # Deployment job
   deploy:
@@ -106,12 +102,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-
-      - name: Download build artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: next-build
-          path: .next
 
       # 10. SSH를 통해 Linux 서버에 배포
       - name: Deploy to Remote Server via SSH
