@@ -54,7 +54,7 @@ const Holdings = ({ holdings }: HoldingsProps) => {
                                 <TableCell>
                                     <StockInfo>
                                         <StockImage src={stockImageSrc} alt={displayName} width={40} height={40} />
-                                        {item.stockName}
+                                        {displayName}
                                     </StockInfo>
                                 </TableCell>
                                 <TableCell>{quantity}주</TableCell>
