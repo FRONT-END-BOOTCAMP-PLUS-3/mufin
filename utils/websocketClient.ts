@@ -61,7 +61,7 @@ export const sendWsMessage = (ws: WebSocket, message: object): void => {
   if (ws.readyState === WebSocket.OPEN) {
     const jsonStr = JSON.stringify(message);
     ws.send(jsonStr);
-    // console.log("📨 메시지 전송:", jsonStr);
+    console.log("📨 메시지 전송:", jsonStr);
   } else {
     console.log("WebSocket이 열리지 않음, 메시지 전송 실패");
   }
