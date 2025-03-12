@@ -148,7 +148,7 @@ const MyInfo = () => {
             <p>
               {modalType === "logout"
                 ? "로그아웃 하시겠습니까?"
-                : "정말로 회원탈퇴 하시겠습니까?"}
+                : "정말로 탈퇴하시겠습니까?"}
             </p>
             <ButtonStyle>
               <Button onClick={handleConfirm}>확인</Button>

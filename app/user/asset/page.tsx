@@ -143,7 +143,7 @@ const Asset = () => {
             <AccountSection>
                 <LeftContainer>
                     <AccountTitle>증권 계좌 자산</AccountTitle>
-                    <TransferButton onClick={() => router.push("/transfer")}>송금 →</TransferButton>
+                    <TransferButton onClick={() => router.push("/user/transfer?type=toAccount")}>송금</TransferButton>
                 </LeftContainer>
                 <RightContainer>
                     <AccountValue>{securitiesAccount.toLocaleString()} 원</AccountValue>
@@ -154,7 +154,7 @@ const Asset = () => {
             <AccountSection>
                 <LeftContainer>
                     <AccountTitle>일반 계좌 자산</AccountTitle>
-                    <TransferButton onClick={() => router.push("/transfer")}>송금 →</TransferButton>
+                    <TransferButton onClick={() => router.push("/user/transfer?type=toCash")}>송금</TransferButton>
                 </LeftContainer>
                 <RightContainer>
                     <AccountValue>{bankAccount.toLocaleString()} 원</AccountValue>

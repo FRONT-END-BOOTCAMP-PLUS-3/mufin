@@ -28,13 +28,13 @@ export class PgPortfolioRepository implements IPortfolioRepository {
         });
     }
 
-    async savePortfolio(userId: string, stockId: number, stockQty: number): Promise<Portfolio> {
+    async savePortfolio(userId: string, stockId: number, stockQty: number, total:number): Promise<Portfolio> {
         return await prisma.portfolio.upsert({
             where: {
                 userId_stockId: { userId, stockId },
             },
-            update: { stockQty, updatedAt: new Date() },
-            create: { userId, stockId, stockQty },
+            update: { stockQty, updatedAt: new Date(), total },
+            create: { userId, stockId, stockQty, total },
         });
     }
 

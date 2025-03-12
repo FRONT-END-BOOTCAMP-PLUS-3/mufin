@@ -23,14 +23,14 @@ export const ImageWrapper = styled.div`
 `;
 
 export const IntroBox = styled.div`
-    flex: 0.6;
+    flex: 0.58;
     text-align: center;
     background-color: var(--primary-50);
     border-radius: 10px;
     padding: 1rem; 
 
     p {
-        font-size: 0.875rem; /* 14px */
+        font-size: var(--font-size-md);
         color: var(--black-color);
         margin-bottom: 1rem; /* 12px */
     }
@@ -76,16 +76,17 @@ export const InvestmentHeader = styled.div`
     align-items: center;
     width: 100%;
     max-width: 25.5rem; /* 408px */
-    gap: 1rem; /* 16px */
+    gap: 0.75rem; /* 16px */
+    margin-left: 0.75rem;
 
     h2 {
-        font-size: 1.5rem; /* 24px */
+        font-size: var(--font-size-2xl);
         font-weight: bold;
     }
 
     p {
         color: var(--gray-800);
-        padding-top: 0.75rem; /* 12px */
+        padding-top: 0.5rem; /* 12px */
         font-size: 0.875rem; /* 14px */
     }
 `;

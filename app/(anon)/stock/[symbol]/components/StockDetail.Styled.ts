@@ -65,7 +65,7 @@ export const StockRenderTabContent = styled.section`
   flex-direction: column;
   flex : 1;
   gap: 1rem;
-  max-height: 470px;
+  min-height: 400px;
 `;
 
 // 탭 중 그래프
@@ -94,7 +94,7 @@ export const DraggableScrollWepper = styled.div<{ $isDragging: boolean }>`
 
 export const ChartSection = styled.div`
   width: 75rem;
-  min-height: 25rem;
+  min-height: 330px;
   height: 100%;
 `;
 
@@ -143,7 +143,6 @@ export const StockErrorModal = styled.button`
   background-color: var(--white-color);
   border: none;
   height: 10rem;
-  margin-left: 1.8rem;
   gap: 0.5rem;
 `;
 

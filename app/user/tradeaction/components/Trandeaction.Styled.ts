@@ -56,7 +56,7 @@ export const QuantityControlTitle = styled.div`
   .label {
     font-size: var(--font-size-lg);
     padding: 0.5rem; 
-    flex: 1;
+    flex-grow: 1;
   }
 
   .label2 {
@@ -73,7 +73,7 @@ export const QuantityControlTitle = styled.div`
     text-align: right; 
     border: none;
     caret-color: var(--primary-color); 
-    flex-grow: 1; 
+    flex-grow: 2; 
     background-color: var(--primary-light);
   }
   .error-container {
@@ -103,11 +103,10 @@ export const QuantityControl = styled.div`
   align-items: center;
   gap: 0.625rem; 
   position: relative;
-  margin-right: 0.625rem; 
-  margin-left: 0.625rem;
+  margin: auto 0.625rem;
 
   .keypad {
-    margin-top: 1.5rem;
+    display: flex;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 0.625rem; 
@@ -134,12 +133,11 @@ export const MainButton = styled.div<{ $isBuy: boolean }>`
   justify-content: center; 
   align-items: center;
   gap: 0.625rem; 
-  width: 21.3125rem; 
+  width: 80%; 
   height: 3rem; 
-  margin: 0 auto;
   margin-top: 1.25rem; 
   position: fixed;
-  bottom: 6rem;
+  bottom: 3rem;
   left: 50%; 
   transform: translateX(-50%); 
   border: none;

@@ -46,7 +46,7 @@ export const TransferContent = styled.div`
   .label {
     font-size: var(--font-size-lg);
     padding: 0.5rem; 
-    flex: 1;
+    flex-grow: 1; 
   }
 
   .label2 {
@@ -63,7 +63,7 @@ export const TransferContent = styled.div`
     text-align: right; 
     border: none;
     caret-color: var(--primary-color); 
-    flex-grow: 1; 
+    flex-grow: 2; 
     background-color: var(--primary-light);
   }
 
@@ -100,7 +100,6 @@ export const QuantityControl = styled.div`
   margin: auto 0.625rem; 
 
   .keypad {
-    margin-top: 1.5rem;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 0.625rem; 
@@ -127,10 +126,10 @@ export const MainButton = styled.div`
   justify-content: center; 
   align-items: center;
   gap: 0.625rem; 
-  width: 21.3125rem; 
+  width: 80%; 
   height: 3rem;  
   position: fixed;
-  bottom: 6rem; 
+  bottom: 3rem;
   left: 50%; 
   transform: translateX(-50%); 
   border: none;
