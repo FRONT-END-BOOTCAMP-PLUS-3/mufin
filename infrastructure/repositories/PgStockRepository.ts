@@ -23,4 +23,15 @@ export class PgStockRepository implements IStockRepository {
     });
     return stocks;
   }
+
+  async findStockByName(stockName: string): Promise<Stock[]> {
+    const stocks = await prisma.stock.findMany({
+      where: {
+        stockName: {
+          contains: stockName,
+        },
+      },
+    });
+    return stocks;
+  }
 }
