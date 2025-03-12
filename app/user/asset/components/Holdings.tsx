@@ -5,12 +5,10 @@ import styled from "styled-components";
 interface Holding {
     // API에서 받을 수 있는 필드 (두 가지 네이밍을 모두 지원)
     stockImage?: string;
-    //stockCode?: string;
     stockName?: string;
     stockQty?: number;
     profit?: number;
     profitRate?: number;
-    //totalValue?: number;
     currentPrice?: number;
 }
 

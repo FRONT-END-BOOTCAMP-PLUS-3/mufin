@@ -95,7 +95,7 @@ export const RightContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    justify-content: center;
+    //justify-content: center;
 `;
 
 export const AccountTitle = styled.span`
@@ -106,7 +106,7 @@ export const AccountTitle = styled.span`
 export const AccountValue = styled.span`
     font-size: 1.25rem; /* 20px -> 1.25rem */
     font-weight: bold;
-    margin-top: 0.5rem; /* 8px -> 0.5rem */
+    //margin-top: 0.5rem; /* 8px -> 0.5rem */
 `;
 
 export const TransferButton = styled.button`

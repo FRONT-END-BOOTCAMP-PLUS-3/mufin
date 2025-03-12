@@ -150,9 +150,6 @@ const Asset = () => {
                 </LeftContainer>
                 <RightContainer>
                     <AccountValue>{securitiesAccount.toLocaleString()} 원</AccountValue>
-                    <ProfitText>
-                        +{profit.toLocaleString()}원 ({profitRate}%)
-                    </ProfitText>
                 </RightContainer>
             </AccountSection>
 
@@ -164,9 +161,6 @@ const Asset = () => {
                 </LeftContainer>
                 <RightContainer>
                     <AccountValue>{bankAccount.toLocaleString()} 원</AccountValue>
-                    <ProfitText>
-                        +{profit.toLocaleString()}원 ({profitRate}%)
-                    </ProfitText>
                 </RightContainer>
             </AccountSection>
 

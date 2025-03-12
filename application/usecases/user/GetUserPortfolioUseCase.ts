@@ -32,7 +32,6 @@ export class GetUserPortfolioUseCase {
             if (!currentPriceDto) continue;
 
             const currentPrice = Number(currentPriceDto.stckPrpr);
-            const totalValue = item.stockQty * currentPrice;
             const profit = Number(currentPriceDto.prdyVrss); // 전날 대비
             const profitRate = Number(currentPriceDto.prdyCtrt); // 전날 대비율
 
