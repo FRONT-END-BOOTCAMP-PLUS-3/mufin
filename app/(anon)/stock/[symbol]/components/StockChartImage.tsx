@@ -88,7 +88,7 @@ const StockChartImage = ({ symbol, activePeriod }: StockChartImageProps) => {
             .map((item: StockChartDto) => createCandlestickItem(item, activePeriod))
             .filter(Boolean);
         } else {
-          console.error('데이터가 없습니다.');
+          console.log('데이터가 없습니다.');
         }
 
         setChartData({
@@ -101,7 +101,7 @@ const StockChartImage = ({ symbol, activePeriod }: StockChartImageProps) => {
           ],
         });
       } catch (error) {
-        console.error('차트 데이터 불러오기 오류:', error);
+        console.log('차트 데이터 불러오기 오류:', error);
       } finally {
         setLoading(false);
       }
