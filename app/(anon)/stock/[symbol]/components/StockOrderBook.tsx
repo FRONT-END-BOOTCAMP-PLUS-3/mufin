@@ -65,7 +65,7 @@ const StockOrderBook = ({ symbol }: StockOrderBookProps) => {
                     className="ask"
                     width={(askVolumes[5 - i] / totalAskVolume) * 100 || 0}
                   />
-                  <Volume $className="ask">{formatNumber(askVolumes[5 - i])}</Volume>
+                  <Volume $className="ask">{formatNumber(askVolumes[5 - i])}({((askVolumes[5 - i] / totalAskVolume) * 100).toFixed(2)}%)</Volume>
                 </OrderDetails>
               </>
             ) : null}
@@ -79,7 +79,7 @@ const StockOrderBook = ({ symbol }: StockOrderBookProps) => {
                     className="bid"
                     width={(bidVolumes[i - 6] / totalBidVolume) * 100 || 0}
                   />
-                  <Volume $className="bid">{formatNumber(bidVolumes[i - 6])}</Volume>
+                  <Volume $className="bid">{formatNumber(bidVolumes[i - 6])}({((bidVolumes[i - 6] / totalBidVolume) * 100).toFixed(2)}%)</Volume>
                 </OrderDetails>
               </>
             ) : null}

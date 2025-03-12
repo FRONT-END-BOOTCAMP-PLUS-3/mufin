@@ -68,11 +68,10 @@ export const StockImage = styled(Image)`
 `;
 
 export const StockName = styled.div`
-    font-size: 1rem;
-    color: var(--gray-800);
+    font-size: var(--font-size-lg);
+    color: var(--black-color);
     font-weight: 500;
 `;
-
 
 
 export const StockRight = styled.div`
@@ -82,11 +81,11 @@ export const StockRight = styled.div`
 `;
 
 export const StockPrice = styled.p`
-    font-size: var(--font-size-xl);
+    font-size: var(--font-size-lg);
     font-weight: bold;
 `;
 
 export const StockChange = styled.p<{ $isPositive: boolean }>`
-    font-size: 1rem;
+    font-size: var(--font-size-md);
     color: ${(props) => (props.$isPositive ?   "var(--second-color)" : "var(--primary-color)")};
 `;

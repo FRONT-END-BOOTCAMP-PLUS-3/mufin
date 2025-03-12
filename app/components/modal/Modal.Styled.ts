@@ -20,7 +20,7 @@ export const Content = styled.div`
   padding: 20px;
   border-radius: 8px;
   position: relative;
-  width: 400px;
+  width: 90%;
 `;
 
 export const CloseButton = styled.button`
