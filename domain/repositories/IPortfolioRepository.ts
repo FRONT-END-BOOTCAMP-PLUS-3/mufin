@@ -10,6 +10,7 @@ export type PortfolioWithStock = {
     stock: {
         stockCode: string;
         stockName: string;
+        //stockImage: string;
     };
 };
 export interface IPortfolioRepository {

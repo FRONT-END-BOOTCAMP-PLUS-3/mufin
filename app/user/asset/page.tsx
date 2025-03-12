@@ -85,7 +85,7 @@ const Asset = () => {
 
     // 투자금액 계산: 각 보유종목의 marketValue의 합계를 계산
     useEffect(() => {
-        const totalInvestment = holdings.reduce((sum, item) => sum + (item.marketValue || 0), 0);
+        const totalInvestment = holdings.reduce((sum, item) => sum + (item.totalValue || 0), 0);
         setInvestmentAmount(totalInvestment);
     }, [holdings]);
 

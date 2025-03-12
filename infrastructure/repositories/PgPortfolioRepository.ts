@@ -12,6 +12,7 @@ export class PgPortfolioRepository implements IPortfolioRepository {
                     select: {
                         stockCode: true,
                         stockName: true,
+                        stockImage: true,
                     },
                 },
             },
