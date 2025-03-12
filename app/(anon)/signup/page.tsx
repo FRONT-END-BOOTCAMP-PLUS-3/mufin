@@ -113,7 +113,7 @@ const SignupPage = () => {
         });
       } else {
         Swal.fire({
-          title: "인증 요청 실패",
+          title: "이미 가입된 이메일입니다",
           icon: "error",
           confirmButtonText: "확인",
           customClass: {
