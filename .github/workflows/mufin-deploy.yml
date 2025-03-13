@@ -67,15 +67,15 @@ jobs:
     # runs-on: ubuntu-latest
     needs: build
 
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+    # steps:
+    #   - name: Checkout Repository
+    #     uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
-          cache: 'npm'
+    #   - name: Set up Node.js
+    #     uses: actions/setup-node@v4
+    #     with:
+    #       node-version: lts/*
+    #       cache: 'npm'
           
            # 10. SSH를 통해 Linux 서버에 배포
       # - name: Deploy to Remote Server via SSH
