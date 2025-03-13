@@ -1,4 +1,4 @@
-// import { marketOpen } from "@/utils/getMarketOpen";
+import { marketOpen } from "@/utils/getMarketOpen";
 
 export const createMessage = (
   approvalKey: string,
@@ -25,7 +25,7 @@ export const createMessage = (
  * @param path WebSocket 서버의 path (예: '/tryitout/H0STCNT0')
  * @returns 연결된 WebSocket 인스턴스를 Promise로 반환
  */
-export const connectWs = (path: string): Promise<WebSocket|null> => {
+export const connectWs = (url: string): Promise<WebSocket|null> => {
   if (!marketOpen()) {  
     console.log("❌ 마켓이 닫혀 있어서 WebSocket 연결을 시도하지 않습니다.");
     return Promise.resolve(null);
