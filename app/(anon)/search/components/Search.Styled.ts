@@ -16,7 +16,7 @@ export const SearchBarWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between; 
-    padding:  0.2rem 0.4rem;
+    padding: 0.2rem 0.4rem;
     background-color: var(--primary-light);
     border-radius: 10px;
     position: absolute; 
@@ -35,14 +35,17 @@ export const SearchInput = styled.input`
     background: transparent;
     text-align: left;
     cursor: pointer;
+    min-width: 100px;
 `;
 
 export const SearchButton = styled.button`
-    padding: 0.5rem 1rem;
+    flex-shrink: 0;
+    padding: 0.5rem;
     border: none;
     background-color: var(--primary-light);
     cursor: pointer;
     white-space: nowrap;
+    min-width: 60px;
 `;
 
 export const SearchContentWrapper = styled.section`
