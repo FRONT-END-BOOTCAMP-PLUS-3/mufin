@@ -158,6 +158,8 @@ jobs:
             JWT_SECRET=${{ secrets.JWT_SECRET }}
             SMTP_EMAIL_USER=${{ secrets.SMTP_EMAIL_USER }}
             SMTP_EMAIL_PASSWORD=${{ secrets.SMTP_EMAIL_PASSWORD }}
+            ORDER_BOOK_KIS_API_KEY=${{ secrets.ORDER_BOOK_KIS_API_KEY }}
+            ORDER_BOOK_KIS_SECRET=${{ secrets.ORDER_BOOK_KIS_SECRET }}
             EOF
 
             npm ci
