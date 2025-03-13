@@ -63,7 +63,8 @@ jobs:
         
   # 세번째 단계: 배포
   deploy:
-    runs-on: [self-hosted, mufin-server]
+    # runs-on: [self-hosted, mufin-server]
+    runs-on: ubuntu-latest
     needs: build
 
     steps:
