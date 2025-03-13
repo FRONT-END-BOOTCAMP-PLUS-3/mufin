@@ -138,4 +138,4 @@ jobs:
       #       fi
 
       - name: Deploy Next.js Project
-        run: /home/mufindata/www/mufin/next-mufin-update.sh
+        run: ~/next-mufin-update.sh
