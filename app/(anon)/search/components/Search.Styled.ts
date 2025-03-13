@@ -16,7 +16,7 @@ export const SearchBarWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between; 
-    padding:  0.2rem 0.4rem;
+    padding: 0.2rem 0.4rem;
     background-color: var(--primary-light);
     border-radius: 10px;
     position: absolute; 
@@ -27,7 +27,7 @@ export const SearchBarWrapper = styled.div`
 `;
 
 export const SearchInput = styled.input`
-    flex: 1; 
+    flex: 1; /* 더 유연하게 조정 */
     padding: 0.5rem;
     font-size: 1rem;
     border: none;
@@ -35,14 +35,22 @@ export const SearchInput = styled.input`
     background: transparent;
     text-align: left;
     cursor: pointer;
+    min-width: 0; /* flex 아이템 크기 조절 */
 `;
 
 export const SearchButton = styled.button`
+    flex-shrink: 0; /* 버튼이 줄어들지 않도록 설정 */
     padding: 0.5rem 1rem;
     border: none;
     background-color: var(--primary-light);
     cursor: pointer;
     white-space: nowrap;
+    min-width: 60px; /* 최소 크기 지정 */
+
+    @media (max-width: 400px) {
+        padding: 0.5rem; /* 작은 화면에서는 padding 줄이기 */
+        font-size: 0.8rem;
+    }
 `;
 
 export const SearchContentWrapper = styled.section`
