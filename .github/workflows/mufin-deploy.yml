@@ -14,7 +14,8 @@ jobs:
 
   # 첫번째 단계 : 빌드
   build:
-    runs-on: [self-hosted, next15-ts-ssr-server]
+    runs-on: [self-hosted, mufin-server]
+    
 
     steps:
       - name: Checkout Repository
@@ -62,7 +63,9 @@ jobs:
         
   # 세번째 단계: 배포
   deploy:
-    runs-on: [self-hosted, next15-ts-ssr-server]
+    runs-on: [self-hosted, mufin-server]
+    # runs-on: ubuntu-latest
+    needs: build
 
     steps:
       - name: Checkout Repository
@@ -75,61 +78,64 @@ jobs:
           cache: 'npm'
           
            # 10. SSH를 통해 Linux 서버에 배포
-      - name: Deploy to Remote Server via SSH
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SSH_HOST }}             
-          username: ${{ secrets.SSH_USER }}           
-          port: 23                    	  
-          key: ${{ secrets.SSH_PRIVATE_KEY}}
-          script: |
-            cd ~
+      # - name: Deploy to Remote Server via SSH
+      #   uses: appleboy/ssh-action@v1.0.3
+      #   with:
+      #     host: ${{ secrets.SSH_HOST }}             
+      #     username: ${{ secrets.SSH_USER }}           
+      #     port: 23                    	  
+      #     key: ${{ secrets.SSH_PRIVATE_KEY}}
+      #     script: |
+      #       cd ~
 
-             # 리포지토리 확인 후 처리
-            if [ ! -d "/home/mufindata/www/mufin/.git" ]; then
-              echo "리포지토리가 없습니다. 클론을 진행합니다..."
-              git clone --depth=1 https://github.com/FRONT-END-BOOTCAMP-PLUS-3/mufin.git
-            else
-              echo "리포지토리가 존재합니다. 최신 코드 가져오기..."
-              cd /home/mufindata/www/mufin
-              git fetch origin main
-              if ! git diff --quiet HEAD origin/main; then
-                git reset --hard origin/main
-                git checkout main
-              else
-                echo "변경 사항 없음"
-              fi
-            fi
+      #        # 리포지토리 확인 후 처리
+      #       if [ ! -d "/home/mufindata/www/mufin/.git" ]; then
+      #         echo "리포지토리가 없습니다. 클론을 진행합니다..."
+      #         git clone --depth=1 https://github.com/FRONT-END-BOOTCAMP-PLUS-3/mufin.git
+      #       else
+      #         echo "리포지토리가 존재합니다. 최신 코드 가져오기..."
+      #         cd /home/mufindata/www/mufin
+      #         git fetch origin main
+      #         if ! git diff --quiet HEAD origin/main; then
+      #           git reset --hard origin/main
+      #           git checkout main
+      #         else
+      #           echo "변경 사항 없음"
+      #         fi
+      #       fi
 
-            cd /home/mufindata/www/mufin
+      #       cd /home/mufindata/www/mufin
 
             
-            echo "Creating .env file..."
-            rm -f .env  # 기존 파일 삭제
-            cat << EOF > .env
-            DATABASE_URL=${{ secrets.DATABASE_URL }}
-            NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }}
-            REDIS_URL=${{ secrets.REDIS_URL }}
-            NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}
-            KIS_API_URL=${{ secrets.KIS_API_URL }}
-            KIS_APP_KEY=${{ secrets.KIS_APP_KEY }}
-            KIS_APP_SECRET=${{ secrets.KIS_APP_SECRET }}
-            JWT_SECRET=${{ secrets.JWT_SECRET }}
-            SMTP_EMAIL_USER=${{ secrets.SMTP_EMAIL_USER }}
-            SMTP_EMAIL_PASSWORD=${{ secrets.SMTP_EMAIL_PASSWORD }}
-            ORDER_BOOK_KIS_API_KEY=${{ secrets.ORDER_BOOK_KIS_API_KEY }}
-            ORDER_BOOK_KIS_SECRET=${{ secrets.ORDER_BOOK_KIS_SECRET }}
-            EOF
+      #       echo "Creating .env file..."
+      #       rm -f .env  # 기존 파일 삭제
+      #       cat << EOF > .env
+      #       DATABASE_URL=${{ secrets.DATABASE_URL }}
+      #       NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }}
+      #       REDIS_URL=${{ secrets.REDIS_URL }}
+      #       NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}
+      #       KIS_API_URL=${{ secrets.KIS_API_URL }}
+      #       KIS_APP_KEY=${{ secrets.KIS_APP_KEY }}
+      #       KIS_APP_SECRET=${{ secrets.KIS_APP_SECRET }}
+      #       JWT_SECRET=${{ secrets.JWT_SECRET }}
+      #       SMTP_EMAIL_USER=${{ secrets.SMTP_EMAIL_USER }}
+      #       SMTP_EMAIL_PASSWORD=${{ secrets.SMTP_EMAIL_PASSWORD }}
+      #       ORDER_BOOK_KIS_API_KEY=${{ secrets.ORDER_BOOK_KIS_API_KEY }}
+      #       ORDER_BOOK_KIS_SECRET=${{ secrets.ORDER_BOOK_KIS_SECRET }}
+      #       EOF
 
-            npm ci
-            npm run build
+      #       npm ci
+      #       npm run build
             
-             # PM2 프로세스 확인 후 처리
-            if pm2 list | grep -q 'mufin'; then
-              echo "프로세스가 실행 중입니다. Reload 진행..."
-              pm2 restart mufin
-            else
-              echo "프로세스가 실행 중이 아닙니다. 새로 실행합니다..."
-              pm2 start npm --name "mufin" -- run start -- -p 3060
-              pm2 save
-            fi
+      #        # PM2 프로세스 확인 후 처리
+      #       if pm2 list | grep -q 'mufin'; then
+      #         echo "프로세스가 실행 중입니다. Reload 진행..."
+      #         pm2 restart mufin
+      #       else
+      #         echo "프로세스가 실행 중이 아닙니다. 새로 실행합니다..."
+      #         pm2 start npm --name "mufin" -- run start -- -p 3060
+      #         pm2 save
+      #       fi
+
+      - name: Deploy Next.js Project
+        run: ~/next-mufin-update.sh
