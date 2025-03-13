@@ -16,20 +16,20 @@ export interface OrderBookResponseDto {
       bidp10: string;
     };
     askVolumes: {
-      askp_rsqn1: string; 
-      askp_rsqn3: string;
-      askp_rsqn5: string;
-      askp_rsqn7: string;
-      askp_rsqn9: string;
-      askp_rsqn10: string;
+      askpRsqn1: string; 
+      askpRsqn3: string;
+      askpRsqn5: string;
+      askpRsqn7: string;
+      askpRsqn9: string;
+      askpRsqn10: string;
     };
     bidVolumes: {
-      bidp_rsqn1: string; 
-      bidp_rsqn3: string;
-      bidp_rsqn5: string;
-      bidp_rsqn7: string;
-      bidp_rsqn9: string;
-      bidp_rsqn10: string;
+      bidpRsqn1: string; 
+      bidpRsqn3: string;
+      bidpRsqn5: string;
+      bidpRsqn7: string;
+      bidpRsqn9: string;
+      bidpRsqn10: string;
     };
     totalAskVolume: string; 
     totalBidVolume: string; 

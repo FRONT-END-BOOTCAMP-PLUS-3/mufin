@@ -51,7 +51,6 @@ const StockDataComponent: React.FC<StockDataComponentProps> = ({
         if (wsRef.current) {
           onWsMessage(wsRef.current, (data: string) => {
           try {
-            // const parsedData = parseStockData(data, STOCK_TRADE_MAPPING, REQUIRED_STOCK_FIELD);
             const parsedData = parseStockData(data ,STOCK_TRADE_MAPPING, REQUIRED_STOCK_FIELD );
             if (parsedData) {
               onDataUpdate({

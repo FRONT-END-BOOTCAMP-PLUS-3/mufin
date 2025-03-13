@@ -39,20 +39,20 @@ export class GetOrderBookUseCase {
                 bidp10: data.bidp10
             },
             askVolumes: {
-                askp_rsqn1: data.askp_rsqn1,
-                askp_rsqn3: data.askp_rsqn3,
-                askp_rsqn5: data.askp_rsqn5,
-                askp_rsqn7: data.askp_rsqn7,
-                askp_rsqn9: data.askp_rsqn9,
-                askp_rsqn10: data.askp_rsqn10
+                askpRsqn1: data.askp_rsqn1,
+                askpRsqn3: data.askp_rsqn3,
+                askpRsqn5: data.askp_rsqn5,
+                askpRsqn7: data.askp_rsqn7,
+                askpRsqn9: data.askp_rsqn9,
+                askpRsqn10: data.askp_rsqn10
             },
             bidVolumes: {
-                bidp_rsqn1: data.bidp_rsqn1,
-                bidp_rsqn3: data.bidp_rsqn3,
-                bidp_rsqn5: data.bidp_rsqn5,
-                bidp_rsqn7: data.bidp_rsqn7,
-                bidp_rsqn9: data.bidp_rsqn9,
-                bidp_rsqn10: data.bidp_rsqn10
+                bidpRsqn1: data.bidp_rsqn1,
+                bidpRsqn3: data.bidp_rsqn3,
+                bidpRsqn5: data.bidp_rsqn5,
+                bidpRsqn7: data.bidp_rsqn7,
+                bidpRsqn9: data.bidp_rsqn9,
+                bidpRsqn10: data.bidp_rsqn10
             },
             totalAskVolume: data.total_askp_rsqn,
             totalBidVolume: data.total_bidp_rsqn
