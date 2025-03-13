@@ -19,9 +19,9 @@ const InvestmentAmount = ({ investmentAmount, totalProfit, totalProfitRate, cash
             {/* 총 평가손익 */}
             <ProfitContainer>
                 <ProfitLabel>총 평가손익(원)</ProfitLabel>
-                <ProfitValue isPositive={totalProfit >= 0}>
+                <ProfitValue $isPositive={totalProfit >= 0}>
                     {totalProfit >= 0 ? "+" : ""}
-                    {totalProfit.toLocaleString()}원 ({totalProfitRate}%)
+                    {totalProfit.toLocaleString()}원 ({totalProfitRate.toFixed(2)}%)
                 </ProfitValue>
             </ProfitContainer>
 
@@ -64,10 +64,10 @@ const ProfitLabel = styled.p`
     font-size: 1rem;
 `;
 
-const ProfitValue = styled.p<{ isPositive: boolean }>`
+const ProfitValue = styled.p<{ $isPositive: boolean }>`
     font-size: 1rem;
     font-weight: bold;
-    color: ${({ isPositive }) => (isPositive ? "red" : "blue")};
+    color: ${({ $isPositive }) => ($isPositive ? "red" : "blue")};
 `;
 
 const CashContainer = styled.div`

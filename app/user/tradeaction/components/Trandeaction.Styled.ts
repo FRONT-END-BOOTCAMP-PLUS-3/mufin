@@ -51,12 +51,13 @@ export const QuantityControlTitle = styled.div`
     width: 100%; 
     gap: 1rem; 
     border-bottom: 0.0625rem solid var(--gray-200); 
+    flex-wrap: wrap;
   }
 
   .label {
+    display: flex;
     font-size: var(--font-size-lg);
     padding: 0.5rem; 
-    flex: 1;
   }
 
   .label2 {
@@ -67,14 +68,16 @@ export const QuantityControlTitle = styled.div`
   }
 
   input {
+    display: flex;
     padding: 0.5rem;
     font-size: var(--font-size-lg);
     font-weight: bold;
     text-align: right; 
     border: none;
     caret-color: var(--primary-color); 
-    flex-grow: 1; 
+    flex: 1; 
     background-color: var(--primary-light);
+    max-width: 70%;
   }
   .error-container {
     height: 1rem;
@@ -103,11 +106,10 @@ export const QuantityControl = styled.div`
   align-items: center;
   gap: 0.625rem; 
   position: relative;
-  margin-right: 0.625rem; 
-  margin-left: 0.625rem;
+  margin: auto 0.625rem;
 
   .keypad {
-    margin-top: 1.5rem;
+    display: flex;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 0.625rem; 
@@ -134,18 +136,18 @@ export const MainButton = styled.div<{ $isBuy: boolean }>`
   justify-content: center; 
   align-items: center;
   gap: 0.625rem; 
-  width: 21.3125rem; 
+  width: 80%; 
   height: 3rem; 
-  margin: 0 auto;
   margin-top: 1.25rem; 
   position: fixed;
-  bottom: 6rem;
+  bottom: 3rem;
   left: 50%; 
   transform: translateX(-50%); 
   border: none;
   border-radius: 0.625rem; 
   background-color: ${({ $isBuy }) => ($isBuy ? "var(--second-color)" : "var(--primary-color)")};
   color: var(--white-color);
+  max-width: 400px;
 `;
 
 // Modal Style

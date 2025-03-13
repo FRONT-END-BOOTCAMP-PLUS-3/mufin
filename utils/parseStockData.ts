@@ -1,7 +1,4 @@
-import {
-  REQUIRED_STOCK_FILED,
-  STOCK_TRADE_MAPPING,
-} from "@/constants/realTimeStockMapping";
+
 import { toCamelCase } from "@/utils/toCamelCase";
 
 /**
@@ -12,7 +9,9 @@ import { toCamelCase } from "@/utils/toCamelCase";
  * @returns 변환된 JSON 문자열 (단일 객체 반환)
  */
 export function parseStockData(
-  rawData: string
+  rawData: string,
+  tradeMapping:string[],
+  requiredFIled:string[]
 ): { stocks: Record<string, string> } | null {
   // "|" 기호로 문자열을 분리하여 여러 부분(headers)으로 나눔
   const headers = rawData.split("|");
@@ -36,9 +35,9 @@ export function parseStockData(
   }
 
   // REQUIRED_STOCK_FILED에 정의된 각 필드가
-  // 전체 매핑(STOCK_TRADE_MAPPING)에서 몇 번째 인덱스에 위치하는지 계산
-  const requiredIndices = REQUIRED_STOCK_FILED.map((field) =>
-    STOCK_TRADE_MAPPING.indexOf(field)
+  // 전체 매핑( tradeMapping)에서 몇 번째 인덱스에 위치하는지 계산
+  const requiredIndices = requiredFIled.map((field) =>
+     tradeMapping.indexOf(field)
   );
 
   // 개별 데이터 매핑
@@ -46,7 +45,7 @@ export function parseStockData(
   const requiredData: Record<string, string> = {};
 
   requiredIndices.forEach((reqIndex, j) => {
-    const camelCaseKey = toCamelCase(REQUIRED_STOCK_FILED[j]); // ✅ 필드명 CamelCase 변환
+    const camelCaseKey = toCamelCase(requiredFIled[j]); // ✅ 필드명 CamelCase 변환
     const value =
       reqIndex >= 0 && reqIndex < rawStockDataArray.length
         ? rawStockDataArray[reqIndex]

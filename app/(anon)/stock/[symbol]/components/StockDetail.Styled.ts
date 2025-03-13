@@ -2,7 +2,6 @@
 
 import styled from "styled-components";
 
-
 // 주식 페이지
 export const StockContainer = styled.div`
   display: flex;
@@ -12,7 +11,6 @@ export const StockContainer = styled.div`
   justify-content: space-between;
   gap: 0.5rem;
 `;
-
 
 // 주식 페이지 헤더
 export const StockTitleWrapper = styled.section`
@@ -67,8 +65,7 @@ export const StockRenderTabContent = styled.section`
   flex-direction: column;
   flex : 1;
   gap: 1rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  min-height: 400px;
 `;
 
 // 탭 중 그래프
@@ -97,7 +94,7 @@ export const DraggableScrollWepper = styled.div<{ $isDragging: boolean }>`
 
 export const ChartSection = styled.div`
   width: 75rem;
-  min-height: 26rem;
+  min-height: 330px;
   height: 100%;
 `;
 
@@ -109,6 +106,7 @@ export const ChartImageContainer = styled.div`
 
 // 탭 중 주식정보
 export const Table = styled.table`
+  margin-top: 10px;
   width: 90%;
   border-collapse: collapse;
   border: 1px solid var(--disabled-color);
@@ -145,7 +143,6 @@ export const StockErrorModal = styled.button`
   background-color: var(--white-color);
   border: none;
   height: 10rem;
-  margin-left: 1.8rem;
   gap: 0.5rem;
 `;
 

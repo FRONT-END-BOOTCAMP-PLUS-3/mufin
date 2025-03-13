@@ -44,7 +44,8 @@ export class HandleSellUseCase {
       if (newQuantity === 0) {
         await this.portfolioRepository.deletePortfolio(existingStock.portfolioId);
       } else {
-        await this.portfolioRepository.savePortfolio(userId, stockId, newQuantity);
+        const newTotalAmount = existingStock.total - (existingStock.total / BigInt(existingStock.stockQty) * BigInt(newQuantity));
+        await this.portfolioRepository.savePortfolio(userId, stockId, newQuantity, Number(newTotalAmount));
       }
     }
 

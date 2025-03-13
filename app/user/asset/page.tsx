@@ -21,12 +21,12 @@ import {
     AccountTitle,
     AccountValue,
     TransferButton,
-    ProfitText,
     Input,
     Button,
 } from "@/app/user/asset/components/Asset.Styled";
 import InvestmentAmount from "./components/InvestmentAmount";
 import Holdings from "./components/Holdings";
+import { PortfolioWithPrice } from "@/application/usecases/user/GetUserPortfolioUseCase";
 
 const Asset = () => {
     const router = useRouter();
@@ -34,25 +34,27 @@ const Asset = () => {
     // 투자 목표 설정 모달 상태
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // DB에서 받아올 자산 데이터 상태
-    const [goalAmount, setGoalAmount] = useState(0); // 투자 목표 금액 (Wallet.target)
+    // Wallet 관련 데이터 상태 (투자 목표, 예수금, 일반계좌 등)
+    const [goalAmount, setGoalAmount] = useState(0);
     const [tempGoalAmount, setTempGoalAmount] = useState("0");
-    const [securitiesAccount, setSecuritiesAccount] = useState(0); // 증권계좌 자산 (현재는 cash 값)
-    const [bankAccount, setBankAccount] = useState(0); // 일반계좌 자산 (Wallet.account)
-    const [totalAssets, setTotalAssets] = useState(0); // 총 자산 = 증권계좌 자산 + 일반계좌 자산
-    const [profit, setProfit] = useState(0); // 평가손익 (추후 구현)
-    const [profitRate, setProfitRate] = useState(0); // 평가손익 비율 (추후 구현)
-    const [cash, setCash] = useState(0); // 예수금 (Wallet.cash)
-    const [holdings, setHoldings] = useState([]); // 보유종목 (추후 구현)
+    const [bankAccount, setBankAccount] = useState(0);
+    const [cash, setCash] = useState(0);
+
+    // Portfolio 관련 데이터 및 계산된 값
+    const [holdings, setHoldings] = useState<PortfolioWithPrice[]>([]);
     const [investmentAmount, setInvestmentAmount] = useState(0);
+    const [securitiesAccount, setSecuritiesAccount] = useState(0);
+
+    // 기타 상태
+    const [totalAssets, setTotalAssets] = useState(0);
     const [totalProfit, setTotalProfit] = useState(0);
     const [totalProfitRate, setTotalProfitRate] = useState(0);
 
-    // 목표금액이 0이 아닐 경우 증권계좌 기준 Progress Bar 계산
+    // 증권계좌 기준 Progress Bar 계산
     const progress = goalAmount > 0 ? Math.min((securitiesAccount / goalAmount) * 100, 100) : 0;
 
+    // 데이터 Fetch: Wallet와 Portfolio 데이터를 함께 받아옴
     useEffect(() => {
-        // API 엔드포인트에서 자산 데이터 받아오기
         async function fetchAssetData() {
             try {
                 const response = await fetch("/api/user/asset");
@@ -60,21 +62,15 @@ const Asset = () => {
                     throw new Error("자산 데이터를 불러오지 못했습니다.");
                 }
                 const data = await response.json();
-
-                // API에서 받아온 데이터로 상태 업데이트
+                // Wallet 관련 데이터 업데이트
                 setGoalAmount(data.goalAmount);
                 setTempGoalAmount(data.goalAmount.toString());
-                setSecuritiesAccount(data.securitiesAccount);
                 setBankAccount(data.bankAccount);
-                setTotalAssets(data.totalAssets);
-                setProfit(data.profit);
-                setProfitRate(data.profitRate);
                 setCash(data.cash);
-                setHoldings(data.holdings);
-                setInvestmentAmount(data.investmentAmount);
                 setTotalProfit(data.totalProfit);
                 setTotalProfitRate(data.totalProfitRate);
-                setTotalAssets(data.totalAssets); // 백엔드에서 계산한 값 사용
+                // Portfolio(보유종목) 데이터 업데이트
+                setHoldings(data.holdings);
             } catch (error) {
                 console.error("자산 데이터를 가져오는 중 에러 발생:", error);
             }
@@ -82,9 +78,59 @@ const Asset = () => {
         fetchAssetData();
     }, []);
 
+    //투자금액 계산: 각 보유종목의 (currentPrice * stockQty)의 합계를 계산
+    // useEffect(() => {
+    //     // 원래 투자금액: 각 보유종목의 DB total 컬럼의 합계
+    //     const sumOriginal = holdings.reduce((acc, item) => acc + (Number(item.total) || 0), 0);
+    //     // 현재 총 가치: 각 보유종목의 currentPrice * stockQty
+    //     const sumCurrent = holdings.reduce((acc, item) => acc + (item.currentPrice || 0) * (item.stockQty || 0), 0);
+    //     const totalInvestment = holdings.reduce(
+    //         (sum, item) => sum + (item.currentPrice || 0) * (item.stockQty || 0),
+    //         0
+    //     );
+    //     setInvestmentAmount(sumCurrent);
+    //     console.log("sumOriginal : ", sumOriginal);
+    //     console.log("sumCurrent : ", sumCurrent);
+    // }, [holdings]);
+
+    //투자금액(원래 투자금액)과 총 평가손익 계산
+    useEffect(() => {
+        //원래 투자금액 : 각 보유종목의 DB total컬럼의 합계
+        const sumOriginal = holdings.reduce((acc, item) => acc + (Number(item.total) || 0), 0);
+        //현재 총 가치: 각 보유종목의 currentPrice*stockQty
+        const sumCurrent = holdings.reduce((acc, item) => acc + (item.currentPrice || 0) * (item.stockQty || 0), 0);
+        setInvestmentAmount(sumCurrent);
+        setTotalProfit(sumCurrent - sumOriginal);
+        setTotalProfitRate(sumOriginal > 0 ? ((sumCurrent - sumOriginal) / sumOriginal) * 100 : 0);
+    }, [holdings]);
+
+    // 증권계좌 자산 계산: 예수금(cash) + 투자금액
+    useEffect(() => {
+        setSecuritiesAccount(cash + investmentAmount);
+    }, [cash, investmentAmount]);
+
+    // 총 자산 계산: 증권계좌 자산 + 일반계좌 자산
     useEffect(() => {
         setTotalAssets(securitiesAccount + bankAccount);
     }, [securitiesAccount, bankAccount]);
+
+    // 목표금액 업데이트 API 호출 함수 (PATCH)
+    const updateGoalAmount = async (newTarget: number) => {
+        try {
+            const response = await fetch("/api/user/asset", {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ target: newTarget }),
+            });
+            if (!response.ok) {
+                throw new Error("목표 금액 업데이트 실패");
+            }
+            const data = await response.json();
+            setGoalAmount(data.target);
+        } catch (error) {
+            console.error("목표 금액 업데이트 중 에러 발생:", error);
+        }
+    };
 
     return (
         <Container>
@@ -102,23 +148,20 @@ const Asset = () => {
                 <Progress progress={progress}>{`+${progress.toFixed(0)}%`}</Progress>
             </ProgressBarContainer>
 
-            {/* 총자산 */}
+            {/* 총 자산 */}
             <TotalAssetsSection>
                 <TotalText>총 자산</TotalText>
                 <TotalValue>{totalAssets.toLocaleString()} 원</TotalValue>
             </TotalAssetsSection>
 
-            {/* 증권계좌 자산 */}
+            {/* 증권계좌 자산 (예수금 + 투자금액) */}
             <AccountSection>
                 <LeftContainer>
                     <AccountTitle>증권 계좌 자산</AccountTitle>
-                    <TransferButton onClick={() => router.push("/transfer")}>송금 →</TransferButton>
+                    <TransferButton onClick={() => router.push("/user/transfer?type=toAccount")}>송금</TransferButton>
                 </LeftContainer>
                 <RightContainer>
                     <AccountValue>{securitiesAccount.toLocaleString()} 원</AccountValue>
-                    <ProfitText>
-                        +{profit.toLocaleString()}원 ({profitRate}%)
-                    </ProfitText>
                 </RightContainer>
             </AccountSection>
 
@@ -126,17 +169,14 @@ const Asset = () => {
             <AccountSection>
                 <LeftContainer>
                     <AccountTitle>일반 계좌 자산</AccountTitle>
-                    <TransferButton onClick={() => router.push("/transfer")}>송금 →</TransferButton>
+                    <TransferButton onClick={() => router.push("/user/transfer?type=toCash")}>송금</TransferButton>
                 </LeftContainer>
                 <RightContainer>
                     <AccountValue>{bankAccount.toLocaleString()} 원</AccountValue>
-                    <ProfitText>
-                        +{profit.toLocaleString()}원 ({profitRate}%)
-                    </ProfitText>
                 </RightContainer>
             </AccountSection>
 
-            {/* 투자금액 & 평가손익 & 예수금 컴포넌트 */}
+            {/* 투자금액, 평가손익, 예수금 컴포넌트 */}
             <InvestmentAmount
                 investmentAmount={investmentAmount}
                 totalProfit={totalProfit}
@@ -152,8 +192,9 @@ const Asset = () => {
                 <h6>목표 금액 설정</h6>
                 <Input type="number" value={tempGoalAmount} onChange={(e) => setTempGoalAmount(e.target.value)} />
                 <Button
-                    onClick={() => {
-                        setGoalAmount(Number(tempGoalAmount));
+                    onClick={async () => {
+                        const newTarget = Number(tempGoalAmount);
+                        await updateGoalAmount(newTarget);
                         setIsModalOpen(false);
                     }}
                 >

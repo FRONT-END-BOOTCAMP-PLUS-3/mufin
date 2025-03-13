@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
-    },
+  },
   "dependencies": {
     "@prisma/client": "^6.4.0",
     "bcrypt": "^5.1.1",

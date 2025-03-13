@@ -3,6 +3,7 @@ import { env } from "@/config/env";
 import { IRedisRepository } from "@/domain/repositories/IRedisRepository";
 import { KISAuthClient } from "@/infrastructure/api/kisAuthClinet";
 import { RedisRepository } from "@/infrastructure/repositories/RedisRepository";
+import { ApprovalKeyType } from "@/types/approvalKeyType";
 
 export class ApprovalKeyUseCase implements IApprovalKeyUseCase{
 
@@ -13,12 +14,11 @@ export class ApprovalKeyUseCase implements IApprovalKeyUseCase{
         this.kisAuthClient = new KISAuthClient();
         this.redisRepository = new RedisRepository(); // RedisRepository is injected here
     }
-    async execute(): Promise<string> {
-        const apiKey = env.KIS_APP_KEY;
-
+    async execute(type:ApprovalKeyType): Promise<string> {
+        const apiKey =
+      type === "currentPrice" ? env.KIS_APP_KEY :  env.ORDER_BOOK_KIS_API_KEY;
         let approvalKey = await this.redisRepository.findKISValue("kis_approval_key",apiKey);
         if(approvalKey) {
-            console.log(`[CACHE HIT] Redis에서 Approval Key 가져옴: ${approvalKey}`);
             return approvalKey;
         }
 
@@ -26,7 +26,6 @@ export class ApprovalKeyUseCase implements IApprovalKeyUseCase{
 
         if(approvalKey) {
             await this.redisRepository.saveKISValue('kis_approval_key',apiKey, approvalKey);
-            console.log("[CACHE UPDATE] Approval Key 저장 완료!");
         }
 
         return approvalKey;

@@ -1,3 +1,5 @@
+import { ApprovalKeyType } from "@/types/approvalKeyType";
+
 export interface IApprovalKeyUseCase {
-    execute(): Promise<string>;
+    execute(type:ApprovalKeyType): Promise<string>;
 }

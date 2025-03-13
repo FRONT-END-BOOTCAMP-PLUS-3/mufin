@@ -41,12 +41,13 @@ export const TransferContent = styled.div`
     width: 100%; 
     gap: 1rem; 
     border-bottom: 0.0625rem solid var(--gray-200); 
+    flex-wrap: wrap;
   }
 
   .label {
+    display: flex;
     font-size: var(--font-size-lg);
     padding: 0.5rem; 
-    flex: 1;
   }
 
   .label2 {
@@ -56,6 +57,7 @@ export const TransferContent = styled.div`
   }
 
   input {
+    display: flex;
     padding: 0.5rem;
     margin-right: 1rem;
     font-size: var(--font-size-lg);
@@ -63,8 +65,9 @@ export const TransferContent = styled.div`
     text-align: right; 
     border: none;
     caret-color: var(--primary-color); 
-    flex-grow: 1; 
+    flex: 1;  
     background-color: var(--primary-light);
+    max-width: 60%;
   }
 
   .error-container {
@@ -100,7 +103,6 @@ export const QuantityControl = styled.div`
   margin: auto 0.625rem; 
 
   .keypad {
-    margin-top: 1.5rem;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 0.625rem; 
@@ -127,14 +129,16 @@ export const MainButton = styled.div`
   justify-content: center; 
   align-items: center;
   gap: 0.625rem; 
-  width: 21.3125rem; 
-  height: 3rem;  
+  width: 80%; 
+  height: 3rem; 
+  margin-top: 1.25rem; 
   position: fixed;
-  bottom: 6rem; 
+  bottom: 3rem;
   left: 50%; 
   transform: translateX(-50%); 
   border: none;
   border-radius: 0.625rem; 
-  color: var(--white-color);
   background-color: var(--primary-color);
+  color: var(--white-color);
+  max-width: 400px;
 `;

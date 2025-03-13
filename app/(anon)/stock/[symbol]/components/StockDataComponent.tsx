@@ -9,6 +9,9 @@ import {
 } from "@/utils/websocketClient";
 import { fetchApprovalKey } from "@/utils/fetchApprovalKey";
 import { parseStockData } from "@/utils/parseStockData";
+import { ApprovalKeyType } from "@/types/approvalKeyType";
+import { REQUIRED_STOCK_FIELD, STOCK_TRADE_MAPPING } from "@/constants/realTimeStockMapping";
+// import {   REQUIRED_STOCK_FIELD ,STOCK_TRADE_MAPPING } from "@/constants/realTimeStockMapping";
 
 interface StockDataComponentProps {
   symbol: string;
@@ -25,13 +28,14 @@ const StockDataComponent: React.FC<StockDataComponentProps> = ({
   useEffect(() => {
     async function initWebSocket() {
       try {
-        const approvalKey = await fetchApprovalKey();
+        const currentType: ApprovalKeyType = "currentPrice";
+        const approvalKey = await fetchApprovalKey(currentType);
         if (!approvalKey) {
           throw new Error("Approval Key 없음");
         }
         approvalKeyRef.current = approvalKey;
 
-        const ws = await connectWs("/tryitout/H0STCNT0");
+        const ws = await connectWs("ws://ops.koreainvestment.com:21000/tryitout/H0STCNT0");
         wsRef.current = ws;
 
         const subscribeMsg = createMessage(
@@ -48,7 +52,7 @@ const StockDataComponent: React.FC<StockDataComponentProps> = ({
           onWsMessage(wsRef.current, (data: string) => {
             console.log(data);
           try {
-            const parsedData = parseStockData(data);
+            const parsedData = parseStockData(data ,STOCK_TRADE_MAPPING, REQUIRED_STOCK_FIELD );
             if (parsedData) {
               onDataUpdate({
                 stockPrice: parsedData.stocks.stckPrpr,
