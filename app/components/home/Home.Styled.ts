@@ -23,34 +23,43 @@ export const ImageWrapper = styled.div`
 `;
 
 export const IntroBox = styled.div`
+    display: flex;
+    flex-direction: column;
     flex: 0.58;
     text-align: center;
     background-color: var(--primary-50);
     border-radius: 10px;
     padding: 1rem; 
+    align-items: center;
 
     p {
+        display: flex;
         font-size: var(--font-size-md);
         color: var(--black-color);
         margin-bottom: 1rem; /* 12px */
+        word-break: break-word;
+        white-space: pre-wrap;
     }
 `;
 
 export const QuizButton = styled.button`
     display: flex;
-    align-items: center;         /* 수직 중앙 정렬 */
     justify-content: center;
-    gap: 0.7rem;
-    padding: 1rem;
+    align-items: center;
+    
+    width: 100%;
+
+    padding: 1rem 1rem;
+    gap: 0.625rem;
+
     background-color: var(--primary-color);
     color: var(--white-color);
-    text-decoration: none;
     border-radius: 10px;
     border: none;
+
     font-size: var(--font-size-base);
     font-weight: bold;
     text-align: center;
-    width: 100%;
 
     &:hover {
         background-color: var(--primary-700);
