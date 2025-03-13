@@ -21,7 +21,7 @@ const InvestmentAmount = ({ investmentAmount, totalProfit, totalProfitRate, cash
                 <ProfitLabel>총 평가손익(원)</ProfitLabel>
                 <ProfitValue $isPositive={totalProfit >= 0}>
                     {totalProfit >= 0 ? "+" : ""}
-                    {totalProfit.toLocaleString()}원 ({totalProfitRate}%)
+                    {totalProfit.toLocaleString()}원 ({totalProfitRate.toFixed(2)}%)
                 </ProfitValue>
             </ProfitContainer>
 

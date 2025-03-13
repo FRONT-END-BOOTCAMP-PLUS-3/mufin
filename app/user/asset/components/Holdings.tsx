@@ -21,7 +21,6 @@ const Holdings = ({ holdings }: HoldingsProps) => {
         console.log("Holdings Data:", holdings);
         holdings.forEach((item, index) => {
             console.log(`Holding ${index + 1}:`, item);
-            //console.log("totalValue:", item.totalValue);
             console.log("currPrice:", item.currentPrice);
             console.log("profit:", item.profit);
             console.log("profitRate:", item.profitRate);
