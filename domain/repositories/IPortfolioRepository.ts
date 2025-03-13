@@ -7,6 +7,7 @@ export type PortfolioWithStock = {
     stockQty: number;
     createdAt: Date;
     updatedAt: Date;
+    total: bigint;
     stock: {
         stockCode: string;
         stockName: string;

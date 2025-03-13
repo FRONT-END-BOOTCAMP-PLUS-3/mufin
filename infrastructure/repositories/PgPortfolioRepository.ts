@@ -28,7 +28,7 @@ export class PgPortfolioRepository implements IPortfolioRepository {
         });
     }
 
-    async savePortfolio(userId: string, stockId: number, stockQty: number, total:number): Promise<Portfolio> {
+    async savePortfolio(userId: string, stockId: number, stockQty: number, total: number): Promise<Portfolio> {
         return await prisma.portfolio.upsert({
             where: {
                 userId_stockId: { userId, stockId },

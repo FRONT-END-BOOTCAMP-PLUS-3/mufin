@@ -21,7 +21,6 @@ import {
     AccountTitle,
     AccountValue,
     TransferButton,
-    ProfitText,
     Input,
     Button,
 } from "@/app/user/asset/components/Asset.Styled";
@@ -47,8 +46,6 @@ const Asset = () => {
     const [securitiesAccount, setSecuritiesAccount] = useState(0);
 
     // 기타 상태
-    const [profit, setProfit] = useState(0);
-    const [profitRate, setProfitRate] = useState(0);
     const [totalAssets, setTotalAssets] = useState(0);
     const [totalProfit, setTotalProfit] = useState(0);
     const [totalProfitRate, setTotalProfitRate] = useState(0);
@@ -70,8 +67,6 @@ const Asset = () => {
                 setTempGoalAmount(data.goalAmount.toString());
                 setBankAccount(data.bankAccount);
                 setCash(data.cash);
-                setProfit(data.profit);
-                setProfitRate(data.profitRate);
                 setTotalProfit(data.totalProfit);
                 setTotalProfitRate(data.totalProfitRate);
                 // Portfolio(보유종목) 데이터 업데이트
@@ -83,13 +78,30 @@ const Asset = () => {
         fetchAssetData();
     }, []);
 
-    // 투자금액 계산: 각 보유종목의 (currentPrice * stockQty)의 합계를 계산
+    //투자금액 계산: 각 보유종목의 (currentPrice * stockQty)의 합계를 계산
+    // useEffect(() => {
+    //     // 원래 투자금액: 각 보유종목의 DB total 컬럼의 합계
+    //     const sumOriginal = holdings.reduce((acc, item) => acc + (Number(item.total) || 0), 0);
+    //     // 현재 총 가치: 각 보유종목의 currentPrice * stockQty
+    //     const sumCurrent = holdings.reduce((acc, item) => acc + (item.currentPrice || 0) * (item.stockQty || 0), 0);
+    //     const totalInvestment = holdings.reduce(
+    //         (sum, item) => sum + (item.currentPrice || 0) * (item.stockQty || 0),
+    //         0
+    //     );
+    //     setInvestmentAmount(sumCurrent);
+    //     console.log("sumOriginal : ", sumOriginal);
+    //     console.log("sumCurrent : ", sumCurrent);
+    // }, [holdings]);
+
+    //투자금액(원래 투자금액)과 총 평가손익 계산
     useEffect(() => {
-        const totalInvestment = holdings.reduce(
-            (sum, item) => sum + (item.currentPrice || 0) * (item.stockQty || 0),
-            0
-        );
-        setInvestmentAmount(totalInvestment);
+        //원래 투자금액 : 각 보유종목의 DB total컬럼의 합계
+        const sumOriginal = holdings.reduce((acc, item) => acc + (Number(item.total) || 0), 0);
+        //현재 총 가치: 각 보유종목의 currentPrice*stockQty
+        const sumCurrent = holdings.reduce((acc, item) => acc + (item.currentPrice || 0) * (item.stockQty || 0), 0);
+        setInvestmentAmount(sumCurrent);
+        setTotalProfit(sumCurrent - sumOriginal);
+        setTotalProfitRate(sumOriginal > 0 ? ((sumCurrent - sumOriginal) / sumOriginal) * 100 : 0);
     }, [holdings]);
 
     // 증권계좌 자산 계산: 예수금(cash) + 투자금액
