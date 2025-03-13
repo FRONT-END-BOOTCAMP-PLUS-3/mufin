@@ -14,7 +14,8 @@ jobs:
 
   # 첫번째 단계 : 빌드
   build:
-    runs-on: [self-hosted, next15-ts-ssr-server]
+    runs-on: [self-hosted, mufin-server]
+    
 
     steps:
       - name: Checkout Repository
@@ -62,7 +63,8 @@ jobs:
         
   # 세번째 단계: 배포
   deploy:
-    runs-on: [self-hosted, next15-ts-ssr-server]
+    runs-on: [self-hosted, mufin-server]
+    needs: build
 
     steps:
       - name: Checkout Repository
