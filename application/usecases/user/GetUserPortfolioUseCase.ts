@@ -12,6 +12,7 @@ export interface PortfolioWithPrice {
     stockImage: string;
     profit: number;
     profitRate: number;
+    total: number;
 }
 
 export class GetUserPortfolioUseCase {
@@ -34,6 +35,7 @@ export class GetUserPortfolioUseCase {
             const currentPrice = Number(currentPriceDto.stckPrpr);
             const profit = Number(currentPriceDto.prdyVrss); // 전날 대비
             const profitRate = Number(currentPriceDto.prdyCtrt); // 전날 대비율
+            const total = Number(item.total);
 
             result.push({
                 portfolioId: item.portfolioId,
@@ -45,6 +47,7 @@ export class GetUserPortfolioUseCase {
                 currentPrice,
                 profit,
                 profitRate,
+                total: total,
             });
         }
 
