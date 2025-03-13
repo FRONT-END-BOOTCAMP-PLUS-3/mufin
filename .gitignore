@@ -42,3 +42,6 @@ next-env.d.ts
 
 #schema.prisma
 prisma/client/
+
+sw.js
+workbox-4754cb34.js
