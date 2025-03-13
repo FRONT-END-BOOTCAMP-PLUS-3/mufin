@@ -6,12 +6,16 @@ export const QuizContainer = styled.section`
   justify-content: space-between;
   align-items: center;
 
+  position: relative;
+
   width: 100%;
   height: 100%;
   min-height: 100%;
 
-  padding: 1.25rem;
+  margin-top: 1.25rem;
+  padding: 0 1.25rem 1.25rem 1.25rem;
   gap: 1.25rem;
+  background-color: var(--white-color);
 
   overflow-y: scroll;
 `;
@@ -22,7 +26,12 @@ export const TextWrapper = styled.div`
   justify-content: center;
   align-items: center;
 
+  position: sticky;
+  top: 0;
+
   width: 100%;
+
+  background-color: var(--white-color) ;
 
   text-align: left;
   word-wrap: break-word;
