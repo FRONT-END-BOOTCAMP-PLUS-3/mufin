@@ -26,16 +26,19 @@ jobs:
           echo "Creating .env file..."
           rm -f .env  # 기존 파일 삭제
           cat << EOF > .env
-          NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}
-          REDIS_URL=${{ secrets.REDIS_URL }}
-          KIS_API_URL=${{ secrets.KIS_API_URL }}
-          KIS_APP_KEY=${{ secrets.KIS_APP_KEY }}
-          KIS_APP_SECRET=${{ secrets.KIS_APP_SECRET }}
-          NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }}
-          JWT_SECRET=${{ secrets.JWT_SECRET }}
-          SMTP_EMAIL_USER=${{ secrets.SMTP_EMAIL_USER }}
-          SMTP_EMAIL_PASSWORD=${{ secrets.SMTP_EMAIL_PASSWORD }}
-          EOF
+            DATABASE_URL=${{ secrets.DATABASE_URL }}
+            NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }}
+            REDIS_URL=${{ secrets.REDIS_URL }}
+            NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}
+            KIS_API_URL=${{ secrets.KIS_API_URL }}
+            KIS_APP_KEY=${{ secrets.KIS_APP_KEY }}
+            KIS_APP_SECRET=${{ secrets.KIS_APP_SECRET }}
+            JWT_SECRET=${{ secrets.JWT_SECRET }}
+            SMTP_EMAIL_USER=${{ secrets.SMTP_EMAIL_USER }}
+            SMTP_EMAIL_PASSWORD=${{ secrets.SMTP_EMAIL_PASSWORD }}
+            ORDER_BOOK_KIS_API_KEY=${{ secrets.ORDER_BOOK_KIS_API_KEY }}
+            ORDER_BOOK_KIS_SECRET=${{ secrets.ORDER_BOOK_KIS_SECRET }}
+            EOF
           
           echo "✅ .env file created successfully!"
           cat .env  # 🚀 생성된 파일 내용 확인
@@ -158,6 +161,8 @@ jobs:
             JWT_SECRET=${{ secrets.JWT_SECRET }}
             SMTP_EMAIL_USER=${{ secrets.SMTP_EMAIL_USER }}
             SMTP_EMAIL_PASSWORD=${{ secrets.SMTP_EMAIL_PASSWORD }}
+            ORDER_BOOK_KIS_API_KEY=${{ secrets.ORDER_BOOK_KIS_API_KEY }}
+            ORDER_BOOK_KIS_SECRET=${{ secrets.ORDER_BOOK_KIS_SECRET }}
             EOF
 
             npm ci
