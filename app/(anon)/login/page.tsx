@@ -36,7 +36,7 @@ const Login = () => {
           icon: "swal-icon-custom",
         },
       });
-      router.back();
+      router.push("/");
     } else {
       Swal.fire({
         title: "로그인 실패",

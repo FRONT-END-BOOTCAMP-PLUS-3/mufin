@@ -6,6 +6,8 @@ export const ROUTE_HEADER_MAP: Record<string, string> = {
     "/myinfo": "내 정보",
     "/stock/[symbol]": "주식 상세",
     "/user/tradeaction": "주식 거래",
+    "/user/transfer" : "송금",
+    "/user/stockhistory" : "거래내역"
 };
 
 export const CATEGORY_MAP: Record<number, string> = {
