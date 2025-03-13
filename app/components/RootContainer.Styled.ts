@@ -21,4 +21,5 @@ export const ContentContainer = styled.main`
   margin-top: 70px;
   margin-bottom: 80px;
   height: calc(100vh - 70px - 60px);
+  background-color: var(--white-color);
 `;
