@@ -144,6 +144,7 @@ export const StockErrorModal = styled.button`
   border: none;
   height: 10rem;
   gap: 0.5rem;
+  margin-left: 1rem;
 `;
 
 // 에러, 로딩 페이지
