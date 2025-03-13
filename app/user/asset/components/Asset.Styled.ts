@@ -18,7 +18,7 @@ export const InvestmentGoal = styled.div`
 `;
 
 export const GoalText = styled.span`
-    font-size: 1.125rem; /* 18px -> 1.125rem */
+    font-size: 1.1rem; /* 18px -> 1.125rem */
     font-weight: bold;
 `;
 
@@ -29,7 +29,7 @@ export const RightContainer2 = styled.div`
 `;
 
 export const GoalAmount = styled.span`
-    font-size: 1.125rem; /* 18px -> 1.125rem */
+    font-size: 1.1rem; /* 18px -> 1.125rem */
     font-weight: bold;
     padding-bottom: 0.375rem; /* 6px -> 0.375rem */
 `;
@@ -66,12 +66,12 @@ export const TotalAssetsSection = styled.div`
 `;
 
 export const TotalText = styled.span`
-    font-size: 1.375rem; /* 22px -> 1.375rem */
+    font-size: 1.3rem; /* 22px -> 1.375rem */
     font-weight: bold;
 `;
 
 export const TotalValue = styled.span`
-    font-size: 1.375rem;
+    font-size: 1.3rem;
     font-weight: bold;
 `;
 
@@ -95,18 +95,16 @@ export const RightContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    //justify-content: center;
 `;
 
 export const AccountTitle = styled.span`
-    font-size: 1.125rem; /* 18px -> 1.125rem */
+    font-size: 1.1rem; /* 18px -> 1.125rem */
     font-weight: bold;
 `;
 
 export const AccountValue = styled.span`
-    font-size: 1.25rem; /* 20px -> 1.25rem */
+    font-size: 1.2rem; /* 20px -> 1.25rem */
     font-weight: bold;
-    //margin-top: 0.5rem; /* 8px -> 0.5rem */
 `;
 
 export const TransferButton = styled.button`
@@ -124,12 +122,12 @@ export const TransferButton = styled.button`
     }
 `;
 
-export const ProfitText = styled.p`
-    color: #ff3333;
-    font-size: 0.875rem;
-    font-weight: bold;
-    margin-top: 0.5rem;
-`;
+// export const ProfitText = styled.p`
+//     color: #ff3333;
+//     font-size: 0.875rem;
+//     font-weight: bold;
+//     margin-top: 0.5rem;
+// `;
 export const Input = styled.input`
     width: 100%;
     padding: 10px;

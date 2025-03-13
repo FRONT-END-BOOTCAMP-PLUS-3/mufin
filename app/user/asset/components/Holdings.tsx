@@ -1,14 +1,26 @@
 "use client";
-import styled from "styled-components";
+import { ArrowRight } from "lucide-react";
+import {
+    Container,
+    Title,
+    Table,
+    TableHeader,
+    TableRow,
+    TableCell,
+    StockInfo,
+    StockImage,
+    ProfitText,
+    HistoryButton,
+} from "@/app/user/asset/components/Holdings.Styled";
 
 interface Holding {
-    // API에서 받을 수 있는 필드 (두 가지 네이밍을 모두 지원)
     stockImage?: string;
     stockName?: string;
     stockQty?: number;
     profit?: number;
     profitRate?: number;
     currentPrice?: number;
+    total?: number;
 }
 
 interface HoldingsProps {
@@ -19,6 +31,9 @@ const Holdings = ({ holdings }: HoldingsProps) => {
     return (
         <Container>
             <Title>보유 종목</Title>
+            <HistoryButton href="/user/stockhistory">
+                거래내역 확인하러 가기 <ArrowRight size={15} />
+            </HistoryButton>
             <Table>
                 <thead>
                     <TableRow>
@@ -29,13 +44,14 @@ const Holdings = ({ holdings }: HoldingsProps) => {
                 </thead>
                 <tbody>
                     {holdings.map((item, index) => {
-                        // API에서 전달받은 필드명이 다를 수 있으므로 기본값으로 변환
                         const displayName = item.stockName || "알 수 없음";
                         const quantity = item.stockQty ?? 0;
-                        const price = item.currentPrice ?? 0;
-                        const total = quantity * price;
-                        const profit = item.profit ?? 0; // undefined일 경우 0으로 처리
-                        const profitRate = item.profitRate ?? 0; // undefined일 경우 0으로 처리
+                        const currentPrice = item.currentPrice ?? 0;
+                        const total = quantity * currentPrice;
+                        const original = item.total ?? 0;
+                        const currVal = currentPrice * quantity;
+                        const profit = currVal - original;
+                        const profitRate = original > 0 ? (profit / original) * 100 : 0;
                         const stockImageSrc = item.stockImage ? `/stock/${item.stockImage}.png` : `/stock/DEFAULT.png`;
 
                         return (
@@ -48,10 +64,10 @@ const Holdings = ({ holdings }: HoldingsProps) => {
                                 </TableCell>
                                 <TableCell>{quantity}주</TableCell>
                                 <TableCell>
-                                    {total} 원
+                                    {total.toLocaleString()} 원
                                     <ProfitText $isPositive={profit >= 0}>
                                         {profit >= 0 ? "+" : ""}
-                                        {profit}원 ({profitRate}%)
+                                        {profit.toLocaleString()}원 ({profitRate.toFixed(2)}%)
                                     </ProfitText>
                                 </TableCell>
                             </TableRow>
@@ -64,54 +80,3 @@ const Holdings = ({ holdings }: HoldingsProps) => {
 };
 
 export default Holdings;
-
-// Styled Components
-const Container = styled.div`
-    width: 100%;
-    padding-top: 1.5rem;
-`;
-
-const Title = styled.h3`
-    font-size: 1.375rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-`;
-
-const Table = styled.table`
-    width: 100%;
-    border-collapse: collapse;
-`;
-
-const TableHeader = styled.th`
-    font-size: 1rem;
-    font-weight: bold;
-    padding: 0.75rem;
-    text-align: left;
-    border-bottom: 2px solid #ddd;
-`;
-
-const TableRow = styled.tr`
-    text-align: left;
-`;
-
-const TableCell = styled.td`
-    padding: 0.75rem;
-`;
-
-const StockInfo = styled.div`
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-`;
-
-const StockImage = styled.img`
-    width: 1.5rem;
-    height: 1.5rem;
-    border-radius: 50%;
-`;
-
-const ProfitText = styled.p<{ $isPositive: boolean }>`
-    font-size: 0.7rem;
-    font-weight: bold;
-    color: ${({ $isPositive }) => ($isPositive ? "red" : "blue")};
-`;
