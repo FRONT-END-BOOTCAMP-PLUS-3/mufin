@@ -78,21 +78,6 @@ const Asset = () => {
         fetchAssetData();
     }, []);
 
-    //투자금액 계산: 각 보유종목의 (currentPrice * stockQty)의 합계를 계산
-    // useEffect(() => {
-    //     // 원래 투자금액: 각 보유종목의 DB total 컬럼의 합계
-    //     const sumOriginal = holdings.reduce((acc, item) => acc + (Number(item.total) || 0), 0);
-    //     // 현재 총 가치: 각 보유종목의 currentPrice * stockQty
-    //     const sumCurrent = holdings.reduce((acc, item) => acc + (item.currentPrice || 0) * (item.stockQty || 0), 0);
-    //     const totalInvestment = holdings.reduce(
-    //         (sum, item) => sum + (item.currentPrice || 0) * (item.stockQty || 0),
-    //         0
-    //     );
-    //     setInvestmentAmount(sumCurrent);
-    //     console.log("sumOriginal : ", sumOriginal);
-    //     console.log("sumCurrent : ", sumCurrent);
-    // }, [holdings]);
-
     //투자금액(원래 투자금액)과 총 평가손익 계산
     useEffect(() => {
         //원래 투자금액 : 각 보유종목의 DB total컬럼의 합계
