@@ -13,6 +13,8 @@ const envSchema = z.object({
     JWT_SECRET:z.string().nonempty(),
     SMTP_EMAIL_USER:z.string().email(),
     SMTP_EMAIL_PASSWORD: z.string().nonempty(),
+    ORDER_BOOK_KIS_API_KEY: z.string().nonempty(),
+    ORDER_BOOK_KIS_SECRET: z.string().nonempty(),
   });
 
   const parsed = envSchema.safeParse(process.env);
