@@ -1,5 +1,4 @@
 "use client";
-import { useEffect } from "react";
 import styled from "styled-components";
 
 interface Holding {
@@ -17,15 +16,6 @@ interface HoldingsProps {
 }
 
 const Holdings = ({ holdings }: HoldingsProps) => {
-    useEffect(() => {
-        console.log("Holdings Data:", holdings);
-        holdings.forEach((item, index) => {
-            console.log(`Holding ${index + 1}:`, item);
-            console.log("currPrice:", item.currentPrice);
-            console.log("profit:", item.profit);
-            console.log("profitRate:", item.profitRate);
-        });
-    }, [holdings]);
     return (
         <Container>
             <Title>보유 종목</Title>
