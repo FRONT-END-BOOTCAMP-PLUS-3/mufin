@@ -54,7 +54,7 @@ const QuizResult = () => {
           <BaseButton onClick={() => router.push("/")}>
             모의투자로 이동하기
           </BaseButton>
-          <BaseButton onClick={() => router.push("/user/wallet")}>
+          <BaseButton onClick={() => router.push("/user/asset")}>
             나의 자산 이동
           </BaseButton>
         </ButtonWrapper>

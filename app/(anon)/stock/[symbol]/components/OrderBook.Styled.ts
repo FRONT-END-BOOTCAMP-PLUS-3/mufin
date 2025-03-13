@@ -13,7 +13,8 @@ export const OrderBookContainer = styled.div`
 export const OrderBookTable = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.65rem;
+  gap: 1rem;
+  margin-top: 5px;
 `;
 
 export const OrderRow = styled.div`
@@ -23,7 +24,7 @@ export const OrderRow = styled.div`
 `;
 
 export const Price = styled.span`
-  width: 5rem;
+  width: 6rem;
   text-align: right;
   font-size: 0.875rem;
   padding-right: 0.625rem;
@@ -40,7 +41,7 @@ export const OrderDetails = styled.div`
 `;
 
 export const OrderBar = styled.div<{ width: number }>`
-  height: 1.25rem;
+  height: 1.5rem;
   width: ${({ width }) => width}%;
   background-color: ${({ className }) => (className === "ask" ? "#abdfdf" : "#ffb3c2")};
   border-radius: 0.2rem;
