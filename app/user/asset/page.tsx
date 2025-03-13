@@ -21,7 +21,7 @@ import {
     AccountTitle,
     AccountValue,
     TransferButton,
-    ProfitText,
+    // ProfitText,
     Input,
     Button,
 } from "@/app/user/asset/components/Asset.Styled";
@@ -47,8 +47,8 @@ const Asset = () => {
     const [securitiesAccount, setSecuritiesAccount] = useState(0);
 
     // 기타 상태
-    const [profit, setProfit] = useState(0);
-    const [profitRate, setProfitRate] = useState(0);
+    // const [profit, setProfit] = useState(0);
+    // const [profitRate, setProfitRate] = useState(0);
     const [totalAssets, setTotalAssets] = useState(0);
     const [totalProfit, setTotalProfit] = useState(0);
     const [totalProfitRate, setTotalProfitRate] = useState(0);
@@ -70,8 +70,8 @@ const Asset = () => {
                 setTempGoalAmount(data.goalAmount.toString());
                 setBankAccount(data.bankAccount);
                 setCash(data.cash);
-                setProfit(data.profit);
-                setProfitRate(data.profitRate);
+                // setProfit(data.profit);
+                // setProfitRate(data.profitRate);
                 setTotalProfit(data.totalProfit);
                 setTotalProfitRate(data.totalProfitRate);
                 // Portfolio(보유종목) 데이터 업데이트
