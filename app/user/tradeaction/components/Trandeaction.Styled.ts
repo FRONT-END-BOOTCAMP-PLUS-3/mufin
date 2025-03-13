@@ -51,12 +51,13 @@ export const QuantityControlTitle = styled.div`
     width: 100%; 
     gap: 1rem; 
     border-bottom: 0.0625rem solid var(--gray-200); 
+    flex-wrap: wrap;
   }
 
   .label {
+    display: flex;
     font-size: var(--font-size-lg);
     padding: 0.5rem; 
-    flex-grow: 1;
   }
 
   .label2 {
@@ -67,14 +68,16 @@ export const QuantityControlTitle = styled.div`
   }
 
   input {
+    display: flex;
     padding: 0.5rem;
     font-size: var(--font-size-lg);
     font-weight: bold;
     text-align: right; 
     border: none;
     caret-color: var(--primary-color); 
-    flex-grow: 2; 
+    flex: 1; 
     background-color: var(--primary-light);
+    max-width: 70%;
   }
   .error-container {
     height: 1rem;
@@ -144,6 +147,7 @@ export const MainButton = styled.div<{ $isBuy: boolean }>`
   border-radius: 0.625rem; 
   background-color: ${({ $isBuy }) => ($isBuy ? "var(--second-color)" : "var(--primary-color)")};
   color: var(--white-color);
+  max-width: 400px;
 `;
 
 // Modal Style
