@@ -1,5 +1,6 @@
 <h1>Mufin</h1>
 
+```plaintext
 mufin
 ├─ app
 │ ├─ (anon)
@@ -284,7 +285,4 @@ mufin
 ├─ parseStockData.ts
 ├─ toCamelCase.ts
 └─ websocketClient.ts
-
-```
-
 ```
