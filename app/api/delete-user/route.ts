@@ -32,19 +32,32 @@ export async function DELETE() {
     await deleteAccountUseCase.execute(loginId);
 
     // 4. 쿠키 삭제 (로그아웃 처리)
-    const removeToken = serialize("accessToken", "", {
+    const removeAccessToken = serialize("accessToken", "", {
       httpOnly: true,
       maxAge: 0,
       sameSite: "strict",
       path: "/",
     });
 
-    const response = NextResponse.json(
-      { message: "Account deleted successfully" },
-      { status: 200 }
+    const removeRefreshToken = serialize("refreshToken", "", {
+      httpOnly: true,
+      sameSite: "strict",
+      path: "/",
+      maxAge: 0,
+    });
+
+    const headers = new Headers();
+    headers.append("Set-Cookie", removeAccessToken);
+    headers.append("Set-Cookie", removeRefreshToken);
+    headers.set("Content-Type", "application/json");
+
+    return new NextResponse(
+      JSON.stringify({ message: "Account Deleted successfully" }),
+      {
+        status: 200,
+        headers,
+      }
     );
-    response.headers.set("Set-Cookie", removeToken);
-    return response;
   } catch (error) {
     console.error("Account deletion error:", error);
     return NextResponse.json({ message: "Server error" }, { status: 500 });
