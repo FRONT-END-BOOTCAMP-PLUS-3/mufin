@@ -73,7 +73,7 @@ const TransferClient = () => {
       if (!response.ok) throw new Error(result.message);
   
       Swal.fire({
-        title: `${type === "toCash" ? "주식계좌로" : "기본계좌로"} 송금 성공!`,
+        title: `${type === "toCash" ? "증권계좌로" : "일반계좌로"} 송금 성공!`,
         icon: "success",
         confirmButtonText: "확인",
         customClass: {
@@ -88,7 +88,7 @@ const TransferClient = () => {
     } catch (error) {
       if (error instanceof Error) {
         Swal.fire({
-          title: `${type === "toCash" ? "주식계좌로" : "기본계좌로"} 송금 실패`,
+          title: `${type === "toCash" ? "증권계좌로" : "일반계좌로"} 송금 실패`,
           icon: "error",
           confirmButtonText: "확인",
           customClass: {
@@ -99,10 +99,10 @@ const TransferClient = () => {
             },
           width: '90%'
         });
-        console.log(`${type === "toCash" ? "주식계좌로" : "기본계좌로"} 송금 실패: ${error.message}`);
+        console.log(`${type === "toCash" ? "증권계좌로" : "일반계좌로"} 송금 실패: ${error.message}`);
       } else {
         Swal.fire({
-          title: `${type === "toCash" ? "주식계좌로" : "기본계좌로"} 송금 실패`,
+          title: `${type === "toCash" ? "증권계좌로" : "일반계좌로"} 송금 실패`,
           icon: "error",
           confirmButtonText: "확인",
           customClass: {
@@ -113,7 +113,7 @@ const TransferClient = () => {
             },
           width: '90%'
         });
-        console.log(`${type === "toCash" ? "주식계좌로" : "기본계좌로"} 송금 실패: 알 수 없는 오류`);
+        console.log(`${type === "toCash" ? "증권계좌로" : "일반계좌로"} 송금 실패: 알 수 없는 오류`);
       }
     }
   };
@@ -125,8 +125,8 @@ const TransferClient = () => {
   return (
     <>
       <TransferContainer>
-        <TransferTitle1>{type === 'toCash' ? '기본계좌에서' : '주식계좌에서'}</TransferTitle1>
-        <TransferTitle2>{type === 'toCash' ? '주식계좌로' : '기본계좌로'} 송금</TransferTitle2>
+        <TransferTitle1>{type === 'toCash' ? '일반계좌에서' : '증권계좌에서'}</TransferTitle1>
+        <TransferTitle2>{type === 'toCash' ? '증권계좌로' : '일반계좌로'} 송금</TransferTitle2>
           <TransferContent>
           <div className="row-container">
             <p className="label">금액</p>
