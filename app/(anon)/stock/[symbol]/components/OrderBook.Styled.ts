@@ -8,6 +8,7 @@ export const OrderBookContainer = styled.div`
   display: flex; 
   flex-direction: column; 
   flex-grow: 1; 
+  overflow-y: scroll;
 `;
 
 export const OrderBookTable = styled.div`
