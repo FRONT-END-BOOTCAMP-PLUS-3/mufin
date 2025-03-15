@@ -21,7 +21,6 @@ export class AccessTokenUseCase implements IAccessTokenUseCase {
         let kisAccessToken = await this.redisRepository.findKISAccessToken("kis_access_token", apiKey);
         
         if (kisAccessToken) {
-            console.log(`[CACHE HIT] Redis에서 KIS_AccessToken 가져옴: ${kisAccessToken}`);
             return kisAccessToken;
         }
 
@@ -35,7 +34,6 @@ export class AccessTokenUseCase implements IAccessTokenUseCase {
         const apiKey = env.KIS_APP_KEY_1;
         const newToken = await this.kisAuthClient.getAccessToken();
         await this.redisRepository.saveKISAccessToken("kis_access_token", apiKey, newToken);
-        console.log(`[RENEW] Redis에 새로운 토큰 업데이트: ${newToken}`);
         return newToken;
       }
 }
