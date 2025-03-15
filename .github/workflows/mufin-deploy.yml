@@ -14,7 +14,7 @@ jobs:
 
   # 첫번째 단계 : 빌드
   build:
-    runs-on: [self-hosted, mufin-server]
+    runs-on: ubuntu-latest
           
 
     steps:
