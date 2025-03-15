@@ -23,7 +23,7 @@ const SearchClient = () => {
         if (debouncedSearchTerm.trim()) {
             const handleSearch = async () => {
                 try {
-                    const response = await fetch(`/api/search?q=${debouncedSearchTerm}`);
+                    const response = await fetch(`/api/search?q=${debouncedSearchTerm.toUpperCase()}`);
                     const data = await response.json();
                     setResults(data); 
                 } catch (error) {
