@@ -121,6 +121,7 @@ const MyInfo = () => {
           alt="user_profile"
           width={100}
           height={100}
+          priority
         />
         {isLoggedIn ? (
           <>
