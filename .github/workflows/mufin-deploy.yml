@@ -14,128 +14,172 @@ jobs:
 
   # 첫번째 단계 : 빌드
   build:
-    runs-on: [self-hosted, mufin-server]
-    
+      runs-on: ubuntu-latest
+          
 
-    steps:
+      steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          clean: true  
+           clean: true  
 
       - name: Create .env file
         run: |
-          echo "Creating .env file..."
-          rm -f .env  # 기존 파일 삭제
-          cat << EOF > .env
+         echo "Creating .env file..."
+         rm -f .env  # 기존 파일 삭제
+         cat <<-EOF > .env
             DATABASE_URL=${{ secrets.DATABASE_URL }}
             NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }}
             REDIS_URL=${{ secrets.REDIS_URL }}
             NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}
             KIS_API_URL=${{ secrets.KIS_API_URL }}
-            KIS_APP_KEY=${{ secrets.KIS_APP_KEY }}
-            KIS_APP_SECRET=${{ secrets.KIS_APP_SECRET }}
             JWT_SECRET=${{ secrets.JWT_SECRET }}
             SMTP_EMAIL_USER=${{ secrets.SMTP_EMAIL_USER }}
             SMTP_EMAIL_PASSWORD=${{ secrets.SMTP_EMAIL_PASSWORD }}
-            ORDER_BOOK_KIS_API_KEY=${{ secrets.ORDER_BOOK_KIS_API_KEY }}
-            ORDER_BOOK_KIS_SECRET=${{ secrets.ORDER_BOOK_KIS_SECRET }}
-            EOF
-          
-          echo "✅ .env file created successfully!"
-          cat .env  # 🚀 생성된 파일 내용 확인
-          
-      - name: Set up Node.js
+            KIS_APP_KEY_1=${{ secrets.KIS_APP_KEY_1 }}
+            KIS_APP_KEY_2=${{ secrets.KIS_APP_KEY_2 }}
+            KIS_APP_SECRET_1=${{ secrets.KIS_APP_SECRET_1 }}
+            KIS_APP_SECRET_2=${{ secrets.KIS_APP_SECRET_2 }}
+            ORDER_BOOK_KIS_API_KEY_1=${{ secrets.ORDER_BOOK_KIS_API_KEY_1 }}
+            ORDER_BOOK_KIS_API_KEY_2=${{ secrets.ORDER_BOOK_KIS_API_KEY_2 }}
+            ORDER_BOOK_KIS_SECRET_1=${{ secrets.ORDER_BOOK_KIS_SECRET_1 }}
+            ORDER_BOOK_KIS_SECRET_2=${{ secrets.ORDER_BOOK_KIS_SECRET_2 }}
+         EOF
+         cat .env
+
+      # 2. 패키지 매니저 감지(yarn 또는 npm)
+      - name: Detect package manager
+        id: detect-package-manager
+        run: |
+          if [ -f "${{ github.workspace }}/yarn.lock" ]; then
+            echo "manager=yarn" >> $GITHUB_OUTPUT
+            echo "command=install" >> $GITHUB_OUTPUT
+            echo "runner=yarn" >> $GITHUB_OUTPUT
+            exit 0
+          elif [ -f "${{ github.workspace }}/package.json" ]; then
+            echo "manager=npm" >> $GITHUB_OUTPUT
+            echo "command=ci" >> $GITHUB_OUTPUT
+            echo "runner=npx --no-install" >> $GITHUB_OUTPUT
+            exit 0
+          else
+            echo "Unable to determine package manager"
+            exit 1
+          fi
+      
+      # 3. Node.js 환경 설정
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: lts/*
-          cache: 'npm'
-
-      - name: Install Dependencies
-        run: npm ci
-
-      - name: Build Next.js Project
-        run: npm run build
-
+          node-version: "20"
+          cache: ${{ steps.detect-package-manager.outputs.manager }}
+          
+      # 4. 의존성 설치
+      - name: Install dependencies
+        run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
+      
       #5 Prisma Client 생성
       - name: Generate Prisma Client
         run: npx prisma generate
+
+      - name: Load environment variables
+        run: export $(grep -v '^#' .env | xargs)
+
+      # 6. Next.js 애플리케이션 빌드
+      - name: Build with Next.js
+        run: ${{ steps.detect-package-manager.outputs.runner }} next build
+
         
   # 세번째 단계: 배포
   deploy:
-    runs-on: [self-hosted, mufin-server]
-    # runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
     needs: build
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
-          cache: 'npm'
+     # 2. 패키지 매니저 감지(yarn 또는 npm)
+      - name: Detect package manager
+        id: detect-package-manager
+        run: |
+          if [ -f "${{ github.workspace }}/yarn.lock" ]; then
+            echo "manager=yarn" >> $GITHUB_OUTPUT
+            echo "command=install" >> $GITHUB_OUTPUT
+            echo "runner=yarn" >> $GITHUB_OUTPUT
+            exit 0
+          elif [ -f "${{ github.workspace }}/package.json" ]; then
+            echo "manager=npm" >> $GITHUB_OUTPUT
+            echo "command=ci" >> $GITHUB_OUTPUT
+            echo "runner=npx --no-install" >> $GITHUB_OUTPUT
+            exit 0
+          else
+            echo "Unable to determine package manager"
+            exit 1
+          fi
           
            # 10. SSH를 통해 Linux 서버에 배포
-      # - name: Deploy to Remote Server via SSH
-      #   uses: appleboy/ssh-action@v1.0.3
-      #   with:
-      #     host: ${{ secrets.SSH_HOST }}             
-      #     username: ${{ secrets.SSH_USER }}           
-      #     port: 23                    	  
-      #     key: ${{ secrets.SSH_PRIVATE_KEY}}
-      #     script: |
-      #       cd ~
+      - name: Deploy to Remote Server via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}             
+          username: ${{ secrets.SSH_USER }}           
+          port: 23                    	  
+          key: ${{ secrets.SSH_PRIVATE_KEY}}
+          script: |
+            cd ~
 
-      #        # 리포지토리 확인 후 처리
-      #       if [ ! -d "/home/mufindata/www/mufin/.git" ]; then
-      #         echo "리포지토리가 없습니다. 클론을 진행합니다..."
-      #         git clone --depth=1 https://github.com/FRONT-END-BOOTCAMP-PLUS-3/mufin.git
-      #       else
-      #         echo "리포지토리가 존재합니다. 최신 코드 가져오기..."
-      #         cd /home/mufindata/www/mufin
-      #         git fetch origin main
-      #         if ! git diff --quiet HEAD origin/main; then
-      #           git reset --hard origin/main
-      #           git checkout main
-      #         else
-      #           echo "변경 사항 없음"
-      #         fi
-      #       fi
+             # 리포지토리 확인 후 처리
+            if [ ! -d "/home/mufindata/www/mufin/.git" ]; then
+              echo "리포지토리가 없습니다. 클론을 진행합니다..."
+              git clone --depth=1 https://github.com/FRONT-END-BOOTCAMP-PLUS-3/mufin.git
+            else
+              echo "리포지토리가 존재합니다. 최신 코드 가져오기..."
+              cd /home/mufindata/www/mufin
+              git fetch origin main
+              if ! git diff --quiet HEAD origin/main; then
+                git reset --hard origin/main
+                git checkout main
+              else
+                echo "변경 사항 없음"
+              fi
+            fi
 
-      #       cd /home/mufindata/www/mufin
+            cd /home/mufindata/www/mufin
 
             
-      #       echo "Creating .env file..."
-      #       rm -f .env  # 기존 파일 삭제
-      #       cat << EOF > .env
-      #       DATABASE_URL=${{ secrets.DATABASE_URL }}
-      #       NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }}
-      #       REDIS_URL=${{ secrets.REDIS_URL }}
-      #       NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}
-      #       KIS_API_URL=${{ secrets.KIS_API_URL }}
-      #       KIS_APP_KEY=${{ secrets.KIS_APP_KEY }}
-      #       KIS_APP_SECRET=${{ secrets.KIS_APP_SECRET }}
-      #       JWT_SECRET=${{ secrets.JWT_SECRET }}
-      #       SMTP_EMAIL_USER=${{ secrets.SMTP_EMAIL_USER }}
-      #       SMTP_EMAIL_PASSWORD=${{ secrets.SMTP_EMAIL_PASSWORD }}
-      #       ORDER_BOOK_KIS_API_KEY=${{ secrets.ORDER_BOOK_KIS_API_KEY }}
-      #       ORDER_BOOK_KIS_SECRET=${{ secrets.ORDER_BOOK_KIS_SECRET }}
-      #       EOF
+            echo "Creating .env file..."
+            rm -f .env  # 기존 파일 삭제
+            cat << EOF > .env
+            DATABASE_URL=${{ secrets.DATABASE_URL }}
+            NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }}
+            REDIS_URL=${{ secrets.REDIS_URL }}
+            NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}
+            KIS_API_URL=${{ secrets.KIS_API_URL }}
+            JWT_SECRET=${{ secrets.JWT_SECRET }}
+            SMTP_EMAIL_USER=${{ secrets.SMTP_EMAIL_USER }}
+            SMTP_EMAIL_PASSWORD=${{ secrets.SMTP_EMAIL_PASSWORD }}
+            KIS_APP_KEY_1=${{ secrets.KIS_APP_KEY_1 }}
+            KIS_APP_KEY_2=${{ secrets.KIS_APP_KEY_2 }}
+            KIS_APP_SECRET_1=${{ secrets.KIS_APP_SECRET_1 }}
+            KIS_APP_SECRET_2=${{ secrets.KIS_APP_SECRET_2 }}
+            ORDER_BOOK_KIS_API_KEY_1=${{ secrets.ORDER_BOOK_KIS_API_KEY_1 }}
+            ORDER_BOOK_KIS_API_KEY_2=${{ secrets.ORDER_BOOK_KIS_API_KEY_2 }}
+            ORDER_BOOK_KIS_SECRET_1=${{ secrets.ORDER_BOOK_KIS_SECRET_1 }}
+            ORDER_BOOK_KIS_SECRET_2=${{ secrets.ORDER_BOOK_KIS_SECRET_2 }}
+            EOF
 
-      #       npm ci
-      #       npm run build
+            npm ci
+            npm run build
             
-      #        # PM2 프로세스 확인 후 처리
-      #       if pm2 list | grep -q 'mufin'; then
-      #         echo "프로세스가 실행 중입니다. Reload 진행..."
-      #         pm2 restart mufin
-      #       else
-      #         echo "프로세스가 실행 중이 아닙니다. 새로 실행합니다..."
-      #         pm2 start npm --name "mufin" -- run start -- -p 3060
-      #         pm2 save
-      #       fi
+             # PM2 프로세스 확인 후 처리
+            if pm2 list | grep -q 'mufin'; then
+              echo "프로세스가 실행 중입니다. Reload 진행..."
+              pm2 restart mufin
+            else
+              echo "프로세스가 실행 중이 아닙니다. 새로 실행합니다..."
+              pm2 start npm --name "mufin" -- run start -- -p 3060
+              pm2 save
+            fi
 
-      - name: Deploy Next.js Project
-        run: ~/next-mufin-update.sh
+      # - name: Deploy Next.js Project
+      #   run: ~/next-mufin-update.sh
