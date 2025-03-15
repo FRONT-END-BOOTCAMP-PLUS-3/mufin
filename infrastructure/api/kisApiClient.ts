@@ -32,8 +32,8 @@ async function executeKISRequest(
     headers: {
       "Content-Type": "application/json; charset=utf-8",
       authorization: `Bearer ${KISAccessToken}`,
-      appkey: env.KIS_APP_KEY!,
-      appsecret: env.KIS_APP_SECRET!,
+      appkey: env.KIS_APP_KEY_1!,
+      appsecret: env.KIS_APP_SECRET_1!,
       tr_id: trId,
       custtype: "P",
     },
@@ -58,8 +58,8 @@ async function executeKISRequest(
         headers: {
           "Content-Type": "application/json; charset=utf-8",
           authorization: `Bearer ${KISAccessToken}`,
-          appkey: env.KIS_APP_KEY!,
-          appsecret: env.KIS_APP_SECRET!,
+          appkey: env.KIS_APP_KEY_1!,
+          appsecret: env.KIS_APP_SECRET_1!,
           tr_id: trId,
           custtype: "P",
         },

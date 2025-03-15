@@ -1,12 +1,6 @@
 "use client";
-import React, { useEffect, useRef } from "react";
-import {
-  connectWs,
-  sendWsMessage,
-  onWsMessage,
-  disconnectWs,
-  createMessage,
-} from "@/utils/websocketClient";
+import React, { useCallback, useEffect, useRef } from "react";
+import { connectWs, sendWsMessage, onWsMessage, disconnectWs, createMessage } from "@/utils/websocketClient";
 import { fetchApprovalKey } from "@/utils/fetchApprovalKey";
 import { parseStockData } from "@/utils/parseStockData";
 import { ApprovalKeyType } from "@/types/approvalKeyType";
@@ -18,38 +12,46 @@ interface StockDataComponentProps {
   onDataUpdate: (data:OrderBookResponseDto) => void;
 }
 
-const OrderBookDataComponent: React.FC<StockDataComponentProps> = ({
-  symbol,
-  onDataUpdate,
-}) => {
+const OrderBookDataComponent: React.FC<StockDataComponentProps> = ({ symbol, onDataUpdate }) => {
+  
+  // approvalKeyRef: 승인키를 저장하는 ref (웹소켓 연결 시 사용)
   const approvalKeyRef = useRef<string | null>(null);
+  // usedApiKeyNameRef: 실제 사용된 API 키의 별칭(환경변수 이름)을 저장하는 ref
+  const usedApiKeyNameRef = useRef<string | null>(null);
+   // wsRef: WebSocket 인스턴스를 저장하는 ref
   const wsRef = useRef<WebSocket | null>(null);
+   // isConnectedRef: WebSocket 연결 상태를 추적 (중복 연결 방지)
+  const isConnectedRef = useRef<boolean>(false);
 
-  useEffect(() => {
-    async function initWebSocket() {
-      try {
-        const currentType: ApprovalKeyType = "orderBook";
-        const approvalKey = await fetchApprovalKey(currentType);
-        if (!approvalKey) {
-          throw new Error("Approval Key 없음");
-        }
-        approvalKeyRef.current = approvalKey;
+  // 현재 사용할 승인키 타입 (예: "orderBook")
+  const currentType: ApprovalKeyType = "orderBook";
 
-        const ws = await connectWs("ws://ops.koreainvestment.com:31000/tryitout/H0STASP0");
-        wsRef.current = ws;
+  const initializeConnections = useCallback(async () => {
+    if(isConnectedRef.current) return;
 
-        const subscribeMsg = createMessage(
-          approvalKey,
-          "1",
-          "H0STASP0",
-          symbol // symbol을 동적으로 전송
-        );
-        if (wsRef.current) {
-          sendWsMessage(wsRef.current, subscribeMsg);
-        }
+    try{
+      // "start" 상태로 승인키를 요청
+      const result = await fetchApprovalKey(currentType, "start");
+      if (!result) throw new Error("Approval Key 없음");
 
-        if (wsRef.current) {
-          onWsMessage(wsRef.current, (data: string) => {
+      // 받아온 결과에서 approvalKey와 usedApiKeyName 추출
+      const { approvalKey, usedApiKeyName } = result as { approvalKey: string; usedApiKeyName: string };
+      approvalKeyRef.current = approvalKey;
+      usedApiKeyNameRef.current = usedApiKeyName;
+
+      // OrderBook 전용 WebSocket 연결 (URL 및 채널 "H0STASP0")
+      const ws = await connectWs("ws://ops.koreainvestment.com:31000/tryitout/H0STASP0");
+      wsRef.current = ws;
+      isConnectedRef.current = true;
+
+      // 구독 메시지 생성: 승인키, 메시지 타입 "1" (구독 요청), 채널 "H0STASP0", symbol 전달
+      const subscribeMsg = createMessage(approvalKey, "1", "H0STASP0", symbol);
+
+      //wsRef.current가 null이 아닐 때만 sendWsMessage를 호출하여, 연결되지 않은 상태에서 발생할 수 있는 에러를 방지
+      if (wsRef.current) {
+        sendWsMessage(wsRef.current, subscribeMsg);
+
+        onWsMessage(wsRef.current, (data: string) => {
           try {
             const parsedData = parseStockData(data, STOCK_TRADE_ORDERBOOK_MAPPING, REQUIRED_STOCK_ORDERBOOK_FIELD );
             if (parsedData) {
@@ -95,28 +97,41 @@ const OrderBookDataComponent: React.FC<StockDataComponentProps> = ({
           }
         });
       }
-      } catch (error) {
-        console.log("WebSocket 초기화 에러:", error);
-      }
+    } catch (error){
+      console.log("WebSocket 초기화 에러:", error);
     }
+  }, [symbol, onDataUpdate, currentType]);
 
-    initWebSocket();
+  const cleanupConnection = useCallback(() => {
+    if (wsRef.current && approvalKeyRef.current && usedApiKeyNameRef.current) {
+      // 구독 해제 메시지 생성 (메시지 타입 "2"는 구독 해제 요청)
+      const unsubscribeMsg = createMessage(approvalKeyRef.current, "2", "H0STASP0", symbol);
+      // WebSocket 연결이 유효한 경우 구독 해제 메시지 전송
+      if (wsRef.current) {
+        sendWsMessage(wsRef.current, unsubscribeMsg);
+      }
+      // WebSocket 연결 종료 및 연결 상태 초기화
+      disconnectWs(wsRef.current);
+      isConnectedRef.current = false;
+
+      // "stop" 상태로 승인키 해제 요청 전송
+      fetchApprovalKey(currentType, "stop", usedApiKeyNameRef.current).catch((error) =>
+        console.error("Approval Key release 실패:", error)
+      );
+    }
+  }, [symbol, currentType]);
+
+
+  useEffect(() => {
+    // 컴포넌트 마운트 시 WebSocket 연결 초기화
+    initializeConnections();
 
     return () => {
-      if (wsRef.current && approvalKeyRef.current) {
-        const unsubscribeMsg = createMessage(
-          approvalKeyRef.current,
-          "2",
-          "H0STASP0",
-          symbol // 동일하게 symbol 사용
-        );
-        sendWsMessage(wsRef.current, unsubscribeMsg);
-        disconnectWs(wsRef.current);
-      }
+      // 컴포넌트 언마운트 시 cleanup 함수 실행
+      cleanupConnection();
     };
-  }, [symbol, onDataUpdate]); // symbol과 onDataUpdate가 변경되면 재연결
+  }, [initializeConnections, cleanupConnection]); 
 
-  // 화면에 데이터를 출력하지 않도록 JSX 부분 삭제
   return null;
 };
 
