@@ -39,14 +39,14 @@ export const HistoryTable = styled.table`
 `;
 
 export const Th = styled.th`
-  padding: 0.75rem;
+  padding: 0.5rem;
   text-align: center;
   font-weight: bold;
+  font-size: var(--font-size-md);
   top: 0; 
   z-index: 1;
   border-bottom: 0.063rem solid var(--disabled-color);
   width: 25%;
-  font-size: var(--font-size-lg);
 `;
 
 export const Tr = styled.tr`
@@ -59,7 +59,7 @@ export const Td = styled.td`
   padding: 0.75rem;
   text-align: center;
   width: 25%;
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-sm);
 `;
 
 export const NoDataContainer = styled.div`

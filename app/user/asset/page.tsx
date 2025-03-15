@@ -175,7 +175,11 @@ const Asset = () => {
             {/* 투자 목표 설정 모달 */}
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
                 <h6>목표 금액 설정</h6>
-                <Input type="number" value={tempGoalAmount} onChange={(e) => setTempGoalAmount(e.target.value)} />
+                <Input type="number" value={tempGoalAmount} onChange={(e) => {
+                    const newValue = e.target.value;
+                    if (!isNaN(Number(newValue)) && (Number(newValue) >= 0 || newValue === "")) {
+                    setTempGoalAmount(newValue);
+                    }}} />
                 <Button
                     onClick={async () => {
                         const newTarget = Number(tempGoalAmount);
