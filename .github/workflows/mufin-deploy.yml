@@ -51,10 +51,7 @@ jobs:
             ORDER_BOOK_KIS_SECRET_2=${{ secrets.ORDER_BOOK_KIS_SECRET_2 }}
             
             EOF
-
-          
-          echo ".env file created successfully!"
-          cat .env  
+            cat .env
           
       # 2. 패키지 매니저 감지(yarn 또는 npm)
       - name: Detect package manager
