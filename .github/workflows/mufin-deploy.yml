@@ -23,30 +23,6 @@ jobs:
         with:
            clean: true  
 
-      # - name: Create .env file
-      #   run: |
-      #    echo "Creating .env file..."
-      #    rm -f .env  # 기존 파일 삭제
-      #    cat <<-EOF > .env
-      #       DATABASE_URL=${{ secrets.DATABASE_URL }}
-      #       NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }}
-      #       REDIS_URL=${{ secrets.REDIS_URL }}
-      #       NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}
-      #       KIS_API_URL=${{ secrets.KIS_API_URL }}
-      #       JWT_SECRET=${{ secrets.JWT_SECRET }}
-      #       SMTP_EMAIL_USER=${{ secrets.SMTP_EMAIL_USER }}
-      #       SMTP_EMAIL_PASSWORD=${{ secrets.SMTP_EMAIL_PASSWORD }}
-      #       KIS_APP_KEY_1=${{ secrets.KIS_APP_KEY_1 }}
-      #       KIS_APP_KEY_2=${{ secrets.KIS_APP_KEY_2 }}
-      #       KIS_APP_SECRET_1=${{ secrets.KIS_APP_SECRET_1 }}
-      #       KIS_APP_SECRET_2=${{ secrets.KIS_APP_SECRET_2 }}
-      #       ORDER_BOOK_KIS_API_KEY_1=${{ secrets.ORDER_BOOK_KIS_API_KEY_1 }}
-      #       ORDER_BOOK_KIS_API_KEY_2=${{ secrets.ORDER_BOOK_KIS_API_KEY_2 }}
-      #       ORDER_BOOK_KIS_SECRET_1=${{ secrets.ORDER_BOOK_KIS_SECRET_1 }}
-      #       ORDER_BOOK_KIS_SECRET_2=${{ secrets.ORDER_BOOK_KIS_SECRET_2 }}
-      #    EOF
-      #    cat .env
-
       - name: Create .env file
         run: |
          echo "Creating .env file..."
@@ -60,12 +36,17 @@ jobs:
             JWT_SECRET=${{ secrets.JWT_SECRET }}
             SMTP_EMAIL_USER=${{ secrets.SMTP_EMAIL_USER }}
             SMTP_EMAIL_PASSWORD=${{ secrets.SMTP_EMAIL_PASSWORD }}
-            KIS_APP_KEY=${{ secrets.KIS_APP_KEY }}
-            KIS_APP_SECRET=${{ secrets.KIS_APP_SECRET }}
-            ORDER_BOOK_KIS_API_KEY=${{ secrets.ORDER_BOOK_KIS_API_KEY }}
-            ORDER_BOOK_KIS_SECRET=${{ secrets.ORDER_BOOK_KIS_SECRET }}
+            KIS_APP_KEY_1=${{ secrets.KIS_APP_KEY_1 }}
+            KIS_APP_KEY_2=${{ secrets.KIS_APP_KEY_2 }}
+            KIS_APP_SECRET_1=${{ secrets.KIS_APP_SECRET_1 }}
+            KIS_APP_SECRET_2=${{ secrets.KIS_APP_SECRET_2 }}
+            ORDER_BOOK_KIS_API_KEY_1=${{ secrets.ORDER_BOOK_KIS_API_KEY_1 }}
+            ORDER_BOOK_KIS_API_KEY_2=${{ secrets.ORDER_BOOK_KIS_API_KEY_2 }}
+            ORDER_BOOK_KIS_SECRET_1=${{ secrets.ORDER_BOOK_KIS_SECRET_1 }}
+            ORDER_BOOK_KIS_SECRET_2=${{ secrets.ORDER_BOOK_KIS_SECRET_2 }}
          EOF
          cat .env
+
       # 2. 패키지 매니저 감지(yarn 또는 npm)
       - name: Detect package manager
         id: detect-package-manager
@@ -169,18 +150,22 @@ jobs:
             echo "Creating .env file..."
             rm -f .env  # 기존 파일 삭제
             cat << EOF > .env
-               DATABASE_URL=${{ secrets.DATABASE_URL }}
-               NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }}
-               REDIS_URL=${{ secrets.REDIS_URL }}
-               NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}
-               KIS_API_URL=${{ secrets.KIS_API_URL }}
-               JWT_SECRET=${{ secrets.JWT_SECRET }}
-               SMTP_EMAIL_USER=${{ secrets.SMTP_EMAIL_USER }}
-               SMTP_EMAIL_PASSWORD=${{ secrets.SMTP_EMAIL_PASSWORD }}
-               KIS_APP_KEY=${{ secrets.KIS_APP_KEY }}
-               KIS_APP_SECRET=${{ secrets.KIS_APP_SECRET }}
-               ORDER_BOOK_KIS_API_KEY=${{ secrets.ORDER_BOOK_KIS_API_KEY }}
-               ORDER_BOOK_KIS_SECRET=${{ secrets.ORDER_BOOK_KIS_SECRET }}
+            DATABASE_URL=${{ secrets.DATABASE_URL }}
+            NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }}
+            REDIS_URL=${{ secrets.REDIS_URL }}
+            NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}
+            KIS_API_URL=${{ secrets.KIS_API_URL }}
+            JWT_SECRET=${{ secrets.JWT_SECRET }}
+            SMTP_EMAIL_USER=${{ secrets.SMTP_EMAIL_USER }}
+            SMTP_EMAIL_PASSWORD=${{ secrets.SMTP_EMAIL_PASSWORD }}
+            KIS_APP_KEY_1=${{ secrets.KIS_APP_KEY_1 }}
+            KIS_APP_KEY_2=${{ secrets.KIS_APP_KEY_2 }}
+            KIS_APP_SECRET_1=${{ secrets.KIS_APP_SECRET_1 }}
+            KIS_APP_SECRET_2=${{ secrets.KIS_APP_SECRET_2 }}
+            ORDER_BOOK_KIS_API_KEY_1=${{ secrets.ORDER_BOOK_KIS_API_KEY_1 }}
+            ORDER_BOOK_KIS_API_KEY_2=${{ secrets.ORDER_BOOK_KIS_API_KEY_2 }}
+            ORDER_BOOK_KIS_SECRET_1=${{ secrets.ORDER_BOOK_KIS_SECRET_1 }}
+            ORDER_BOOK_KIS_SECRET_2=${{ secrets.ORDER_BOOK_KIS_SECRET_2 }}
             EOF
 
             npm ci
