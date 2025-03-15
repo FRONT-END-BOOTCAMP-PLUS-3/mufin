@@ -3,7 +3,7 @@ import { env } from "@/config/env";
 import { ApprovalKeyEntity } from "@/domain/entities/ApprovalKeyEntity";
 import { IRedisRepository } from "@/domain/repositories/IRedisRepository";
 
-import { IAcquireApprovalKeyUsecase } from "@/application/usecases/kis/interfaces/IAcquireApprovalKeyUseCase";
+import { IAcquireApprovalKeyUseCase } from "@/application/usecases/kis/interfaces/IAcquireApprovalKeyUseCase";
 
 import { KISAuthClient } from "@/infrastructure/api/kisAuthClient";
 import { RedisRepository } from "@/infrastructure/repositories/RedisRepository";
@@ -16,7 +16,7 @@ export interface ApprovalKeyResult {
     usedApiKeyName: string;
 }
 
-export class AcquireApprovalKeyUseCase implements IAcquireApprovalKeyUsecase {
+export class AcquireApprovalKeyUseCase implements IAcquireApprovalKeyUseCase {
     private kisAuthClient: KISAuthClient;
     private redisRepository: IRedisRepository;
 
