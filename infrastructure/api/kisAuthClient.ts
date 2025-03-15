@@ -10,8 +10,8 @@ export class KISAuthClient {
     const url = `${env.KIS_API_URL}/oauth2/Approval`;
     const body = JSON.stringify({
       grant_type: "client_credentials",
-      appkey: env.KIS_APP_KEY,
-      secretkey: env.KIS_APP_SECRET,
+      appkey: env.KIS_APP_KEY_1,
+      secretkey: env.KIS_APP_SECRET_1,
     });
 
     const response = await fetch(url, {
@@ -44,8 +44,8 @@ export class KISAuthClient {
     const url = `${env.KIS_API_URL}/oauth2/tokenP`;
     const body = JSON.stringify({
       grant_type: "client_credentials",
-      appkey: env.KIS_APP_KEY,
-      appsecret: env.KIS_APP_SECRET,
+      appkey: env.KIS_APP_KEY_1,
+      appsecret: env.KIS_APP_SECRET_1,
     });
 
     const response = await fetch(url, {
