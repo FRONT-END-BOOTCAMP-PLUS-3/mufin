@@ -1,5 +1,5 @@
-import { ApprovalKeyUseCase } from "@/application/usecases/kis/ApprovalKeyUseCase";
-import { IApprovalKeyUseCase } from "@/application/usecases/kis/interfaces/IApprovalKeyUseCase";
+import { AcquireApprovalKeyUseCase } from "@/application/usecases/kis/AcquireApprovalKeyUseCase";
+import { IAcquireApprovalKeyUsecase } from "@/application/usecases/kis/interfaces/IAcquireApprovalKeyUseCase";
 import { ApprovalKeyType } from "@/types/approvalKeyType";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -11,8 +11,8 @@ export async function POST(req: NextRequest) {
     if(!type){
       return NextResponse.json({error: "Body Type missing value"}, {status: 400});
     }
-      const kisApprovalKeyUseCase :IApprovalKeyUseCase = new ApprovalKeyUseCase(); 
-      const approvalKey = await kisApprovalKeyUseCase.execute(type);
+      const acquireApprovalKeyUseCase :IAcquireApprovalKeyUsecase = new AcquireApprovalKeyUseCase(); 
+      const approvalKey = await acquireApprovalKeyUseCase.execute(type);
 
       if (!approvalKey) {
         return NextResponse.json({ error: "approvalKey not found in cookies" }, { status: 400 });
