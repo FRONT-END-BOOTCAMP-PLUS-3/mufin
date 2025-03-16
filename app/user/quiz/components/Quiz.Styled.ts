@@ -10,14 +10,12 @@ export const QuizContainer = styled.section`
 
   width: 100%;
   height: 100%;
-  min-height: 100%;
 
   margin-top: 1.25rem;
   padding: 0 1.25rem 1.25rem 1.25rem;
   gap: 1.25rem;
   background-color: var(--white-color);
 
-  overflow-y: scroll;
 `;
 
 export const TextWrapper = styled.div`
@@ -25,9 +23,6 @@ export const TextWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  position: sticky;
-  top: 0;
 
   width: 100%;
 
@@ -63,6 +58,7 @@ export const TextWrapper = styled.div`
 
 export const QuizButtonWrapper = styled.div<{ $direction: "row" | "column" }>`
   display: flex;
+  flex: 1;
   flex-direction: ${({ $direction }) => $direction};
   justify-content: space-between;
   align-items: center;
@@ -71,6 +67,8 @@ export const QuizButtonWrapper = styled.div<{ $direction: "row" | "column" }>`
 
   padding: 0.625rem;
   gap: 1.875rem;
+
+  overflow-y: scroll;
 `;
 
 export const OXSelectButton = styled.button<{ $isActive: boolean }>`
