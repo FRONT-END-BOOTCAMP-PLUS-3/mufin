@@ -41,7 +41,7 @@ export class AcquireApprovalKeyUseCase implements IAcquireApprovalKeyUseCase {
         // 실시간 체결가 및 호가 종류에 따른 사용하는 api Key 배열
         if (type === "currentPrice") {
             apiKeysMapping = [
-                { name: "KIS_APP_KEY_3", value: env.KIS_APP_KEY_1 },
+                { name: "KIS_APP_KEY_1", value: env.KIS_APP_KEY_1 },
                 { name: "KIS_APP_KEY_2", value: env.KIS_APP_KEY_2 }, 
                 // {name: "KIS_APP_KEY_3", value: env.KIS_APP_KEY_3},
             ];
