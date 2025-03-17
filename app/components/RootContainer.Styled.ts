@@ -4,22 +4,22 @@ export const RootContainer = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
+
   width: 100%;
   max-width: var(--background-width);
   height: 100vh;
-  margin: 0 auto;
-  display: flex;
+  
   background-color: var(--white-color);
   color: var(--black-color);
 `;
 
-export const ContentContainer = styled.main`
+export const ContentContainer = styled.main<{ $hasNavbar: boolean }>`
   display: flex;
   flex: 1;
+  position: relative;
   overflow-y: auto;
   flex-direction: column;
   margin-top: 70px;
-  margin-bottom: 80px;
-  height: calc(100vh - 70px - 60px);
+  padding-bottom: ${({ $hasNavbar }) => ($hasNavbar ? "80px" : "0")};
   background-color: var(--white-color);
 `;

@@ -18,13 +18,13 @@ const LayoutClient = ({ children }: { children: React.ReactNode }) => {
     "/user/transfer",
     "/user/tradeaction",
   ];
-  const shouldRenderNavbar = !hideNavbarRoutes.includes(pathname);
+  const hasNavbar = !hideNavbarRoutes.includes(pathname);
 
   return (
     <RootContainer>
       <Header type={isBackType ? "back" : "default"} title={title} />
-      <ContentContainer>{children}</ContentContainer>
-      {shouldRenderNavbar && <Navbar />}
+      <ContentContainer $hasNavbar={hasNavbar}>{children}</ContentContainer>
+      {hasNavbar && <Navbar />}
     </RootContainer>
   );
 };

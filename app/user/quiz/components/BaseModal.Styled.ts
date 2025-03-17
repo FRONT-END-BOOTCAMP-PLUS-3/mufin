@@ -39,9 +39,10 @@ export const BaseModalContent = styled.div`
   max-width: var(--background-width);
   height: 30%;
 
-  padding: 2.5rem;
+  padding: 1.25rem;
+  gap: 1rem;
 
-  background: white;
+  background: var(--white-color);
 
   text-align: center;
   border-radius: 10px 10px 0 0;
