@@ -168,6 +168,7 @@ jobs:
             ORDER_BOOK_KIS_SECRET_2=${{ secrets.ORDER_BOOK_KIS_SECRET_2 }}
             EOF
 
+            npm cache clean --force
             npm ci
             npm run build
             
