@@ -100,7 +100,7 @@ const OrderBookDataComponent: React.FC<StockDataComponentProps> = ({ symbol, onD
     } catch (error){
       console.log("WebSocket 초기화 에러:", error);
     }
-  }, [symbol, onDataUpdate, currentType]);
+  }, [symbol]);
 
   const cleanupConnection = useCallback(() => {
     if (wsRef.current && approvalKeyRef.current && usedApiKeyNameRef.current) {
@@ -125,10 +125,13 @@ const OrderBookDataComponent: React.FC<StockDataComponentProps> = ({ symbol, onD
   useEffect(() => {
     // 컴포넌트 마운트 시 WebSocket 연결 초기화
     initializeConnections();
+    const handleBeforeUnload = () => cleanupConnection();
+    window.addEventListener("beforeunload", handleBeforeUnload);
 
     return () => {
       // 컴포넌트 언마운트 시 cleanup 함수 실행
       cleanupConnection();
+      window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, [initializeConnections, cleanupConnection]); 
 

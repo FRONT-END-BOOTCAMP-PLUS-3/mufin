@@ -33,7 +33,6 @@ const isHoliday = (date: Date): boolean => {
 };
 
 export const marketOpen = (): boolean => {
-  console.log("요청 받음");
   const now = getKoreanTime();
   const day: Day = now.getDay() as Day;
   const hour = now.getHours();

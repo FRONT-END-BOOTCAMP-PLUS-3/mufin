@@ -6,15 +6,24 @@ export class KISAuthClient {
    * @returns Approval Key (string)
    * @throws Error - 요청 실패 또는 응답에 approval_key가 없을 경우
    */
-  async getApprovalKey(): Promise<string> {
-    const url = `${env.KIS_API_URL}/oauth2/Approval`;
+  async getApprovalKey(appKey: string, secretKey: string, type: string): Promise<string> {
+    let apiUrl: string;
+
+    if (type === "currentPrice") {
+      apiUrl = `${env.KIS_API_URL}/oauth2/Approval`; // currentPrice의 URL
+  } else if (type === "orderBook") {
+      apiUrl = `${env.KIS_API_MOCK_URL}/oauth2/Approval`; // orderBook의 URL
+  } else {
+      throw new Error(`[KIS API] 잘못된 type 값: ${type}`);
+  }
+
     const body = JSON.stringify({
       grant_type: "client_credentials",
-      appkey: env.KIS_APP_KEY_1,
-      secretkey: env.KIS_APP_SECRET_1,
+      appkey: appKey,
+      secretkey: secretKey,
     });
 
-    const response = await fetch(url, {
+    const response = await fetch(apiUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json; utf-8" },
       body: body,
