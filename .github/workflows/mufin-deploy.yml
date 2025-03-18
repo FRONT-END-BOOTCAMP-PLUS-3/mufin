@@ -33,6 +33,7 @@ jobs:
             REDIS_URL=${{ secrets.REDIS_URL }}
             NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}
             KIS_API_URL=${{ secrets.KIS_API_URL }}
+            KIS_API_MOCK_URL=${{ secrets.KIS_API_MOCK_URL }}
             JWT_SECRET=${{ secrets.JWT_SECRET }}
             SMTP_EMAIL_USER=${{ secrets.SMTP_EMAIL_USER }}
             SMTP_EMAIL_PASSWORD=${{ secrets.SMTP_EMAIL_PASSWORD }}
@@ -155,6 +156,7 @@ jobs:
             REDIS_URL=${{ secrets.REDIS_URL }}
             NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}
             KIS_API_URL=${{ secrets.KIS_API_URL }}
+            KIS_API_MOCK_URL=${{ secrets.KIS_API_MOCK_URL }}
             JWT_SECRET=${{ secrets.JWT_SECRET }}
             SMTP_EMAIL_USER=${{ secrets.SMTP_EMAIL_USER }}
             SMTP_EMAIL_PASSWORD=${{ secrets.SMTP_EMAIL_PASSWORD }}
