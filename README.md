@@ -99,22 +99,6 @@
 |         [권영우](https://github.com/kwonup)          |         [김태민](https://github.com/Taemin1)          |         [이보윤](https://github.com/BoyunLee)          |         [전세계](https://github.com/JunSeGue)          |
 |                          팀장                          |                           팀원                           |                            팀원                            |                           팀원                           |
 
-## 📺 기능 영상
-### 1️⃣ 회원가입 & 로그인
-
-### 2️⃣ 메인 페이지 
-
-### 3️⃣ 카테고리별 주식 리스트 및 주식 종목 검색
-
-### 4️⃣ 상세 주식 일, 주, 월, 년 에 따른 상세 그래프
-
-### 5️⃣ 상세 주식 호가창
-
-### 6️⃣ 주식 매수, 매도 기능
-
-### 7️⃣ 보유 주식 및 보유 자산 기능
-
-### 8️⃣ 일일 퀴즈 기능
 
 ## 설치 가이드
 1. 저장소 클론: `git clone https://github.com/FRONT-END-BOOTCAMP-PLUS-3/mufin.git`
