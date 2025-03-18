@@ -13,6 +13,7 @@ const envSchema = z.object({
     SMTP_EMAIL_PASSWORD: z.string().nonempty(),
     
     KIS_API_URL: z.string().url(),
+    KIS_API_MOCK_URL: z.string().url(),
 
     KIS_APP_KEY_1: z.string().nonempty(),
     KIS_APP_SECRET_1: z.string().nonempty(),
