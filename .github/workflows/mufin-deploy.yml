@@ -33,6 +33,7 @@ jobs:
             REDIS_URL=${{ secrets.REDIS_URL }}
             NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}
             KIS_API_URL=${{ secrets.KIS_API_URL }}
+            KIS_API_MOCK_URL=${{ secrets.KIS_API_MOCK_URL }}
             JWT_SECRET=${{ secrets.JWT_SECRET }}
             SMTP_EMAIL_USER=${{ secrets.SMTP_EMAIL_USER }}
             SMTP_EMAIL_PASSWORD=${{ secrets.SMTP_EMAIL_PASSWORD }}
@@ -155,6 +156,7 @@ jobs:
             REDIS_URL=${{ secrets.REDIS_URL }}
             NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}
             KIS_API_URL=${{ secrets.KIS_API_URL }}
+            KIS_API_MOCK_URL=${{ secrets.KIS_API_MOCK_URL }}
             JWT_SECRET=${{ secrets.JWT_SECRET }}
             SMTP_EMAIL_USER=${{ secrets.SMTP_EMAIL_USER }}
             SMTP_EMAIL_PASSWORD=${{ secrets.SMTP_EMAIL_PASSWORD }}
@@ -168,9 +170,14 @@ jobs:
             ORDER_BOOK_KIS_SECRET_2=${{ secrets.ORDER_BOOK_KIS_SECRET_2 }}
             EOF
 
+            npm cache clean --force
             npm ci
             npm run build
             
+            # 배포 시 redis 내부 값 초기화 작업
+            redis-cli -u redis://default:w96dDptlVAR3KOg5z1nmYA6WBqAcfTaV@redis-14704.c340.ap-northeast-2-1.ec2.redns.redis-cloud.com:14704
+            EVAL "for i = 1, #KEYS do local current_data = redis.call('GET', KEYS[i]) if current_data then local decoded_data = cjson.decode(current_data) decoded_data.in_use = (ARGV[1] == 'true') local updated_data = cjson.encode(decoded_data) local ttl = redis.call('TTL', KEYS[i]) if ttl > 0 then redis.call('SET', KEYS[i], updated_data, 'EX', ttl) else redis.call('SET', KEYS[i], updated_data) end end end" 4 "KIS_APP_KEY_1:PSfbMSwC8yQtkh73MjfDov2FXiryym7rKhnU" "KIS_APP_KEY_2:PSaLz49IqlGB4VeKsUSHYb3swP8c7CKL0lLK" "ORDER_BOOK_KIS_API_KEY_1:PSWDAuZGIG8ZMD0Lv8fJBX3lKVQ5XvKdrYI6" "ORDER_BOOK_KIS_API_KEY_2:PSqhAbVk3FPqXtIieSDE330ghKYNCgGJrJLr" "false"
+
              # PM2 프로세스 확인 후 처리
             if pm2 list | grep -q 'mufin'; then
               echo "프로세스가 실행 중입니다. Reload 진행..."
