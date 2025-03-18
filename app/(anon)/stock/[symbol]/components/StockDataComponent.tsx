@@ -1,12 +1,6 @@
 "use client";
 import React, { useCallback, useEffect, useRef } from "react";
-import {
-  connectWs,
-  sendWsMessage,
-  onWsMessage,
-  disconnectWs,
-  createMessage,
-} from "@/utils/websocketClient";
+import { connectWs, sendWsMessage, onWsMessage, disconnectWs, createMessage } from "@/utils/websocketClient";
 import { fetchApprovalKey } from "@/utils/fetchApprovalKey";
 import { parseStockData } from "@/utils/parseStockData";
 import { ApprovalKeyType } from "@/types/approvalKeyType";
@@ -38,6 +32,7 @@ const StockDataComponent: React.FC<StockDataComponentProps> = ({ symbol, onDataU
     try{
       // "start" 상태로 승인키를 요청
       const result = await fetchApprovalKey(currentType, "start");
+      console.log(result);
 
       
       if (!result) throw new Error("Approval Key 없음");
@@ -77,7 +72,7 @@ const StockDataComponent: React.FC<StockDataComponentProps> = ({ symbol, onDataU
     } catch (error){
       console.log("WebSocket 초기화 에러:", error);
     }
-  }, [symbol, onDataUpdate, currentType])
+  }, [symbol])
 
   const cleanupConnection = useCallback(() => {
     if (wsRef.current && approvalKeyRef.current && usedApiKeyNameRef.current) {
@@ -101,9 +96,13 @@ const StockDataComponent: React.FC<StockDataComponentProps> = ({ symbol, onDataU
     // 컴포넌트 마운트 시 WebSocket 연결 초기화
     initializeConnections();
 
+    const handleBeforeUnload = () => cleanupConnection();
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
     return () => {
       // 컴포넌트 언마운트 시 cleanup 함수 실행
       cleanupConnection();
+      window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, [initializeConnections, cleanupConnection]);
 
