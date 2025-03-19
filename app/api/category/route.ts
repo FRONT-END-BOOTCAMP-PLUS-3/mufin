@@ -1,10 +1,13 @@
-import { GetCurrentPriceUseCase } from '@/application/usecases/kis/GetCurrentPriceUseCase';
+import { NextRequest, NextResponse } from "next/server";
+
 import { IGetCurrentPriceUseCase } from '@/application/usecases/kis/interfaces/IGetCurrentPriceUseCase';
 import { IStockByCategoryUseCase } from "@/application/usecases/stock/interfaces/IStcokByCategoryUseCase";
 import { StockByCategoryUseCase } from "@/application/usecases/stock/StockByCategoryUseCase";
-import { IStockRepository } from "@/domain/repositories/IStockRepository";
+
 import { PgStockRepository } from "@/infrastructure/repositories/PgStockRepository";
-import { NextRequest, NextResponse } from "next/server";
+import { IStockRepository } from "@/domain/repositories/IStockRepository";
+
+import { kisAPIDi } from '@/infrastructure/config/kisApiDi';
 
 export async function GET(req: NextRequest) {
 
@@ -18,7 +21,7 @@ export async function GET(req: NextRequest) {
       }
 
       const stockRepository: IStockRepository = new PgStockRepository();
-      const getCurrentPriceUseCase: IGetCurrentPriceUseCase = new GetCurrentPriceUseCase();
+      const getCurrentPriceUseCase: IGetCurrentPriceUseCase = kisAPIDi.getCurrentPriceUseCase;
       const stockByCategoryUseCase: IStockByCategoryUseCase = new StockByCategoryUseCase(
         stockRepository,
         getCurrentPriceUseCase
