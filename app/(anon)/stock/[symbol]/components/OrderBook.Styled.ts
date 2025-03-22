@@ -41,10 +41,13 @@ export const OrderDetails = styled.div`
   border-left: 1px solid var(--disabled-color);
 `;
 
-export const OrderBar = styled.div<{ width: number }>`
+export const OrderBar = styled.div.attrs<{ width: number; $className: string }>(props => ({
+  style: {
+    width: `${props.width}%`,
+    backgroundColor: props.$className === "ask" ? "#abdfdf" : "#ffb3c2",
+  },
+}))`
   height: 1.5rem;
-  width: ${({ width }) => width}%;
-  background-color: ${({ className }) => (className === "ask" ? "#abdfdf" : "#ffb3c2")};
   border-radius: 0.2rem;
 `;
 
