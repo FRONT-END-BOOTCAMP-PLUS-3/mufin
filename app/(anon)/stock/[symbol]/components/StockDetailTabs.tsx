@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import {
   TabMenu,
@@ -25,9 +25,19 @@ interface StockDetailTabsProps {
 }
 
 const StockDetailTabs = ({ symbol, initialPrice }: StockDetailTabsProps) => {
-  const [activeTab, setActiveTab] = useState<TabType>('chart');
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const [activeTab, setActiveTab] = useState<TabType>('chart');
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    const tabParam = searchParams.get('tab');
+    if (tabParam && ['chart', 'orderbook', 'info'].includes(tabParam)) {
+      setActiveTab(tabParam as TabType);
+    } else {
+      router.replace(`/stock/${symbol}?tab=chart`);
+    }
+  }, [searchParams, symbol, router]);
 
   const handleTabClick = (tab: TabType) => {
     setActiveTab(tab);
@@ -35,10 +45,11 @@ const StockDetailTabs = ({ symbol, initialPrice }: StockDetailTabsProps) => {
   };
 
   const handleTradeClick = () => {
-    if (!marketOpen()) {
+    if (marketOpen()) {
       setIsModalOpen(true);
     } else {
-      router.push(`/user/tradeaction?symbol=${symbol}&initialPrice=${initialPrice}&type=buy`);
+      sessionStorage.setItem('initialPrice', initialPrice);
+      router.push(`/user/tradeaction?symbol=${symbol}&type=buy`);
     }
   };
 
