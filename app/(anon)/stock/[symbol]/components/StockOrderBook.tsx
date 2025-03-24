@@ -97,7 +97,7 @@ const StockOrderBook = ({ symbol }: StockOrderBookProps) => {
                   </Price>
                   <OrderDetails>
                     <OrderBar
-                      className="ask"
+                      $className="ask"
                       width={(askVolumes[5 - i] / totalAskVolume) * 100 || 0}
                     />
                     <Volume $className="ask">
@@ -117,7 +117,7 @@ const StockOrderBook = ({ symbol }: StockOrderBookProps) => {
                   </Price>
                   <OrderDetails>
                     <OrderBar
-                      className="bid"
+                      $className="bid"
                       width={(bidVolumes[i - 6] / totalBidVolume) * 100 || 0}
                     />
                     <Volume $className="bid">

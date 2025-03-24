@@ -1,9 +1,10 @@
-import { AcquireApprovalKeyUseCase } from "@/application/usecases/kis/AcquireApprovalKeyUseCase";
+import { NextRequest, NextResponse } from "next/server";
+
 import { IAcquireApprovalKeyUseCase } from "@/application/usecases/kis/interfaces/IAcquireApprovalKeyUseCase";
 import { IReleaseApprovalKeyUseCase } from "@/application/usecases/kis/interfaces/IReleaseApprovalKeyUseCase";
-import { ReleaseApprovalKeyUseCase } from "@/application/usecases/kis/ReleaseApprovalKeyUseCase";
+
+import { kisAPIDi } from "@/infrastructure/config/kisApiDi";
 import { ApprovalKeyType } from "@/types/approvalKeyType";
-import { NextRequest, NextResponse } from "next/server";
 
 export interface ApprovalKeyRequest {
   type: ApprovalKeyType;
@@ -23,7 +24,7 @@ export async function POST(req: NextRequest) {
     }
 
     if(status === "start") {
-      const acquireApprovalKeyUseCase :IAcquireApprovalKeyUseCase = new AcquireApprovalKeyUseCase(); 
+      const acquireApprovalKeyUseCase :IAcquireApprovalKeyUseCase = kisAPIDi.acquireApprovalKeyUseCase; 
       const result  = await acquireApprovalKeyUseCase.execute(type);
 
       // result에는 approvalKey와 usedApiKeyName(환경변수 이름)이 포함되어 있습니다.
@@ -35,7 +36,7 @@ export async function POST(req: NextRequest) {
       }
 
       // 승인키 해제 UseCase 실행
-      const releaseUseCase: IReleaseApprovalKeyUseCase = new ReleaseApprovalKeyUseCase();
+      const releaseUseCase: IReleaseApprovalKeyUseCase = kisAPIDi.releaseApprovalKeyUseCase;
       await releaseUseCase.execute(type, usedApiKeyName);
 
       return NextResponse.json({ message: "Approval key released successfully" },{ status: 200 });
