@@ -21,6 +21,7 @@ export async function POST(req: Request) {
       maxAge: 60 * 60, // 1시간
       sameSite: "strict",
       path: "/",
+      secure: process.env.NODE_ENV === "production",
     });
 
     const refreshTokenCookie = serialize("refreshToken", refreshToken, {
@@ -28,6 +29,7 @@ export async function POST(req: Request) {
       maxAge: 7 * 24 * 60 * 60, // 7일
       sameSite: "strict",
       path: "/",
+      secure: process.env.NODE_ENV === "production",
     });
 
     return new NextResponse(JSON.stringify({ message: "Logged in" }), {
