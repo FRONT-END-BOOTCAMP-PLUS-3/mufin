@@ -130,7 +130,7 @@ const Asset = () => {
 
             {/* Progress Bar */}
             <ProgressBarContainer>
-                <Progress progress={progress}>{`+${progress.toFixed(0)}%`}</Progress>
+                <Progress $progress={progress}>{`+${progress.toFixed(0)}%`}</Progress>
             </ProgressBarContainer>
 
             {/* 총 자산 */}

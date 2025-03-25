@@ -1,15 +1,11 @@
 import { IReleaseApprovalKeyUseCase } from "@/application/usecases/kis/interfaces/IReleaseApprovalKeyUseCase";
 import { KIS_API_KEYS } from "@/config/apiKeys";
 import { IRedisRepository } from "@/domain/repositories/IRedisRepository";
-import { RedisRepository } from "@/infrastructure/repositories/RedisRepository";
 import { ApprovalKeyType } from "@/types/approvalKeyType";
 
 export class ReleaseApprovalKeyUseCase implements IReleaseApprovalKeyUseCase {
-  private redisRepository: IRedisRepository;
 
-  constructor() {
-    this.redisRepository = new RedisRepository();
-  }
+  constructor(private readonly redisRepository : IRedisRepository) {}
 
   private getApiKey(type: ApprovalKeyType, usedApiKeyName: string): { prefix: string, apiKey: string } {
 

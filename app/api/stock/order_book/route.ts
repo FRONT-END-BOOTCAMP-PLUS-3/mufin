@@ -1,5 +1,5 @@
 
-import { GetOrderBookUseCase } from "@/application/usecases/kis/GetOrderBookUseCase";
+import { kisAPIDi } from "@/infrastructure/config/kisApiDi";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -8,9 +8,8 @@ export async function GET(req: NextRequest) {
     const queryParams = new URL(req.url).searchParams;
     const symbol = queryParams.get('symbol') || '';
 
-     const orderBookUseCase = new GetOrderBookUseCase();
 
-     const data = await orderBookUseCase.execute(symbol);  
+    const data = await kisAPIDi.getOrderBookUseCase.execute(symbol);  
 
     return  NextResponse.json(data, { status: 200 });
 

@@ -1,12 +1,11 @@
 import { IRedisRepository } from "@/domain/repositories/IRedisRepository";
+import { ApprovalKeyEntity } from "@/domain/entities/ApprovalKeyEntity";
 
 import { IAcquireApprovalKeyUseCase } from "@/application/usecases/kis/interfaces/IAcquireApprovalKeyUseCase";
 
 import { KISAuthClient } from "@/infrastructure/api/kisAuthClient";
-import { RedisRepository } from "@/infrastructure/repositories/RedisRepository";
 
 import { ApprovalKeyType } from "@/types/approvalKeyType";
-import { ApprovalKeyEntity } from "@/domain/entities/ApprovalKeyEntity";
 import { KIS_API_KEYS } from "@/config/apiKeys";
 
 // 승인키와 함께 실제로 사용된 API 키를 반환하는 인터페이스
@@ -16,13 +15,11 @@ export interface ApprovalKeyResult {
 }
 
 export class AcquireApprovalKeyUseCase implements IAcquireApprovalKeyUseCase {
-  private kisAuthClient: KISAuthClient;
-  private redisRepository: IRedisRepository;
 
-  constructor() {
-    this.kisAuthClient = new KISAuthClient();
-    this.redisRepository = new RedisRepository();
-  }
+  constructor(
+    private readonly kisAuthClient: KISAuthClient,
+    private readonly redisRepository: IRedisRepository
+  ) {}
 
   /**
    * 승인키를 할당하는 메서드

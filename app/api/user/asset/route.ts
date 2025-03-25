@@ -4,8 +4,8 @@ import { getDecodedUserId } from "@/utils/getDecodedUserId";
 import { GetUserAssetUseCase } from "@/application/usecases/user/GetUserAssetUseCase";
 import { PgWalletRepository } from "@/infrastructure/repositories/PgWalletRepository";
 import { PgPortfolioRepository } from "@/infrastructure/repositories/PgPortfolioRepository";
-import { GetCurrentPriceUseCase } from "@/application/usecases/kis/GetCurrentPriceUseCase";
 import { GetUserPortfolioUseCase } from "@/application/usecases/user/GetUserPortfolioUseCase";
+import { kisAPIDi } from "@/infrastructure/config/kisApiDi";
 
 // GET 메서드: Wallet 정보와 Portfolio(보유종목+현재가) 정보를 모두 조회하여 반환
 export async function GET() {
@@ -19,7 +19,7 @@ export async function GET() {
     const getUserAssetUseCase = new GetUserAssetUseCase(walletRepository);
     // Portfolio + 현재가 데이터 조회
     const portfolioRepository = new PgPortfolioRepository();
-    const getCurrentPriceUseCase = new GetCurrentPriceUseCase();
+    const getCurrentPriceUseCase = kisAPIDi.getCurrentPriceUseCase;
     const getUserPortfolioUseCase = new GetUserPortfolioUseCase(portfolioRepository, getCurrentPriceUseCase);
     try {
         const userAsset = await getUserAssetUseCase.execute(userId);
