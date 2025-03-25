@@ -44,8 +44,8 @@ export const ProgressBarContainer = styled.div`
     overflow: hidden;
 `;
 
-export const Progress = styled.div<{ progress: number }>`
-    width: ${({ progress }) => progress}%;
+export const Progress = styled.div<{ $progress: number }>`
+    width: ${({ $progress }) => $progress}%;
     height: 100%;
     background: #ff6b6b;
     border-radius: 0.75rem;

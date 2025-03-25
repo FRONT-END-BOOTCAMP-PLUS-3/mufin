@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
       { loginId: decoded.loginId, userId: decoded.userId }, env.JWT_SECRET as string,{ expiresIn: "1h" }
     );
 
-    return new NextResponse(JSON.stringify({ success: true, newToken }), {
+    return NextResponse.json({ success: true, newToken }, {
       status: 200,
       headers: {
         "Content-Type": "application/json",
