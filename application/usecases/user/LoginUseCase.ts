@@ -1,3 +1,4 @@
+import { env } from "@/config/env";
 import { IUserRepository } from "@/domain/repositories/IUserRepository";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -39,11 +40,11 @@ export class LoginUseCase {
         };
 
         // JWT 토큰 생성
-        const accessToken = jwt.sign(payload, process.env.JWT_SECRET as string, {
+        const accessToken = jwt.sign(payload, env.JWT_SECRET as string, {
             expiresIn: "1h",
         });
 
-        const refreshToken = jwt.sign(payload, process.env.JWT_SECRET as string, {
+        const refreshToken = jwt.sign(payload, env.JWT_SECRET as string, {
             expiresIn: "7d",
         });
 

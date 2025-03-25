@@ -1,15 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { StockChartDto } from "@/application/usecases/kis/dtos/StockChartDto";
 
-// 분봉 차트용 usecase
-import { GetMinChartUseCase } from "@/application/usecases/kis/GetMinChartUseCase";
-import { IGetMinChartUseCase } from "@/application/usecases/kis/interfaces/IGetMinChartUseCase";
-
-// 일반 봉 차트용 usecase
-import { GetStockChartUseCase } from "@/application/usecases/kis/GetStockChartUseCase";
-import { IGetStockChartUseCase } from "@/application/usecases/kis/interfaces/IGetStockChartUseCase";
-import { StockInfoUseCase } from "@/application/usecases/stock/StockInfoUseCase";
-import { PgStockRepository } from "@/infrastructure/repositories/PgStockRepository";
+import { kisAPIDi } from "@/infrastructure/config/kisApiDi";
 
 export async function GET(req: NextRequest,{ params }: { params: Promise<{ symbol: string }>}) {
   try {
@@ -31,10 +23,8 @@ export async function GET(req: NextRequest,{ params }: { params: Promise<{ symbo
 
     // activePeriod 가 1m(분봉)일 때 분봉 데이터 호출
     if (activePeriod === "1m") {
-      // 분봉 데이터 usecase생성
-      const getMinChartUseCase: IGetMinChartUseCase = new GetMinChartUseCase();
       // usecase실행 결과 배열에 담기
-      stockChartDtos = await getMinChartUseCase.execute(symbol);
+      stockChartDtos = await kisAPIDi.getMinChartUseCase.execute(symbol);
 
       // 결과 배열 유효성 검사
       if (stockChartDtos.length === 0) {
@@ -42,13 +32,8 @@ export async function GET(req: NextRequest,{ params }: { params: Promise<{ symbo
       }
       // 분봉이 아닌 일, 주, 월, 년 봉 데이터 호출
     } else {
-      // repository 생성
-      const stockRepository = new PgStockRepository();
-      // usecase 생성
-      const stockUseCase = new StockInfoUseCase(stockRepository);
       // usecase를 통해 stockChart 가져오기
-      const getStockChartUseCase: IGetStockChartUseCase = new GetStockChartUseCase(stockUseCase);
-      stockChartDtos = await getStockChartUseCase.execute(symbol, activePeriod);
+      stockChartDtos = await kisAPIDi.getStockChartUseCase.execute(symbol, activePeriod);
 
       //유효성 검사
       if (stockChartDtos.length === 0) {

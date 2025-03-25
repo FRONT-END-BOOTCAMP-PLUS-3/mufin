@@ -1,8 +1,8 @@
 import { StockListUseCase } from "@/application/usecases/home/StockLIstUseCase";
 import { IStockListUseCase } from "@/application/usecases/home/interfaces/IStockListUseCase";
-import { GetCurrentPriceUseCase } from "@/application/usecases/kis/GetCurrentPriceUseCase";
 import { StockInfoUseCase } from "@/application/usecases/stock/StockInfoUseCase";
 import { IStockRepository } from "@/domain/repositories/IStockRepository";
+import { kisAPIDi } from "@/infrastructure/config/kisApiDi";
 import { PgStockRepository } from "@/infrastructure/repositories/PgStockRepository";
 import { NextResponse } from "next/server";
 
@@ -17,7 +17,7 @@ export async function GET() {
 
     // usecase 인스턴스 생성
     const getHomeDataUseCase: IStockListUseCase = new StockListUseCase(
-      new GetCurrentPriceUseCase(),
+      kisAPIDi.getCurrentPriceUseCase,
       new StockInfoUseCase(stockRepository)
     );
 

@@ -1,13 +1,6 @@
-import { AccessTokenUseCase } from "@/application/usecases/kis/AccessTokenUseCase";
-import { IAccessTokenUseCase } from "@/application/usecases/kis/interfaces/IAccessTokenUseCase";
 import { env } from "@/config/env";
 import { NextResponse } from "next/server";
-
-const kisAccessTokenUseCase: IAccessTokenUseCase = new AccessTokenUseCase();
-
-
-// KIS API 응답 타입 정의 (필요한 필드에 맞게 확장 가능)
-
+import { kisAPIDi } from "@/infrastructure/config/kisApiDi";
 
 async function executeKISRequest(
   endpoint: string,
@@ -16,7 +9,7 @@ async function executeKISRequest(
 ) {
   const url = `${env.KIS_API_URL}${endpoint}`;
 
- let KISAccessToken = await kisAccessTokenUseCase.execute();
+ let KISAccessToken = await kisAPIDi.accessTokenUseCase.execute();
   
  if (!KISAccessToken) {
     return NextResponse.json(
@@ -50,7 +43,7 @@ async function executeKISRequest(
   ) {
     if (data.msg1 && data.msg1.includes("기간이 만료된 token")) {
       
-      KISAccessToken = await kisAccessTokenUseCase.renewAccessToken();
+      KISAccessToken = await kisAPIDi.renewAccessToken.execute();
 
       // 새로운 토큰으로 재요청
       response = await fetch(`${url}?${params.toString()}`, {
