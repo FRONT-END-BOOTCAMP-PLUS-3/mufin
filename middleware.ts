@@ -1,4 +1,5 @@
 import { NextResponse, NextRequest } from "next/server";
+import { env } from "./config/env";
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -25,7 +26,7 @@ export async function middleware(req: NextRequest) {
 
     try {
       // refresh token은 이미 쿠키에 있으므로 별도 헤더나 바디 없이 API 호출
-      const refreshAccessToken = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/refresh-token`, {
+      const refreshAccessToken = await fetch(`${env.NEXT_PUBLIC_BASE_URL}/api/refresh-token`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -68,5 +69,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/user/:path*", "/login", "/signup"],
+  matcher: ["/user/:path*"],
 };
