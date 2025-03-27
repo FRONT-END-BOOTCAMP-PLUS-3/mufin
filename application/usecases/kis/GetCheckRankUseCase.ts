@@ -22,7 +22,6 @@ export class GetCheckRankUseCase implements IGetCheckRankUseCase{
                     stockId: stockData?.stockId,
                     stockCode: stock.stck_shrn_iscd,
                     stockName: stockData?.stockName,
-                    category: stockData?.category || 0,
                     stockImage: stockData?.stockImage || "",
 
                     stckPrpr: stock.stck_prpr,
