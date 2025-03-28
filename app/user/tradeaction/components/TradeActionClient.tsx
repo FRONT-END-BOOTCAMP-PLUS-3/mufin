@@ -71,7 +71,7 @@ const TradeActionClient = () => {
     const fetchStockIdName = async () => {
       try {
         console.log("API 호출 전");
-        const response = await fetch(`/api/stock/stock_info?symbol=${symbol}`);
+        const response = await fetch(`/api/stock/stock-info?symbol=${symbol}`);
         if (!response.ok) {
           throw new Error('주식 데이터를 불러오는 데 실패했습니다.');
         }

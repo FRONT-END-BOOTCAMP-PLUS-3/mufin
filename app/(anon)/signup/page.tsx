@@ -91,7 +91,7 @@ const SignupPage = () => {
       return;
     }
     try {
-      const res = await fetch("/api/signup/email_auth", {
+      const res = await fetch("/api/signup/email-auth", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: form.email }),
@@ -147,7 +147,7 @@ const SignupPage = () => {
       return;
     }
     try {
-      const res = await fetch("/api/signup/email_verify", {
+      const res = await fetch("/api/signup/email-verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -2,7 +2,7 @@ import { env } from "@/config/env";
 
 export async function fetchCurrentStockData(symbol: string) {
     try {
-      const response = await fetch(`${env.NEXT_PUBLIC_BASE_URL}/api/stock/current_stock?symbol=${symbol}`);
+      const response = await fetch(`${env.NEXT_PUBLIC_BASE_URL}/api/stock/current-stock?symbol=${symbol}`);
       
       if (!response.ok) {
         throw new Error('API 요청 실패');

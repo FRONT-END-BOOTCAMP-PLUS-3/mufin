@@ -14,7 +14,7 @@ interface Transaction {
 
 const fetchTransactionHistory = async (): Promise<Transaction[]> => {
   try {
-    const response = await fetch("/api/stock_history");
+    const response = await fetch("/api/stock-history");
     console.log("Response status:", response.status);
     if (!response.ok) {
       throw new Error("Failed to fetch transaction history");
