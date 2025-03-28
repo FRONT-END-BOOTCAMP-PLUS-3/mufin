@@ -1,28 +1,27 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import { GetUserInfoUseCase } from "@/application/usecases/user/GetUserInfoUseCase";
 import { UserRepository } from "@/infrastructure/repositories/PgUserRepository";
+import { getDecodedUserId } from "@/utils/getDecodedUserId";
 
 export async function GET() {
   try {
-    const cookieStore = await cookies();
-    const accessToken = cookieStore.get("accessToken")?.value;
-    const refreshToken = cookieStore.get("refreshToken")?.value;
+    const userId = await getDecodedUserId();
+
+    if(!userId) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
 
     const userRepository = new UserRepository();
     const getUserInfoUseCase = new GetUserInfoUseCase(userRepository);
 
-    const result = await getUserInfoUseCase.execute(accessToken, refreshToken);
+    const user = await getUserInfoUseCase.execute(userId);
 
-    const headers = new Headers({ "Content-Type": "application/json" });
-    if (result.newTokenCookie) {
-      headers.append("Set-Cookie", result.newTokenCookie);
-    }
+    if(!user)
+      return NextResponse.json({ message: "User not found" }, { status: 401 });
 
-    return new NextResponse(JSON.stringify(result.user), {
-      status: 200,
-      headers,
-    });
+    return NextResponse.json(user, { status: 200 });
+
+
   } catch (error) {
     console.error("User fetch error:", error);
     const errorMessage =

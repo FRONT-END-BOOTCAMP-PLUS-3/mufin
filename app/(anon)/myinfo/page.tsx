@@ -3,12 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import {
-  Container,
-  MyBox,
-  LoginBox,
-  Button,
-  ModalStyle,
-  ButtonStyle,
+  Container, MyBox, LoginBox, Button, ModalStyle, ButtonStyle,
 } from "@/app/(anon)/myinfo/components/page.styled";
 import { useRouter } from "next/navigation";
 import Modal from "@/app/components/modal/Modal";
@@ -27,24 +22,32 @@ const MyInfo = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState<"logout" | "delete" | null>(null);
 
+
   useEffect(() => {
-    fetch("/api/myinfo", {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("Not authenticated");
-        return res.json();
-      })
-      .then((data) => {
-        setIsLoggedIn(true);
-        setUserData(data);
-      })
-      .catch(() => {
+
+    const fetchData = async () => {
+      try{
+      const response = await fetch("/api/myinfo", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+
+      if(response.status === 401) {
         setIsLoggedIn(false);
         setUserData(null);
-      });
+        return;
+      }
+      
+      const data = await response.json();
+      setIsLoggedIn(true);
+      setUserData(data);
+    } catch (error) {
+      console.error("Error server", error);
+      return;
+    }
+  }
+  fetchData();
   }, []);
 
   // 로그아웃 요청
@@ -112,6 +115,7 @@ const MyInfo = () => {
     }
     closeModal();
   };
+  console.log(isLoggedIn)
 
   return (
     <Container>

@@ -14,7 +14,7 @@ export async function middleware(req: NextRequest) {
   }
 
   // 보호된 경로 (/user) 접근 시 처리
-  if (pathname.startsWith("/user")) {
+  if (pathname.startsWith("/user") || pathname.startsWith("/myinfo")) {
     // accessToken이 있으면 그대로 진행
     if (accessToken) return NextResponse.next();
 
@@ -24,20 +24,20 @@ export async function middleware(req: NextRequest) {
     }
 
     try {
-      console.log("🔄 Refresh Token을 이용해 재발급 시도");
-
       // refresh token은 이미 쿠키에 있으므로 별도 헤더나 바디 없이 API 호출
-      const refreshResponse = await fetch("/api/refresh-token", {
+      const refreshAccessToken = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/refresh-token`, {
         method: "POST",
-      });
+        headers: {
+          "Content-Type": "application/json",
+          'Cookie': `refreshToken=${refreshToken}`,
+        },
+      }); 
 
-      if (!refreshResponse.ok) {
-        console.error("❌ Refresh Token 검증 실패");
+      if (!refreshAccessToken.ok) {
         return NextResponse.redirect(new URL("/login", req.url));
       }
 
-      const { accessToken: newAccessToken } = await refreshResponse.json();
-      console.log("✅ 새로운 Access Token 발급 완료");
+      const { newToken: newAccessToken } = await refreshAccessToken.json();
 
       // 새 accessToken을 httpOnly 쿠키에 저장
       const response = NextResponse.next();
@@ -47,6 +47,14 @@ export async function middleware(req: NextRequest) {
         sameSite: "strict",
         path: "/",
         maxAge: 3600, // 1시간
+      });
+
+      response.cookies.set("refreshToken", newAccessToken ?? refreshToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+        path: "/",
+        maxAge: 7 * 24 * 60 * 60,
       });
 
       return response;
@@ -60,5 +68,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/user/:path*", "/login", "/signup"],
+  matcher: ["/user/:path*", "/myinfo"],
 };
