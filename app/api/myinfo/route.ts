@@ -17,7 +17,7 @@ export async function GET() {
     const user = await getUserInfoUseCase.execute(userId);
 
     if(!user)
-      return NextResponse.json({ message: "User not found" }, { status: 404 });
+      return NextResponse.json({ message: "User not found" }, { status: 401 });
 
     return NextResponse.json(user, { status: 200 });
 

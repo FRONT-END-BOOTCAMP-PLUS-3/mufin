@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
     if (!refreshToken) {
       return NextResponse.json(
         { success: false, message: "Refresh token not found in cookies" },
-        { status: 400 }
+        { status: 401 }
       );
     }
 
@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
     });
   } catch {
     return NextResponse.json(
-      { error: "서버의 일시적인 오류가 발생했습니다." }, { status: 401 }
+      { error: "서버의 일시적인 오류가 발생했습니다." }, { status: 500 }
     );
   }
 }

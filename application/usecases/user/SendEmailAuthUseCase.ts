@@ -3,6 +3,7 @@ import crypto from "crypto";
 import { promisify } from "util";
 import { IUserRepository } from "@/domain/repositories/IUserRepository";
 import redisClient from "@/infrastructure/redis/redisClient";
+import { env } from "@/config/env";
 
 const setAsync = promisify(redisClient.set).bind(redisClient);
 const expireAsync = promisify(redisClient.expire).bind(redisClient);
@@ -29,14 +30,14 @@ export class SendEmailAuthCodeUseCase {
     const transporter = nodemailer.createTransport({
       service: "Gmail",
       auth: {
-        user: process.env.SMTP_EMAIL_USER,
-        pass: process.env.SMTP_EMAIL_PASSWORD,
+        user: env.SMTP_EMAIL_USER,
+        pass: env.SMTP_EMAIL_PASSWORD,
       },
     });
 
     // 이메일 전송 옵션
     const mailOptions = {
-      from: process.env.EMAIL_USER,
+      from: env.SMTP_EMAIL_USER,
       to: email,
       subject: "Mufin 이메일 인증번호",
       html: `

@@ -1,5 +1,6 @@
 import { AccessTokenUseCase } from "@/application/usecases/kis/AccessTokenUseCase";
 import { AcquireApprovalKeyUseCase } from "@/application/usecases/kis/AcquireApprovalKeyUseCase";
+import { GetCheckRankUseCase } from "@/application/usecases/kis/GetCheckRankUseCase";
 import { GetCurrentPriceUseCase } from "@/application/usecases/kis/GetCurrentPriceUseCase";
 import { GetMinChartUseCase } from "@/application/usecases/kis/GetMinChartUseCase";
 import { GetOrderBookUseCase } from "@/application/usecases/kis/GetOrderBookUseCase";
@@ -22,4 +23,5 @@ export const kisAPIDi = {
     getMinChartUseCase: new GetMinChartUseCase(),
     getStockChartUseCase: new GetStockChartUseCase(new StockInfoUseCase(new PgStockRepository)),
     getOrderBookUseCase: new GetOrderBookUseCase(),
+    getCheckRankUseCase: new GetCheckRankUseCase(new PgStockRepository),
 }

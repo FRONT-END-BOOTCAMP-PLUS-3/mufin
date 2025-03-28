@@ -25,6 +25,9 @@ export async function GET() {
       stockCodes.map((stockCode) => getHomeDataUseCase.execute(stockCode))
     );
 
+    const check = await kisAPIDi.getCheckRankUseCase.execute();
+    
+    console.log(check);
     if (results.length === 0) {
       return NextResponse.json(
         { error: "요청 데이터의 정보가 없습니다." },
