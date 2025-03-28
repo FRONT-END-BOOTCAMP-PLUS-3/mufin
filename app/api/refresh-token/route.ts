@@ -4,7 +4,9 @@ import { env } from "@/config/env";
 
 export async function POST(req: NextRequest) {
   try {
-    const { refreshToken } = await req.json();
+    const cookieHeader = req.headers.get("Cookie");
+    const refreshToken = cookieHeader
+      ?.split("; ").find((c) => c.startsWith("refreshToken="))?.split("=")[1];
 
     if (!refreshToken) {
       return NextResponse.json(
