@@ -1,5 +1,4 @@
 import { NextResponse, NextRequest } from "next/server";
-import { env } from "./config/env";
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -15,7 +14,7 @@ export async function middleware(req: NextRequest) {
   }
 
   // 보호된 경로 (/user) 접근 시 처리
-  if (pathname.startsWith("/user")) {
+  if (pathname.startsWith("/user") || pathname.startsWith("/myinfo")) {
     // accessToken이 있으면 그대로 진행
     if (accessToken) return NextResponse.next();
 
@@ -26,12 +25,12 @@ export async function middleware(req: NextRequest) {
 
     try {
       // refresh token은 이미 쿠키에 있으므로 별도 헤더나 바디 없이 API 호출
-      const refreshAccessToken = await fetch(`${env.NEXT_PUBLIC_BASE_URL}/api/refresh-token`, {
+      const refreshAccessToken = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/refresh-token`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          'Cookie': `refreshToken=${refreshToken}`,
         },
-        body: JSON.stringify({ refreshToken }),
       }); 
 
       if (!refreshAccessToken.ok) {
@@ -50,7 +49,7 @@ export async function middleware(req: NextRequest) {
         maxAge: 3600, // 1시간
       });
 
-      response.cookies.set("refreshToken", newAccessToken, {
+      response.cookies.set("refreshToken", newAccessToken ?? refreshToken, {
         httpOnly: true,
         secure: true,
         sameSite: "strict",
@@ -69,5 +68,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/user/:path*"],
+  matcher: ["/user/:path*", "/myinfo"],
 };
