@@ -43,7 +43,7 @@ const StockDataComponent: React.FC<StockDataComponentProps> = ({ symbol, onDataU
       usedApiKeyNameRef.current = usedApiKeyName;
 
       // Websocket 연결
-      const ws = await connectWs("ws://ops.koreainvestment.com:21000/tryitout/H0STCNT0");
+      const ws = await connectWs("wss://ops.koreainvestment.com:21000/tryitout/H0STCNT0");
       wsRef.current = ws;
       isConnectedRef.current = true;
 
