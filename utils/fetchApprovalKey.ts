@@ -17,7 +17,7 @@ export async function fetchApprovalKey(
         ? JSON.stringify({ type, status })
         : JSON.stringify({ type, status, usedApiKeyName });
 
-    const response = await fetch("/api/approval_key", {
+    const response = await fetch("/api/approval-key", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

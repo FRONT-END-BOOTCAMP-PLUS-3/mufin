@@ -32,7 +32,7 @@ const StockOrderBook = ({ symbol }: StockOrderBookProps) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`/api/stock/order_book?symbol=${symbol}`);
+        const response = await fetch(`/api/stock/order-book?symbol=${symbol}`);
         const result = await response.json();
         if (response.ok) {
           setData(result);

@@ -24,7 +24,7 @@ const StockInfo = ({ symbol }: StockInfoProps) => {
   useEffect(() => {
     const fetchStockData = async () => {
       try {
-        const response = await fetch(`/api/stock/stock_info?symbol=${symbol}`);
+        const response = await fetch(`/api/stock/stock-info?symbol=${symbol}`);
         if (!response.ok) {
           throw new Error('주식 정보를 불러오는 데 실패했습니다.');
         }
