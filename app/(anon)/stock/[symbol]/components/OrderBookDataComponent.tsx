@@ -40,7 +40,7 @@ const OrderBookDataComponent: React.FC<StockDataComponentProps> = ({ symbol, onD
       usedApiKeyNameRef.current = usedApiKeyName;
 
       // OrderBook 전용 WebSocket 연결 (URL 및 채널 "H0STASP0")
-      const ws = await connectWs("wss://ops.koreainvestment.com:31000/tryitout/H0STASP0");
+      const ws = await connectWs("wss://mufin.newlecture.com/api31000//tryitout/H0STASP0");
       wsRef.current = ws;
       isConnectedRef.current = true;
 
