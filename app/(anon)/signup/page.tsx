@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import React, { useCallback,  useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   Input,
@@ -14,6 +14,15 @@ import Swal from "sweetalert2";
 import '@/app/components/styles/swal-custom.css';
 import { fetchEmailAuth, fetchEmailVerify, fetchSignup } from "@/utils/fetchAuth";
 import Button from "@/app/components/button/Button";
+
+interface SignupForm {
+  name: string;
+  loginId: string;
+  password: string;
+  confirmPassword: string;
+  email: string;
+  emailAuthCode: string;
+}
 
 const defaultSwalConfig = {
   confirmButtonText: "확인",
@@ -37,8 +46,8 @@ const showAlert = (
     })
   }
 
-const SignupPage = () => {
-  const [form, setForm] = useState({
+const SignupPage: React.FC = React.memo(() => {
+  const [form, setForm] = useState<SignupForm>({
     name: "",
     loginId: "",
     password: "",
@@ -46,8 +55,8 @@ const SignupPage = () => {
     email: "",
     emailAuthCode: "",
   });
-  const [message, setMessage] = useState("");
-  const [isVerified, setIsVerified] = useState(false);
+  const [message, setMessage] = useState<string>("");
+  const [isVerified, setIsVerified] = useState<boolean>(false);
   const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,7 +64,7 @@ const SignupPage = () => {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
 
     // 비밀번호와 비밀번호 확인이 일치하는지 검증
@@ -86,9 +95,9 @@ const SignupPage = () => {
       setMessage("회원가입 중 오류 발생");
       showAlert("회원가입 중 오류 발생", "error");
     }
-  };
+  }, [form, router]);
 
-  const handleEmailAuth = async () => {
+  const handleEmailAuth = useCallback(async () => {
     if (!form.email) {
       showAlert("이메일을 입력해주세요.", "info");
       return;
@@ -107,9 +116,9 @@ const SignupPage = () => {
       console.error(error);
       showAlert("인증 요청 중 오류 발생", "error", "90%");
     }
-  };
+  }, [form.email]);
 
-  const handleEmailVerify = async () => {
+  const handleEmailVerify = useCallback(async () => {
     if (!form.emailAuthCode) {
       showAlert("인증코드를 입력해주세요.", "info");
       return;
@@ -129,7 +138,7 @@ const SignupPage = () => {
       console.error("이메일 인증 실패:", error);
       showAlert("이메일 인증 중 오류 발생", "error", "90%");
     }
-  };
+  }, [form.email, form.emailAuthCode]);
 
   return (
     <SignupContainer onSubmit={handleSubmit}>
@@ -142,11 +151,12 @@ const SignupPage = () => {
           onChange={handleChange}
         />
         <Input
-          type="loginId"
+          type="text"
           name="loginId"
           placeholder="ID"
           value={form.loginId}
           onChange={handleChange}
+          autoComplete="username"
         />
         <EmailContainer>
           <EmailInput
@@ -162,11 +172,12 @@ const SignupPage = () => {
         </EmailContainer>
         <EmailContainer>
           <EmailInput
-            type="emailAuthCode"
+            type="text"
             name="emailAuthCode"
             placeholder="인증번호 입력"
             value={form.emailAuthCode}
             onChange={handleChange}
+            autoComplete="one-time-code"
           />
           {isVerified ? (
             <Verified>
@@ -184,6 +195,7 @@ const SignupPage = () => {
           placeholder="비밀번호"
           value={form.password}
           onChange={handleChange}
+          autoComplete="new-password"
         />
         <Input
           type="password"
@@ -191,6 +203,7 @@ const SignupPage = () => {
           placeholder="비밀번호 확인"
           value={form.confirmPassword}
           onChange={handleChange}
+          autoComplete="new-password"
         />
         <Button type="submit" disabled={!isVerified}>
           가입하기
@@ -198,6 +211,8 @@ const SignupPage = () => {
         {message && <Message>{message}</Message>}
     </SignupContainer>
   );
-};
+});
+
+SignupPage.displayName = "SignupPage";
 
 export default SignupPage;

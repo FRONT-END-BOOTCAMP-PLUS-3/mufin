@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   Input, LoginContainer, 
@@ -9,7 +9,12 @@ import "@/app/components/styles/swal-custom.css";
 import { fetchLogin } from "@/utils/fetchAuth";
 import Button from "@/app/components/button/Button";
 
-const getSwalConfig = (isSuccess: boolean) =>({
+interface LoginForm {
+  loginId: string;
+  password: string;
+}
+
+const getSwalConfig = (isSuccess: boolean) : SweetAlertOptions =>({
     title: isSuccess? "로그인 성공!" : "로그인 실패",
     icon: isSuccess? "success" : "error",
     confirmButtonText: "확인",
@@ -19,10 +24,10 @@ const getSwalConfig = (isSuccess: boolean) =>({
       confirmButton: "swal-confirm-button",
       icon: "swal-icon-custom",
     },
-}as SweetAlertOptions)
+})
 
 const Login = () => {
-  const [formData, setFormData] = useState({ loginId: "", password: ""});
+  const [formData, setFormData] = useState<LoginForm>({ loginId: "", password: ""});
   const { loginId, password } = formData;
   const router = useRouter();
 
@@ -31,7 +36,7 @@ const Login = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = useCallback(async(e: React.FormEvent) => {
     e.preventDefault();
     
     const res = await fetchLogin(loginId, password)
@@ -42,7 +47,7 @@ const Login = () => {
     if (isSuccess) {
       router.push("/"); // 로그인 성공 시 홈으로 이동
     }
-  };
+  }, [loginId, password, router]);
 
   return (
     <LoginContainer>
