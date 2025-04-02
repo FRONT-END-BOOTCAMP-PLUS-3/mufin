@@ -2,8 +2,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
-  Button,
-  Form,
   Input,
   EmailContainer,
   Message,
@@ -14,6 +12,30 @@ import {
 import { CircleCheckBig } from "lucide-react";
 import Swal from "sweetalert2";
 import '@/app/components/styles/swal-custom.css';
+import { fetchEmailAuth, fetchEmailVerify, fetchSignup } from "@/utils/fetchAuth";
+import Button from "@/app/components/button/Button";
+
+const defaultSwalConfig = {
+  confirmButtonText: "확인",
+  customClass: {
+    title: "swal-title-custom",
+    popup: "swal-popup-custom",
+    confirmButton: "swal-confirm-button",
+    icon: "swal-icon-custom",
+  },
+}
+
+const showAlert = (
+  title: string, 
+  icon: "success" | "error" | "info",
+  width?: string) => {
+    Swal.fire({
+      title,
+      icon,
+      width: width || "auto",
+      ...defaultSwalConfig,
+    })
+  }
 
 const SignupPage = () => {
   const [form, setForm] = useState({
@@ -29,7 +51,8 @@ const SignupPage = () => {
   const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -41,8 +64,6 @@ const SignupPage = () => {
       return;
     }
 
-    // const { confirmPassword, ...dataToSend } = form;
-
     const dataToSend = {
       name: form.name,
       loginId: form.loginId,
@@ -51,149 +72,67 @@ const SignupPage = () => {
       emailAuthCode: form.emailAuthCode,
     };
 
-    const res = await fetch("/api/signup", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(dataToSend),
-    });
+    try {
+      const res = await fetchSignup(dataToSend);
+      const data = await res.json();
+      setMessage(data.message || data.error);
 
-    const data = await res.json();
-    setMessage(data.message || data.error);
-    if (data.message) {
-      Swal.fire({
-        title: "회원가입 성공!",
-        icon: "success",
-        confirmButtonText: "확인",
-        customClass: {
-              title: 'swal-title-custom',
-              popup: 'swal-popup-custom',
-              confirmButton: 'swal-confirm-button',
-              icon: 'swal-icon-custom'
-            }
-      });
-      router.push("/login");
+      if (res.ok) {
+        showAlert("회원가입 성공!", "success");
+        router.push("/login");
+      }
+
+    } catch {
+      setMessage("회원가입 중 오류 발생");
+      showAlert("회원가입 중 오류 발생", "error");
     }
   };
 
   const handleEmailAuth = async () => {
     if (!form.email) {
-      Swal.fire({
-        title: "이메일을 입력해주세요.",
-        icon: "info",
-        confirmButtonText: "확인",
-        customClass: {
-              title: 'swal-title-custom',
-              popup: 'swal-popup-custom',
-              confirmButton: 'swal-confirm-button',
-              icon: 'swal-icon-custom'
-            }
-      });
+      showAlert("이메일을 입력해주세요.", "info");
       return;
     }
     try {
-      const res = await fetch("/api/signup/email-auth", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: form.email }),
-      });
+      const res = await fetchEmailAuth(form.email);
 
       const data = await res.json();
       if (res.ok) {
-        Swal.fire({
-          title: "인증번호가 이메일로 전송되었습니다!",
-          icon: "success",
-          confirmButtonText: "확인",
-          customClass: {
-              title: 'swal-title-custom',
-              popup: 'swal-popup-custom',
-              confirmButton: 'swal-confirm-button',
-              icon: 'swal-icon-custom'
-            },
-          width: '90%'
-        });
+        showAlert("인증번호가 이메일로 전송되었습니다!", "success", "90%");
       } else {
-        Swal.fire({
-          title: "이미 가입된 이메일입니다",
-          icon: "error",
-          confirmButtonText: "확인",
-          customClass: {
-              title: 'swal-title-custom',
-              popup: 'swal-popup-custom',
-              confirmButton: 'swal-confirm-button',
-              icon: 'swal-icon-custom'
-            },
-          width: '90%'
-        });
+        showAlert("이미 가입된 이메일입니다", "error", "90%");
         console.log(data.error || "인증 요청 실패");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      showAlert("인증 요청 중 오류 발생", "error", "90%");
     }
   };
 
   const handleEmailVerify = async () => {
     if (!form.emailAuthCode) {
-      Swal.fire({
-        title: "인증코드를 입력해주세요.",
-        icon: "info",
-        confirmButtonText: "확인",
-        customClass: {
-              title: 'swal-title-custom',
-              popup: 'swal-popup-custom',
-              confirmButton: 'swal-confirm-button',
-              icon: 'swal-icon-custom'
-            }
-      });
+      showAlert("인증코드를 입력해주세요.", "info");
       return;
     }
     try {
-      const res = await fetch("/api/signup/email-verify", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: form.email,
-          authCode: form.emailAuthCode,
-        }),
-      });
-
+      const res = await fetchEmailVerify(form.email, form.emailAuthCode);
       const data = await res.json();
+
       if (res.ok) {
         setIsVerified(true);
-        Swal.fire({
-          title: "인증이 완료되었습니다!",
-          icon: "success",
-          confirmButtonText: "확인",
-          customClass: {
-              title: 'swal-title-custom',
-              popup: 'swal-popup-custom',
-              confirmButton: 'swal-confirm-button',
-              icon: 'swal-icon-custom'
-            },
-          width: '90%'
-        });
+        showAlert("인증이 완료되었습니다!", "success", "90%");
       } else {
-        Swal.fire({
-          title: "인증 실패",
-          icon: "error",
-          confirmButtonText: "확인",
-          customClass: {
-              title: 'swal-title-custom',
-              popup: 'swal-popup-custom',
-              confirmButton: 'swal-confirm-button',
-              icon: 'swal-icon-custom'
-            },
-          width: '90%'
-        });
+        showAlert("인증 실패", "error", "90%");
         console.log(data.error || "인증 실패");
       }
     } catch (error) {
       console.error("이메일 인증 실패:", error);
+      showAlert("이메일 인증 중 오류 발생", "error", "90%");
     }
   };
 
   return (
-    <SignupContainer>
-      <Form onSubmit={handleSubmit}>
+    <SignupContainer onSubmit={handleSubmit}>
         <h1>회원가입</h1>
         <Input
           type="text"
@@ -257,7 +196,6 @@ const SignupPage = () => {
           가입하기
         </Button>
         {message && <Message>{message}</Message>}
-      </Form>
     </SignupContainer>
   );
 };
