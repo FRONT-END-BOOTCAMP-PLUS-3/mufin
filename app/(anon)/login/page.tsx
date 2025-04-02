@@ -1,9 +1,7 @@
 "use client";
 import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
-import {
-  Input, LoginContainer, 
-} from "@/app/(anon)/login/components/loginPage.Styled";
+import { Input, LoginContainer } from "@/app/(anon)/login/components/loginPage.Styled";
 import Swal, { SweetAlertOptions } from "sweetalert2";
 import "@/app/components/styles/swal-custom.css";
 import { fetchLogin } from "@/utils/fetchAuth";
@@ -26,7 +24,7 @@ const getSwalConfig = (isSuccess: boolean) : SweetAlertOptions =>({
     },
 })
 
-const Login = () => {
+const Login: React.FC = ()  => {
   const [formData, setFormData] = useState<LoginForm>({ loginId: "", password: ""});
   const { loginId, password } = formData;
   const router = useRouter();
