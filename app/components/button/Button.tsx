@@ -1,33 +1,25 @@
-"use client";
-import React from "react";
-import styled from "styled-components";
+import { ButtonHTMLAttributes } from "react";
+import { StyledBaseButtonProps, StyledButton } from "@/app/user/quiz/components/BaseButton.Styled";
 
-type ButtonProps = {
-    onClick?: () => void;
-    children: React.ReactNode;
-    type?: "button" | "submit" | "reset";
-};
+export interface BaseButtonProps
+  extends ButtonHTMLAttributes<HTMLButtonElement>,
+    StyledBaseButtonProps {
+  /** 추가로 입힐 수 있는 인라인 스타일 */
+}
 
-const StyledButton = styled.button`
-    background-color: var(--primary-color);
-    width: 341px;
-    height: 48px;
-    border: none;
-    border-radius: 10px;
-    color: #fff;
-    font-size: 16px;
-    cursor: pointer;
-    &:hover {
-        background-color: var(--primary-400);
-    }
-`;
-
-const Button = ({ onClick, children, type = "button" }: ButtonProps) => {
+const BaseButton: React.FC<BaseButtonProps> = ({
+    $size = "lg",
+    $color,
+    children,
+    ...rest
+  }) => {
     return (
-        <StyledButton onClick={onClick} type={type}>
-            {children}
-        </StyledButton>
+      <StyledButton $size={$size} $color={$color} {...rest}>
+        {children}
+      </StyledButton>
     );
-};
+  };
 
-export default Button;
+BaseButton.displayName = "BaseButton";
+
+export default BaseButton;
