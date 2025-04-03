@@ -84,12 +84,11 @@ const SignupPage: React.FC = React.memo(() => {
     try {
       const res = await fetchSignup(dataToSend);
       const data = await res.json();
+      
       setMessage(data.message || data.error);
-
-      if (res.ok) {
-        showAlert("회원가입 성공!", "success");
-        router.push("/login");
-      }
+      showAlert("회원가입 성공!", "success");
+      
+      router.push("/login");
 
     } catch {
       setMessage("회원가입 중 오류 발생");
