@@ -9,25 +9,28 @@ export class StockListUseCase implements IStockListUseCase {
         private readonly getCurrentPriceUseCase : IGetCurrentPriceUseCase,
         private readonly stockInfoUseCase: IStockInfoUseCase
     ){}
-    async execute(stockCode: string): Promise<StockListResponseDto | null> {
-        const [stockInfo, currentPrice] = await Promise.all([
-            this.stockInfoUseCase.getStockInfoByCode(stockCode),
-            this.getCurrentPriceUseCase.execute(stockCode)
-        ]);
+    async execute(stockCodes: string[]): Promise<StockListResponseDto[]> {
+        const stockPromises = stockCodes.map(async stockCode => {
+            const [stockInfo, currentPrice] = await Promise.all([
+                this.stockInfoUseCase.getStockInfoByCode(stockCode),
+                this.getCurrentPriceUseCase.execute(stockCode)
+            ]);
 
-        if(!stockInfo ||!currentPrice){
-            return null;
-        }
+            if (!stockInfo || !currentPrice) {
+                return null;
+            }
 
-        return {
-            stockId: stockInfo.stockId,
-            stockCode: stockCode,
-            stockName: stockInfo.stockName,
-            category: stockInfo.category || 0,
-            stockImage: stockInfo.stockImage || "",
-            currentPrice
-        }
-        
+            return {
+                stockId: stockInfo.stockId,
+                stockCode,
+                stockName: stockInfo.stockName,
+                category: stockInfo.category || 0,
+                stockImage: stockInfo.stockImage || "",
+                currentPrice
+            };
+        });
+
+        const stocks = await Promise.all(stockPromises);
+        return stocks.filter(stock => stock !== null) as StockListResponseDto[];
     }
-
 }
