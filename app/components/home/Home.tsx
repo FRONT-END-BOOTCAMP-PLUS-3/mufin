@@ -4,9 +4,9 @@ import { Container, TopSection, ImageWrapper, InvestmentSection, InvestmentHeade
 import StockList from "@/app/components/home/StockList";
 import StockCategory from "@/app/components/home/StockCategory";
 import HomeQuiz from "@/app/components/home/HomeQuiz";
+import { StockListResponseDto } from "@/application/usecases/home/dtos/StockListResponseDto";
 
-export default function Home() {
-  const path = `/api/home`
+export default function Home({ path, initialData }: {path:string, initialData: StockListResponseDto[]}) {
   return (
     <Container>
       <TopSection>
@@ -28,7 +28,7 @@ export default function Home() {
         </InvestmentHeader>
         <SearchBar />
         <TitleBox>인기종목</TitleBox>
-        <StockList path={path} /> {/*인기종목 리스트*/}
+        <StockList path={path} initialData={initialData}/> {/*인기종목 리스트*/}
         <TitleBox>카테고리로 보기</TitleBox>
         <StockCategory /> {/* 카테고리 리스트*/}
       </InvestmentSection>
