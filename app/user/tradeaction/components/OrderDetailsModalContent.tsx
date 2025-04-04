@@ -2,7 +2,7 @@
 
 import { InfoItem, InfoList, ModalButton, ModalContainer, SubTitle, Title, TotalPrice } from "@/app/user/tradeaction/components/Trandeaction.Styled";
 import { useRouter } from "next/navigation";
-import Swal from "sweetalert2";
+
 import '@/app/components/styles/swal-custom.css';
 
 interface OrderDetailsModalContentProps {
@@ -48,7 +48,7 @@ const OrderDetailsModalContent = ({
 
       const data = await response.json();
       if (!response.ok) throw new Error(data.message);
-
+      const Swal = (await import('sweetalert2')).default
       Swal.fire({
         title: `${isBuy ? "구매" : "판매"} 성공!`,
         icon: "success",
@@ -63,6 +63,7 @@ const OrderDetailsModalContent = ({
       router.push(`/stock/${symbol}`);
     } catch (error) {
       if (error instanceof Error) {
+        const Swal = (await import('sweetalert2')).default
         Swal.fire({
           title: `${isBuy ? "구매" : "판매"} 실패`,
           icon: "success",
@@ -77,6 +78,7 @@ const OrderDetailsModalContent = ({
         });
         console.log(`${isBuy ? "구매" : "판매"} 실패: ${error.message}`);
       } else {
+        const Swal = (await import('sweetalert2')).default
         Swal.fire({
           title: `${isBuy ? "구매" : "판매"} 실패`,
           icon: "success",
