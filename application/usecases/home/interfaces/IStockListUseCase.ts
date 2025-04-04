@@ -1,5 +1,5 @@
 import { StockListResponseDto } from "@/application/usecases/home/dtos/StockListResponseDto";
 
 export interface IStockListUseCase {
-    execute(stockCode: string): Promise<StockListResponseDto | null>;
+    execute(stockCodes: string[]): Promise<StockListResponseDto[] >;
 }
