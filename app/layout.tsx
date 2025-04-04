@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import LoadingPage from "@/app/components/home/LoadingPage";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import { DehydratedState, HydrationBoundary } from '@tanstack/react-query';
+import { Noto_Sans_KR } from "next/font/google";
 
 
 if (process.env.NODE_ENV === "production") {
@@ -18,9 +19,15 @@ interface RootLayoutProps {
   dehydratedState: DehydratedState;
 }
 
+const notoSansKr = Noto_Sans_KR({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "700"],
+  display: "swap",
+});
+
 export default function RootLayout({ children, dehydratedState }:RootLayoutProps) {
   return (
-    <html lang="en">
+    <html lang="ko" className={notoSansKr.className}>
       <head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />

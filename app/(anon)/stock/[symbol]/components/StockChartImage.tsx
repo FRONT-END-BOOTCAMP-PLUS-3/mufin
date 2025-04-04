@@ -3,9 +3,14 @@
 import { useState, useRef } from 'react';
 
 import { Chart } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, TimeScale, Tooltip, Legend } from 'chart.js';
+import { 
+  Chart as ChartJS, 
+  CategoryScale, 
+  LinearScale, 
+  TimeScale, 
+  Tooltip, 
+} from 'chart.js';
 import { CandlestickController, CandlestickElement } from 'chartjs-chart-financial';
-import 'chartjs-chart-financial';
 import 'chartjs-adapter-date-fns';
 
 import StockModalContainer from '@/app/(anon)/stock/[symbol]/components/StockModalContainer';
@@ -16,7 +21,7 @@ import ErrorScreen from '@/app/(anon)/stock/[symbol]/components/ErrorScreen';
 import LoadingScreen from '@/app/(anon)/stock/[symbol]/components/LodingScreen';
 import { useStockChart } from '@/hooks/useStockChart';
 
-ChartJS.register(CategoryScale, LinearScale, CandlestickController, TimeScale, CandlestickElement, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, CandlestickController, TimeScale, CandlestickElement, Tooltip);
 
 interface StockChartImageProps {
   symbol: string;
