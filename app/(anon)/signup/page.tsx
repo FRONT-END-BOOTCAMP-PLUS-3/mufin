@@ -10,7 +10,7 @@ import {
   EmailInput,
 } from "@/app/(anon)/signup/components/signupPage.Styled";
 import { CircleCheckBig } from "lucide-react";
-import Swal from "sweetalert2";
+
 import '@/app/components/styles/swal-custom.css';
 import { fetchEmailAuth, fetchEmailVerify, fetchSignup } from "@/utils/fetchAuth";
 import Button from "@/app/components/button/Button";
@@ -34,10 +34,11 @@ const defaultSwalConfig = {
   },
 }
 
-const showAlert = (
+const showAlert = async(
   title: string, 
   icon: "success" | "error" | "info",
   width?: string) => {
+    const Swal = (await import('sweetalert2')).default;
     Swal.fire({
       title,
       icon,
