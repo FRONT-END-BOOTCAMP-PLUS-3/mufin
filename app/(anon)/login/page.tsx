@@ -53,12 +53,14 @@ const Login: React.FC = ()  => {
         <form onSubmit={handleSubmit}>
           <Input
             type="text"
+            name= "loginId"
             placeholder="아이디"
             value={loginId}
             onChange={handleInputChange}
           />
           <Input
             type="password"
+            name="password"
             placeholder="비밀번호"
             value={password}
             onChange={handleInputChange}
