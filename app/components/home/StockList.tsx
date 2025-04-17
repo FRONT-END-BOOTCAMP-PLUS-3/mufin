@@ -1,34 +1,22 @@
+"use client";
 import { LogoWrapper, StockChange, StockImage, StockItemBox, StockLeft, StockLink, StockName, StockPrice, StockRight } from "@/app/components/home/StockList.Styled";
 import { StockListResponseDto } from "@/application/usecases/home/dtos/StockListResponseDto";
-
-import { env } from "@/config/env";
+import { useStockList } from "@/hooks/useStockList";
 
 interface StockListProps {
   path: string;
+  initialData: StockListResponseDto[];
 }
 
-async function fetchStocks(path: string): Promise<StockListResponseDto[]> {
-  const res = await fetch(`${env.NEXT_PUBLIC_BASE_URL}${path}`, {
-    cache: "no-store",
-  });
-
-  return await res.json();
-}
-
-const StockList = async ({ path }: StockListProps) => {
-  const stockData = await fetchStocks(path);
+const StockList = ({ path, initialData }: StockListProps) => {
+  const { data: stockData } = useStockList(path, initialData);
 
   return (
     <>
       <StockItemBox>
         {stockData && stockData.length !== 0 && stockData.map(
           ({
-            index,
-            stockCode,
-            stockImage,
-            stockId,
-            stockName,
-            currentPrice,
+            index, stockCode, stockImage, stockId, stockName, currentPrice,
           }) => {
             const isPositive = !currentPrice.prdyVrss.startsWith("-");
 

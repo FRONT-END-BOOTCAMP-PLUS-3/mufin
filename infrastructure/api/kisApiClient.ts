@@ -146,7 +146,7 @@ export async function fetchKISOrderBook(symbol: string) {
   return await executeKISRequest(endPoint, trId, params );
 }
 
-export async function fetchKISCheckRanks() {
+export async function fetchKISFluctuationRanks() {
   const enePoint = `/uapi/domestic-stock/v1/ranking/fluctuation`;
 
   const params = new URLSearchParams({

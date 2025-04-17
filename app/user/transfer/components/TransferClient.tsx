@@ -13,7 +13,7 @@ import {
 } from "@/app/user/transfer/components/TransferClient.Styled";
 
 import { useRouter } from "next/navigation";
-import Swal from "sweetalert2";
+
 import '@/app/components/styles/swal-custom.css';
 
 const TransferClient = () => {
@@ -71,7 +71,7 @@ const TransferClient = () => {
       const result = await response.json();
   
       if (!response.ok) throw new Error(result.message);
-  
+      const Swal = (await import('sweetalert2')).default
       Swal.fire({
         title: `${type === "toCash" ? "증권계좌로" : "일반계좌로"} 송금 성공!`,
         icon: "success",
@@ -87,6 +87,7 @@ const TransferClient = () => {
       router.push("/user/asset"); 
     } catch (error) {
       if (error instanceof Error) {
+        const Swal = (await import('sweetalert2')).default
         Swal.fire({
           title: `${type === "toCash" ? "증권계좌로" : "일반계좌로"} 송금 실패`,
           icon: "error",
@@ -101,6 +102,7 @@ const TransferClient = () => {
         });
         console.log(`${type === "toCash" ? "증권계좌로" : "일반계좌로"} 송금 실패: ${error.message}`);
       } else {
+        const Swal = (await import('sweetalert2')).default
         Swal.fire({
           title: `${type === "toCash" ? "증권계좌로" : "일반계좌로"} 송금 실패`,
           icon: "error",

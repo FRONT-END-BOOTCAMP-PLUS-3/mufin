@@ -1,18 +1,18 @@
 
 import { CategoryContainer } from "@/app/(anon)/category/components/Category.Styled";
 import StockList from "@/app/components/home/StockList";
-// import { CategoryPageProps } from "@/app/(anon)/category/page";
+import { StockListResponseDto } from "@/application/usecases/home/dtos/StockListResponseDto";
 
 interface CategoryProps {
-  categoryId: string; // 부모에서 이미 문자열로 확정해서 넘겨줌
+  path: string; // 부모에서 이미 문자열로 확정해서 넘겨줌
+  initialData:StockListResponseDto[];
 }
-export default async function Category({ categoryId }: CategoryProps) {
-  
-  const path = `/api/category?c=${categoryId}`;
+export default async function Category({ path, initialData }: CategoryProps) {
+
 
   return (
     <CategoryContainer>
-      <StockList path={path} />
+      <StockList path={path} initialData={initialData}/>
     </CategoryContainer>
   );  
 }

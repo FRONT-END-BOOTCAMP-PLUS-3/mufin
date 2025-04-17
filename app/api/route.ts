@@ -21,9 +21,7 @@ export async function GET() {
       new StockInfoUseCase(stockRepository)
     );
 
-    const results = await Promise.all(
-      stockCodes.map((stockCode) => getHomeDataUseCase.execute(stockCode))
-    );
+    const results = await getHomeDataUseCase.execute(stockCodes);
     
     if (results.length === 0) {
       return NextResponse.json(

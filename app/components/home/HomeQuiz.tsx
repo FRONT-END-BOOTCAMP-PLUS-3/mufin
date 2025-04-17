@@ -5,7 +5,6 @@ import QuizModalContainer from "@/app/components/home/QuizModalContainer";
 import { ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import Swal from "sweetalert2";
 import '@/app/components/styles/swal-custom.css';
 
 const HomeQuiz = () => {
@@ -20,6 +19,7 @@ const HomeQuiz = () => {
           });
     
           if(response.status === 401) {
+            const Swal = (await import('sweetalert2')).default
             Swal.fire({
               title: "로그인이 필요합니다.",
               icon: "info",
@@ -44,6 +44,7 @@ const HomeQuiz = () => {
             router.push("user/quiz");
           }
         } catch (error) {
+          const Swal = (await import('sweetalert2')).default
           Swal.fire({
             title: "로그인이 필요합니다.",
             icon: "info",
